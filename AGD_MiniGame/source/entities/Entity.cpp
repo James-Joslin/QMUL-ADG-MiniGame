@@ -43,8 +43,16 @@ void Entity::update(Game* game, float elapsed)
 	//              ii) Call update on the spriteSheet, passing the delta time of this update call.
 	//			  If the entity does NOT have a spritesheet ("isSpriteSheet" is false, {else} clause), simply:
 	//			    iii) set the position of the "sprite" variable to the position vector (using sprite.setPosition(...)).
-
-
+	if (isSpriteSheet)
+	{
+		const Vector2f position = getPosition();
+		spriteSheet.setSpritePosition(sf::Vector2f(position.x, position.y));
+		spriteSheet.update(elapsed);
+	}
+	else
+	{
+		sprite.setPosition(sf::Vector2f(position.x, position.y));
+	}
 
 	// VIII.A  The bounding box of an entity has the same dimensions as the texture of the sprite
 	//		   or spritesheet. This is calculated in the init() functions (see below in this file)

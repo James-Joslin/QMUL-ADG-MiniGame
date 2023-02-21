@@ -4,7 +4,7 @@
 #include <iostream>
 
 // III.F Add the initialization (to 0) of the entity counter to the initalizers list of this constructor
-Game::Game() : paused(false), id{0}
+Game::Game() : paused(false), id{ 0 }
 {
 	// V.B: Create the unique pointer to the Input Handler object.
 
@@ -124,20 +124,19 @@ void Game::init(std::vector<std::string> lines)
 				{
 
 				// IV.B (1/4): Create the player shared pointer.
-
-
+				player = std::make_unique<Player>();
 
 				// IV.B (2/4): Call the function that initializes the Sprite Sheet with a single parameter, a const std::string& filename.
 				//			   This string should be "img/DwarfSpriteSheet_data.txt"
-
+				player->initSpriteSheet("./img/DwarfSpriteSheet_data.txt");
 
 				// IV.B (3/4): Call the function that positions the sprite of the player in the board (Player::positionSprite). 
 				//			   Parameters are the row and column where this object goes in the board, the sprite width and height (const int Game::spriteWH) 
 				//			   and the scale for the tiles (const float Game::tileScale)
-
+				player->positionSprite(row,col,spriteWH,tileScale); // custom location?
 
 				// IV.B (4/4): Call our function to add an entity to a game passing the player that has just been created.
-
+				addEntity(player);
 
 				//By default, entities stand on corridors:
 				// II.C (5/5) Use the function addTile from Board to add a CORRIDOR tile to this position.
@@ -185,9 +184,13 @@ void Game::update(float elapsed)
 		//        - end(): returns an iterator pointing at the last element.
 		//		  - (*it): returns the object pointed at by the iterator 'it'
 		//        - iterators override the operators ++ and -- for advancing them to their next and previous element, respectively.
-
-
-
+	auto it = entities.begin();
+	while (it != entities.end())
+	{
+		// Call the update method on the current entity
+		(*it)->update(this, elapsed);
+		++it;
+	}
 		// Collisions block:
 
 		// IX.C: Retrieve a reference to the player's bounding box and run through all entities (using an itereator)  
@@ -267,8 +270,9 @@ std::shared_ptr<Entity> Game::getEntity(unsigned int idx)
 	// III.H Return the pointer to the entity which is in position "idx" of the vector.
 	//       You must verify that the index is within the bounds of the vector.
 
-	if (idx <= entities.size() && idx >= 0)
-	{
-		return entities[idx];		//you can delete this once III.H is complete.
+	if (idx < 0 || idx >= entities.size()) {
+		// index is out of bounds
+		throw std::out_of_range("Index is out of bounds.");
 	}
+	return entities[idx];
 }

@@ -33,7 +33,7 @@ public:
 	bool isPaused() const { return paused; }
 
 	//  IV.A (2/2) Write a function that returns the shared pointer of the player of the game.
-
+	std::shared_ptr<Player> getPlayer() { return std::make_unique<Player>(); }
 
 	EntityID getIDCounter();
 	std::shared_ptr<Entity> getEntity(unsigned int idx);
@@ -60,9 +60,8 @@ private:
 	//       be incremented by one every time an entity is added to the game.
 	EntityID id;
 
-	
 	// IV.A (1/2) Declare a pointer to a player object. The pointer must be shared pointer from the standard library.
-
+	std::shared_ptr<Player> player;
 
 	// V.A Declare a unique pointer to an Input Handler object for this class.
 
