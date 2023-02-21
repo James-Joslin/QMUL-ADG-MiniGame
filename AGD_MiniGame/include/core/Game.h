@@ -1,6 +1,7 @@
 #include "../graphics/Window.h"
 #include "../core/Board.h"
 #include "../entities/Player.h"
+#include <memory>
 
 class InputHandler;
 
@@ -49,7 +50,7 @@ private:
 	sf::Time elapsed;
 
 	// II.A Declare a unique pointer of type Board 
-
+	std::unique_ptr<Board> board;
 
 	// III.D Declare a vector from the standard template library that 
 	//       contains shared pointers to Entity classes. Recommended name: entities.

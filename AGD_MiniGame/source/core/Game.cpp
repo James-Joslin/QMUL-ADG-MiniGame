@@ -33,7 +33,7 @@ void Game::buildBoard(size_t width, size_t height)
 {
 	// II.B Instantiate the unique pointer of type "Board". 
 	//     Use the constructor of Board that receives the width and the height for the game grid.
-
+	board = std::make_unique<Board>(width, height);
 }
 
 void Game::initWindow(size_t width, size_t height)
@@ -82,14 +82,14 @@ void Game::init(std::vector<std::string> lines)
 				//      The parameters are the column (for x) and row (for y) where the tile is to be placed, the scale 
 				//      of the tile (you can use the variable "tileScale") and the tile type. TileTypes are 
 				//      defined in the enumerator TileType in Tile.h. You DON'T need to pass a filename parameter for the texture.
-
+				board->addTile(col, row, tileScale, TileType::CORRIDOR);
 
 				break;
 			}
 			case 'w':
 			{
 				// II.C (2/5) Use the function addTile from Board to add a WALL tile to this position.
-
+				board->addTile(col, row, tileScale, TileType::WALL);
 				break;
 			}
 			case 'x':
@@ -102,7 +102,7 @@ void Game::init(std::vector<std::string> lines)
 	
 				//By default, entities stand on corridors
 				// II.C (3/5) Use the function addTile from Board to add a CORRIDOR tile to this position.
-
+				board->addTile(col, row, tileScale, TileType::CORRIDOR);
 				break;
 			}
 			case 'p':
@@ -117,13 +117,14 @@ void Game::init(std::vector<std::string> lines)
 	
 				//By default, entities stand on corridors
 				// II.C (4/5) Use the function addTile from Board to add a CORRIDOR tile to this position.
-
+				board->addTile(col, row, tileScale, TileType::CORRIDOR);
 				break;
 			}
 			case '*':
 				{
 
 				// IV.B (1/4): Create the player shared pointer.
+
 
 
 				// IV.B (2/4): Call the function that initializes the Sprite Sheet with a single parameter, a const std::string& filename.
@@ -140,7 +141,7 @@ void Game::init(std::vector<std::string> lines)
 
 				//By default, entities stand on corridors:
 				// II.C (5/5) Use the function addTile from Board to add a CORRIDOR tile to this position.
-
+				board->addTile(col, row, tileScale, TileType::CORRIDOR);
 				break;
 				}
 			}
@@ -227,7 +228,7 @@ void Game::render(float elapsed)
 	window.beginDraw();
 
 	// II.D Call the draw method of the board object passing a pointer to the window.
-
+	board->draw(&window);
 
 	// III.J Draw all units. Write a loop that iterates over all entities in this class's vector
 	//       and calls the "draw" method in the entities.
