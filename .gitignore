@@ -429,11 +429,3 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
-
-# .vcproj files
-*.vcxproj
-*.vcxproj.filters
-*.vcxproj.user
-
-# .json
-*.json
