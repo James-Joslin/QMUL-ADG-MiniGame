@@ -1,12 +1,11 @@
 #pragma once
-#include "Game.h" // forward declaration?
+#include "Game.h"
 
 class Command
 {
 public:
-	Command();
-	virtual ~Command();
-	virtual void execute(Game& game);
+	virtual ~Command() {};
+	virtual void execute(Game& game) = 0;
 };
 
 class PauseCommand : public Command
