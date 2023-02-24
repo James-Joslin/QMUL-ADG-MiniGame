@@ -53,4 +53,5 @@ std::shared_ptr<Command> PlayerInputHandler::handleInput()
     {
         return downPointer;
     }
+    return nullptr;
 }
