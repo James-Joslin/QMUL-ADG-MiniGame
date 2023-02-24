@@ -32,10 +32,33 @@ void Player::update(Game* game, float elapsed)
 		//            Set the animation of the spritesheet to "Walk". Mind the parameters required for the
 		//			  animation: if it should start playing and if it should loop.
 		//			  Additionally, you must also set the sprite direction (to Direction::Right) of the spritesheet.
-		
+	if (velocity.x > 0 )
+	{
+		spriteSheet.setAnimation("Walk", true, true);
+		spriteSheet.setSpriteDirection(Direction::Right);
+	}
 
-		// VI.F (2/2) If the player is not moving, we must get back to playing the "Idle" animation.
-		
+	if (velocity.y > 0)
+	{
+		spriteSheet.setAnimation("Walk", true, true);
+	}
+
+	if (velocity.x < 0)
+	{
+		spriteSheet.setAnimation("Walk", true, true);
+		spriteSheet.setSpriteDirection(Direction::Left);
+	}
+
+	if (velocity.y < 0)
+	{
+		spriteSheet.setAnimation("Walk", true, true);
+	}
+
+	// VI.F (2/2) If the player is not moving, we must get back to playing the "Idle" animation.
+	if (velocity.x == 0 && velocity.y == 0)
+	{
+		spriteSheet.setAnimation("Idle", true, true);
+	}
 
 	
 	// IV.D (1/2) Call the function update in the base class to do the general update stuff that is common to all entities.
@@ -64,7 +87,7 @@ void Player::update(Game* game, float elapsed)
 void Player::handleInput(Game& game)
 {
 	// VI.E Set the velocity of this player to (0, 0)
-	//game.getPlayer()->setVelocity(Vector2f(0,0));
+	game.getPlayer()->setVelocity(Vector2f(0,0));
 
 	// VI.C: Call the fucntion that handles the input for the player and retrieve the command returned in a variable.
 	//       Then, call the "execute" method of the returned object to run this command.

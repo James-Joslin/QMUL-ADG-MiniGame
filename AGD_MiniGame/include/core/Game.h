@@ -33,7 +33,7 @@ public:
 	bool isPaused() const { return paused; }
 
 	//  IV.A (2/2) Write a function that returns the shared pointer of the player of the game.
-	std::shared_ptr<Player> getPlayer() { return std::make_unique<Player>(); }
+	std::shared_ptr<Player> getPlayer() { return player; }
 
 	EntityID getIDCounter();
 	std::shared_ptr<Entity> getEntity(unsigned int idx);

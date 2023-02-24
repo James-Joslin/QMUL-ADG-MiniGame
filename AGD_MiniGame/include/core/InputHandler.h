@@ -23,4 +23,7 @@ public:
 
 private:
 	std::shared_ptr<Command> rightPointer;
+	std::shared_ptr<Command> leftPointer;
+	std::shared_ptr<Command> upPointer;
+	std::shared_ptr<Command> downPointer;
 };

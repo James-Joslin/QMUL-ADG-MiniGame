@@ -20,3 +20,21 @@ class MoveRightCommand : public Command
 public:
 	virtual void execute(Game& game) override;
 };
+
+class MoveLeftCommand : public Command
+{
+public:
+	virtual void execute(Game& game) override;
+};
+
+class MoveUpCommand : public Command
+{
+public:
+	virtual void execute(Game& game) override;
+};
+
+class MoveDownCommand : public Command
+{
+public:
+	virtual void execute(Game& game) override;
+};

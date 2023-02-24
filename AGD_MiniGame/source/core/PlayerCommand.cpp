@@ -4,8 +4,20 @@
 
 void MoveRightCommand::execute(Game& game)
 {
-	game.getPlayer()->setVelocityX(1.0f);
-	std::cout << "hello" << std::endl;
-	std::cout << game.getPlayer()->getVelocity().x << std::endl;
+	game.getPlayer()->setVelocityX(1.f);
 }
 
+void MoveLeftCommand::execute(Game& game)
+{
+	game.getPlayer()->setVelocityX(-1.f);
+}
+
+void MoveUpCommand::execute(Game& game)
+{
+	game.getPlayer()->setVelocityY(-1.f);
+}
+
+void MoveDownCommand::execute(Game& game)
+{
+	game.getPlayer()->setVelocityY(1.f);
+}
