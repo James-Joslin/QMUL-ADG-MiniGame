@@ -1,13 +1,15 @@
 #include "../../include/core/Game.h"
 #include "../../include/entities/Fire.h"
 #include "../../include/entities/StaticEntities.h"
+#include "../../include/core/InputHandler.h"
+#include "../../include/core/Command.h"
 #include <iostream>
 
 // III.F Add the initialization (to 0) of the entity counter to the initalizers list of this constructor
 Game::Game() : paused(false), id{ 0 }
 {
 	// V.B: Create the unique pointer to the Input Handler object.
-
+	inputHandler = std::make_unique<InputHandler>();
 }
 
 Game::~Game()
@@ -165,8 +167,15 @@ void Game::handleInput()
 {
 	// V.C: Call the fucntion that handles the input for the game and retrieve the command returned in a variable.
 	//      Then, call the "execute" method of the returned object to run this command.
-			
+	std::shared_ptr<Command> commandPointer = inputHandler->handleInput();
+
+	if (commandPointer) {
+		// handle non-null pointer case
+		commandPointer->execute(*this);
+	}
+	
 	// V.D: Call the function handleInput on the player's object.
+	player->handleInput(*this);
 
 
 }
@@ -175,7 +184,7 @@ void Game::handleInput()
 void Game::update(float elapsed)
 {
 	// V.E Only update the game entities if the game is not paused.
-
+	if (isPaused()) { return; }
 
 		// IV.C Use an STL iterator to run through all entities of the vector of entities of this class. Use a while loop. 
 		//      On each iteration, call the member function update from Entity, passing "this" game instance and the elapsed time.

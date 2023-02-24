@@ -1,5 +1,6 @@
 #pragma once
-#include "Game.h"
+
+class Game;
 
 class Command
 {
