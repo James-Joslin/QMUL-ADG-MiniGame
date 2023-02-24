@@ -2,7 +2,11 @@
 #include "../../include/graphics/AnimBase.h"
 #include "../../include/entities/Fire.h"
 #include "../../include/core/Game.h"
+#include "../../include/core/InputHandler.h"
+#include "../../include/core/Command.h"
 #include <iostream>
+
+
 
 
 Player::Player() : Entity(EntityType::PLAYER), attacking(false), shouting(false), health(60), wood(0), shootCooldown(0)
@@ -10,7 +14,7 @@ Player::Player() : Entity(EntityType::PLAYER), attacking(false), shouting(false)
 	speed = playerSpeed;
 
 	// VI.B: Create the unique pointer to the PlayerInputHandler object
-
+	playerInputPointer = std::make_unique<PlayerInputHandler>();
 
 }
 
@@ -60,11 +64,17 @@ void Player::update(Game* game, float elapsed)
 void Player::handleInput(Game& game)
 {
 	// VI.E Set the velocity of this player to (0, 0)
-
+	//game.getPlayer()->setVelocity(Vector2f(0,0));
 
 	// VI.C: Call the fucntion that handles the input for the player and retrieve the command returned in a variable.
 	//       Then, call the "execute" method of the returned object to run this command.
-
+	std::shared_ptr<Command> inputCommand = playerInputPointer->handleInput();
+	
+	if (inputCommand) {
+		// handle non-null pointer case
+		inputCommand->execute(game);
+	}
+	
 
 	// VII.A Modify the code ABOVE so, instead of calling "execute" in a command pointer, iterates through
 	//       the vector of commands and executes them all.

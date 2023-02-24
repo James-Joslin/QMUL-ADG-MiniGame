@@ -14,3 +14,9 @@ class PauseCommand : public Command
 public:
 	virtual void execute(Game& game) override;
 };
+
+class MoveRightCommand : public Command
+{
+public:
+	virtual void execute(Game& game) override;
+};

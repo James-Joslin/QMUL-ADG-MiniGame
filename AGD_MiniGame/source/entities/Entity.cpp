@@ -1,5 +1,6 @@
 #include "../../include/entities/Entity.h"
 #include "../../include/graphics/Window.h"
+#include "../../include/core/Game.h"
 #include <iostream>
 
 
@@ -34,8 +35,11 @@ void Entity::update(Game* game, float elapsed)
 	//       This movement needs to be per second, so you need to factor in the speed of the entity 
 	//       (which is a member variable of this class) and the elapsed time since the last frame 
 	//       (a parameter in this function).
-
-
+	
+	setPosition(game->getPlayer()->getPosition().x + (game->getPlayer()->getVelocity().x * speed * elapsed), 
+				game->getPlayer()->getPosition().y + (game->getPlayer()->getVelocity().y * speed * elapsed));
+	
+	
 
 
 	// IV.D (2/2) If this entity has a spritesheet (variable "isSpriteSheet" is true), do two operations:

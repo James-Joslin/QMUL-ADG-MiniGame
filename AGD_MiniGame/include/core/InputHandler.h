@@ -13,3 +13,14 @@ public:
 private:
 	std::shared_ptr<Command> pausePointer;
 };
+
+class PlayerInputHandler
+{
+public:
+	PlayerInputHandler();
+
+	std::shared_ptr<Command> handleInput();
+
+private:
+	std::shared_ptr<Command> rightPointer;
+};
