@@ -1,4 +1,5 @@
 #include <memory>
+#include <vector>
 
 // forward declaration of Command
 class Command;
@@ -19,11 +20,14 @@ class PlayerInputHandler
 public:
 	PlayerInputHandler();
 
-	std::shared_ptr<Command> handleInput();
+	std::vector<std::shared_ptr<Command>> handleInput();
 
 private:
+	std::vector<std::shared_ptr<Command>> arrayCommand;
 	std::shared_ptr<Command> rightPointer;
 	std::shared_ptr<Command> leftPointer;
 	std::shared_ptr<Command> upPointer;
 	std::shared_ptr<Command> downPointer;
+	std::shared_ptr<Command> attackPointer;
+	std::shared_ptr<Command> firePointer;
 };

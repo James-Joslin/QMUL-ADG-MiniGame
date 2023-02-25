@@ -21,3 +21,13 @@ void MoveDownCommand::execute(Game& game)
 {
 	game.getPlayer()->setVelocityY(1.f);
 }
+
+void AttackCommand::execute(Game& game)
+{
+	game.getPlayer()->setAttacking(true);
+}
+
+void FireCommand::execute(Game& game)
+{
+	game.getPlayer()->setShouting(true);
+}

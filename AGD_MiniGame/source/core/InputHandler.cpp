@@ -14,6 +14,8 @@ PlayerInputHandler::PlayerInputHandler()
     leftPointer = std::make_shared<MoveLeftCommand>();
     upPointer = std::make_shared<MoveUpCommand>();
     downPointer = std::make_shared<MoveDownCommand>();
+    attackPointer = std::make_shared<AttackCommand>();
+    firePointer = std::make_shared<FireCommand>();
 }
 
 std::shared_ptr<Command> InputHandler::handleInput()
@@ -35,23 +37,33 @@ std::shared_ptr<Command> InputHandler::handleInput()
     return nullptr;
 }
 
-std::shared_ptr<Command> PlayerInputHandler::handleInput()
+std::vector <std::shared_ptr<Command>> PlayerInputHandler::handleInput()
 {
+    arrayCommand.clear();
     if (sf::Event::KeyPressed && sf::Keyboard::isKeyPressed(sf::Keyboard::D))
     {
-        return rightPointer;
+        arrayCommand.push_back(rightPointer);
     }
     if (sf::Event::KeyPressed && sf::Keyboard::isKeyPressed(sf::Keyboard::A))
     {
-        return leftPointer;
+        arrayCommand.push_back(leftPointer);
     }
     if (sf::Event::KeyPressed && sf::Keyboard::isKeyPressed(sf::Keyboard::W))
     {
-        return upPointer;
+        arrayCommand.push_back(upPointer);
     }
     if (sf::Event::KeyPressed && sf::Keyboard::isKeyPressed(sf::Keyboard::S))
     {
-        return downPointer;
+        arrayCommand.push_back(downPointer);
     }
-    return nullptr;
+    if (sf::Event::KeyPressed && sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
+    {
+        arrayCommand.push_back(attackPointer);
+    }
+    if (sf::Event::KeyPressed && sf::Keyboard::isKeyPressed(sf::Keyboard::LShift))
+    {
+        arrayCommand.push_back(firePointer);
+    }
+    //arrayCommand.push_back(nullptr);
+    return arrayCommand;
 }

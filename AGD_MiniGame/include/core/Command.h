@@ -38,3 +38,15 @@ class MoveDownCommand : public Command
 public:
 	virtual void execute(Game& game) override;
 };
+
+class AttackCommand : public Command
+{
+public:
+	virtual void execute(Game& game) override;
+};
+
+class FireCommand : public Command
+{
+public:
+	virtual void execute(Game& game) override;
+};

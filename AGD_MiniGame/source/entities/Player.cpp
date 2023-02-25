@@ -55,11 +55,22 @@ void Player::update(Game* game, float elapsed)
 	}
 
 	// VI.F (2/2) If the player is not moving, we must get back to playing the "Idle" animation.
-	if (velocity.x == 0 && velocity.y == 0)
+	if (velocity.x == 0 && velocity.y == 0 && !attacking && !shouting)
 	{
 		spriteSheet.setAnimation("Idle", true, true);
 	}
 
+	if (attacking)
+	{
+		spriteSheet.setAnimation("Attack", true, false);
+	}
+
+	if (shouting)
+	{
+		spriteSheet.setAnimation("Shout", true, false);
+	}
+
+	
 	
 	// IV.D (1/2) Call the function update in the base class to do the general update stuff that is common to all entities.
 	Entity::update(game, elapsed);
@@ -80,7 +91,11 @@ void Player::update(Game* game, float elapsed)
 	
 	// VII.B: If we are attacking but the current animation is no longer playing, set the attacking flag to false.
 	//        The same needs to be done for "shouting".
-
+	if (!spriteSheet.getCurrentAnim()->isPlaying())
+	{
+		setAttacking(false);
+		setShouting(false);
+	}
 }
 
 
@@ -91,16 +106,28 @@ void Player::handleInput(Game& game)
 
 	// VI.C: Call the fucntion that handles the input for the player and retrieve the command returned in a variable.
 	//       Then, call the "execute" method of the returned object to run this command.
-	std::shared_ptr<Command> inputCommand = playerInputPointer->handleInput();
-	
-	if (inputCommand) {
-		// handle non-null pointer case
-		inputCommand->execute(game);
-	}
+	//std::shared_ptr<Command> inputCommand = playerInputPointer->handleInput();
+	//
+	//if (inputCommand) {
+	//	// handle non-null pointer case
+	//	inputCommand->execute(game);
+	//}
 	
 
 	// VII.A Modify the code ABOVE so, instead of calling "execute" in a command pointer, iterates through
 	//       the vector of commands and executes them all.
+	std::shared_ptr<Command> inputCommandArray;
+
+	for (int i = 0; i < playerInputPointer->handleInput().size(); i++)
+	{
+		std::cout << playerInputPointer->handleInput().size() << std::endl;
+
+		inputCommandArray = playerInputPointer->handleInput()[i];
+		if (inputCommandArray) {
+			// handle non-null pointer case
+			inputCommandArray->execute(game);
+		}
+	}
 }
 
 std::shared_ptr<Fire> Player::createFire() const
