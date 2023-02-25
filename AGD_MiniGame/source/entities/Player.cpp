@@ -116,16 +116,12 @@ void Player::handleInput(Game& game)
 
 	// VII.A Modify the code ABOVE so, instead of calling "execute" in a command pointer, iterates through
 	//       the vector of commands and executes them all.
-	std::shared_ptr<Command> inputCommandArray;
-
-	for (int i = 0; i < playerInputPointer->handleInput().size(); i++)
+	for (auto pointer : playerInputPointer->handleInput())
 	{
-		std::cout << playerInputPointer->handleInput().size() << std::endl;
-
-		inputCommandArray = playerInputPointer->handleInput()[i];
-		if (inputCommandArray) {
+		if (pointer)
+		{
 			// handle non-null pointer case
-			inputCommandArray->execute(game);
+			pointer->execute(game);
 		}
 	}
 }
