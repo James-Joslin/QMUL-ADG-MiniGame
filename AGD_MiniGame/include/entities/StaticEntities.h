@@ -13,6 +13,16 @@ public:
 		// III.C (1/2) Call the init() function in Entity to initalize this object
 		Entity::init(textureFile, scale);
 		// VIII.C (1/2) Set the top left and bottom right corners of the bounding box for this entity.
+		Vector2f bboxLocation = getPosition();
+		boundingBox.setTopLeft(
+			bboxLocation
+		);
+		boundingBox.setBottomRight(
+			Vector2f(
+				(bboxLocation.x + bboxSize.x),
+				(bboxLocation.y + bboxSize.y)
+			)
+		);
 	}
 
 	virtual void update(Game* game, float elapsed = 1.0f) override { }
@@ -35,6 +45,16 @@ public:
 		// III.C (2/2) Call the init() function in Entity to initalize this object
 		Entity::init(textureFile, scale);
 		// VIII.C (2/2) Set the top left and bottom right corners of the bounding box for this entity.
+		Vector2f bboxLocation = getPosition();
+		boundingBox.setTopLeft(
+			bboxLocation
+		);
+		boundingBox.setBottomRight(
+			Vector2f(
+				(bboxLocation.x + bboxSize.x),
+				(bboxLocation.y + bboxSize.y)
+			)
+		);
 	}
 
 	virtual void update(Game* game, float elapsed = 1.0f) override {}

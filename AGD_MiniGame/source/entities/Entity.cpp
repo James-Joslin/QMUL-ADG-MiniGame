@@ -64,9 +64,21 @@ void Entity::update(Game* game, float elapsed)
 	//		   The member variable boundingBox is a Rectangle where we'll hold this boundary box. 
 	//		   Set the top left corner of this rectangle to the position of this entity.
 	//		   Set the bottom right corner of this rectangle to the position+bboxSize coordinates.
+	if (isSpriteSheet)
+	{
+		//Rectangle& bbox = getBoundingBox();
 
-
-
+		Vector2f bboxLocation = getPosition();
+		boundingBox.setTopLeft(
+			bboxLocation
+		);
+		boundingBox.setBottomRight(
+			Vector2f(
+				(bboxLocation.x + bboxSize.x),
+				(bboxLocation.y + bboxSize.y)
+			)
+		);
+	}
 }
 
 
@@ -83,8 +95,7 @@ void Entity::draw(Window* window)
 		window->draw(sprite); 
 
 	// VIII.B Draw the bounding box by retrieving a drawable rect from the bounding box Rectangle.
-
-
+	window->draw(boundingBox.getDrawableRect());
 }
 
 void Entity::init(const std::string& textureFile, float scale)
