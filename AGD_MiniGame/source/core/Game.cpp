@@ -193,6 +193,7 @@ void Game::update(float elapsed)
 		//        - end(): returns an iterator pointing at the last element.
 		//		  - (*it): returns the object pointed at by the iterator 'it'
 		//        - iterators override the operators ++ and -- for advancing them to their next and previous element, respectively.
+	
 	auto it = entities.begin();
 	while (it != entities.end())
 	{
@@ -202,33 +203,42 @@ void Game::update(float elapsed)
 	}
 		// Collisions block:
 
-		// IX.C: Retrieve a reference to the player's bounding box and run through all entities (using an itereator)  
-		//      in the game with a while loop. You don't need to check the player's bounding box to itself, 
-		//      so include a check that skips the player entity while looping through the entities vector.
-		
+	// IX.C: Retrieve a reference to the player's bounding box and run through all entities (using an itereator)  
+	//      in the game with a while loop. You don't need to check the player's bounding box to itself, 
+	//      so include a check that skips the player entity while looping through the entities vector.
+	it = entities.begin();
+	while (it != entities.end())
+	{
+		if ((*it) != player) {
+			// IX.D: (Inside the loop) Once you have a different entity to player, retrieve it's bounding box
+			// and check if they intersect.
+			auto playerBbox = player->getBoundingBox();
+			auto entBbox = (*it)->getBoundingBox();
+			if (entBbox.intersects(playerBbox))
+			{
+				// IX.E (if there is an intesection) Write a switch statement that determines the type of the object (which you
+				// can retrieve with getEntityType()) we are colliding with. For each case, add a console print out that 
+				// says what are you colliding with.
+				auto entType = (*it)->getEntityType();
+				switch (entType)
+				{
+				case EntityType::POTION:
+					// IX.F: This is a potion
+					std::cout << " Collide with potion " << std::endl;
+				case EntityType::LOG:
+					// IX.G: This is a log							
+					std::cout << " Collide with log " << std::endl;
+				default:
+					break;
+				}
+			}
+		}
+		it++;
+	}
 
-
-				// IX.D: (Inside the loop) Once you have a different entity to player, retrieve it's bounding box
-				//       and check if they intersect.
-
-
-
-					// IX.E (if there is an intesection) Write a switch statement that determines the type of the object (which you
-					//      can retrieve with getEntityType()) we are colliding with. For each case, add a console print out that 
-					//      says what are you colliding with.
-
-							// IX.F: This is a potion
-
-
-
-
-							// IX.G: This is a log
-							
-
-
-		// X.D Write a loop that iterates through all entities and removes them from the vector of entities.
-		//     Use the function erase from std::vector, which receives an iterator. 
-		//     Q? Should you ALWAYS advance the iterator in this loop?
+	// X.D Write a loop that iterates through all entities and removes them from the vector of entities.
+	//     Use the function erase from std::vector, which receives an iterator. 
+	//     Q? Should you ALWAYS advance the iterator in this loop?
 	
 	
 
