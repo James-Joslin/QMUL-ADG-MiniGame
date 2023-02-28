@@ -22,7 +22,7 @@ std::shared_ptr<Command> InputHandler::handleInput()
 {
     static bool isEscapePressed = false;
 
-    if (sf::Event::KeyPressed && sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
     {
         if (!isEscapePressed)
         {
@@ -40,27 +40,27 @@ std::shared_ptr<Command> InputHandler::handleInput()
 std::vector <std::shared_ptr<Command>> PlayerInputHandler::handleInput()
 {
     arrayCommand.clear();
-    if (sf::Event::KeyPressed && sf::Keyboard::isKeyPressed(sf::Keyboard::D))
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
     {
         arrayCommand.push_back(rightPointer);
     }
-    if (sf::Event::KeyPressed && sf::Keyboard::isKeyPressed(sf::Keyboard::A))
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
     {
         arrayCommand.push_back(leftPointer);
     }
-    if (sf::Event::KeyPressed && sf::Keyboard::isKeyPressed(sf::Keyboard::W))
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
     {
         arrayCommand.push_back(upPointer);
     }
-    if (sf::Event::KeyPressed && sf::Keyboard::isKeyPressed(sf::Keyboard::S))
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
     {
         arrayCommand.push_back(downPointer);
     }
-    if (sf::Event::KeyPressed && sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
     {
         arrayCommand.push_back(attackPointer);
     }
-    if (sf::Event::KeyPressed && sf::Keyboard::isKeyPressed(sf::Keyboard::LShift))
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift))
     {
         arrayCommand.push_back(firePointer);
     }
