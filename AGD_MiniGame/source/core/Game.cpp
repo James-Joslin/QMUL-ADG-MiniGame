@@ -214,7 +214,7 @@ void Game::update(float elapsed)
 			// and check if they intersect.
 			auto playerBbox = player->getBoundingBox();
 			auto entBbox = (*it)->getBoundingBox();
-			if (entBbox.intersects(playerBbox))
+			if (playerBbox.intersects(entBbox))
 			{
 				// IX.E (if there is an intesection) Write a switch statement that determines the type of the object (which you
 				// can retrieve with getEntityType()) we are colliding with. For each case, add a console print out that 
@@ -225,9 +225,11 @@ void Game::update(float elapsed)
 				case EntityType::POTION:
 					// IX.F: This is a potion
 					std::cout << " Collide with potion " << std::endl;
+					break;
 				case EntityType::LOG:
 					// IX.G: This is a log							
 					std::cout << " Collide with log " << std::endl;
+					break;
 				default:
 					break;
 				}
