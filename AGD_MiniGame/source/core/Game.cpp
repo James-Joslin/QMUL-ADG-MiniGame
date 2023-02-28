@@ -225,6 +225,7 @@ void Game::update(float elapsed)
 				case EntityType::POTION:
 					// IX.F: This is a potion
 					std::cout << " Collide with potion " << std::endl;
+					Potion* potion = dynamic_cast<Potion*>(*it);
 					break;
 				case EntityType::LOG:
 					// IX.G: This is a log							
