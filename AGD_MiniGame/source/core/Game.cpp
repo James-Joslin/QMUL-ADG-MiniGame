@@ -240,7 +240,7 @@ void Game::update(float elapsed)
 					break;
 
 				case EntityType::LOG:
-					if (player->isAttacking())
+					if (player->isAttacking() && player->getSpriteSheet()->getCurrentAnim()->isInAction()) // check this
 					{
 						// IX.G: This is a log
 						log = dynamic_cast<Log*>((*it).get());
@@ -262,6 +262,10 @@ void Game::update(float elapsed)
 	// X.D Write a loop that iterates through all entities and removes them from the vector of entities.
 	//     Use the function erase from std::vector, which receives an iterator. 
 	//     Q? Should you ALWAYS advance the iterator in this loop?
+
+	// Q: Yes, you should always advance the iterator in this loop when erasing elements from the vector, 
+	// to avoid invalidating the iterator and potentially causing undefined behavior. 
+
 	it = entities.begin();
 	while (it != entities.end())
 	{

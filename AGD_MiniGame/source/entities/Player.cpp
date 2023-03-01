@@ -77,6 +77,10 @@ void Player::update(Game* game, float elapsed)
 
 	// XI.B (2/2):  Reduce the shoot cooldown counter by the elapsed time at every frame. 
 	//              Only do this if shoot cooldown is > 0 (can you guess why?)
+	if (shootCooldown > 0)
+	{
+		shootCooldown = shootCooldown - elapsed;
+	}
 
 	// XI.A: Create an Fire entity object (using Player::createFire()) and add it to the game (using Game::addEntity).
 	//       Then, remove the shooting cost (Player::shootingCost) from the wood member variable of this class
@@ -84,11 +88,23 @@ void Player::update(Game* game, float elapsed)
 	//            1) We are playing the shouting animation
 	//			  2) The animation is in one of the "in action" frames.
 	//			  3) We have enough wood "ammunition" (variable wood and shootingCost)
-
+	if (
+		shouting && spriteSheet.getCurrentAnim()->isInAction() 
+		&& 
+		wood >= shootingCost && shootCooldown <= 0
+	)
+	{
+		game->addEntity(
+			createFire()
+		);
+		wood = getWood() - shootingCost;
+		
 		// XI.B (1/2): Set the variable shootCooldown to the cooldown time (defined in shootCooldownTime).
 		//        Add another condition to the shooting IF statement that only allows shoowing if shootCooldown <= 0.
 
-	
+		shootCooldown = shootCooldownTime;
+	}
+
 	// VII.B: If we are attacking but the current animation is no longer playing, set the attacking flag to false.
 	//        The same needs to be done for "shouting".
 	if (!spriteSheet.getCurrentAnim()->isPlaying())
