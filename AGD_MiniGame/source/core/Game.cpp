@@ -219,18 +219,38 @@ void Game::update(float elapsed)
 				// IX.E (if there is an intesection) Write a switch statement that determines the type of the object (which you
 				// can retrieve with getEntityType()) we are colliding with. For each case, add a console print out that 
 				// says what are you colliding with.
+
 				auto entType = (*it)->getEntityType();
+
+				Potion* potion = nullptr;
+				Log* log = nullptr;
+
+				int healthRestore = 0;
+				int numWood = 0;
+
 				switch (entType)
 				{
 				case EntityType::POTION:
 					// IX.F: This is a potion
-					std::cout << " Collide with potion " << std::endl;
-					Potion* potion = dynamic_cast<Potion*>(*it);
+					potion = dynamic_cast<Potion*>((*it).get());
+					healthRestore = potion->getHealth();
+					player->addHealth(healthRestore);
+					(*it)->markDeleted();
+					std::cout << "Collide with potion (health restored: " << healthRestore << ", player health: " << player->getHealth() << ")" << std::endl;
 					break;
+
 				case EntityType::LOG:
-					// IX.G: This is a log							
-					std::cout << " Collide with log " << std::endl;
-					break;
+					if (player->isAttacking())
+					{
+						// IX.G: This is a log
+						log = dynamic_cast<Log*>((*it).get());
+						numWood = log->getWood();
+						player->addWood(numWood);
+						(*it)->markDeleted();
+						std::cout << "Collide with wood (Wood collected: " << numWood << ", Total Player Wood: " << player->getWood() << ")" << std::endl;
+						break;
+					}
+
 				default:
 					break;
 				}
@@ -242,9 +262,18 @@ void Game::update(float elapsed)
 	// X.D Write a loop that iterates through all entities and removes them from the vector of entities.
 	//     Use the function erase from std::vector, which receives an iterator. 
 	//     Q? Should you ALWAYS advance the iterator in this loop?
-	
-	
-
+	it = entities.begin();
+	while (it != entities.end())
+	{
+		if ((*it)->isDeleted())
+		{
+			it = entities.erase(it);
+		}
+		else
+		{
+			++it;
+		}
+	}
 	//Update the window for refreshing the graphics (leave this OUTSIDE the !paused block)
 	window.update();
 }
