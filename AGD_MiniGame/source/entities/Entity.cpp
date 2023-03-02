@@ -38,12 +38,9 @@ void Entity::update(Game* game, float elapsed)
 	//       (which is a member variable of this class) and the elapsed time since the last frame 
 	//       (a parameter in this function).
 	
-	setPosition(game->getPlayer()->getPosition().x + (game->getPlayer()->getVelocity().x * speed * elapsed), 
-				game->getPlayer()->getPosition().y + (game->getPlayer()->getVelocity().y * speed * elapsed));
+	setPosition(position.x + (velocity.x * speed * elapsed), 
+				position.y + (velocity.y * speed * elapsed));
 	
-	
-
-
 	// IV.D (2/2) If this entity has a spritesheet (variable "isSpriteSheet" is true), do two operations:
 	//              i)  Set the sprite position of the spritesheet to the position of this entity.
 	//              ii) Call update on the spriteSheet, passing the delta time of this update call.

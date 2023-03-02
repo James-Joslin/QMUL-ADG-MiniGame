@@ -15,7 +15,7 @@ void Fire::update(Game* game, float elapsed)
 
 	// XI.D Time to live (Fire::ttl member variable) needs to be reduced by 1 at every frame. If this gets
 	//		to 0, the entity must be deleted (here, just setting the deleted flat to ture).
-	ttl -= elapsed;
+	ttl -= 1;
 	if (ttl <= 0)
 	{
 		deleted = true;
