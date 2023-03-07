@@ -2,7 +2,9 @@
 #include "Entity.h"
 #include "../components/HealthComponent.h"
 
+
 class Fire;
+class InputComponent;
 
 // VI.A (2/2): Add a forward declaration to the class PlayerInputHandler
 class PlayerInputHandler;
@@ -53,7 +55,9 @@ private:
 	float shootCooldown;
 
 	// VI.A (1/2): Declare a unique pointer to a player input handler.
-	std::unique_ptr<PlayerInputHandler> playerInputPointer;
+	//std::unique_ptr<PlayerInputHandler> playerInputPointer;
+
+	std::unique_ptr<InputComponent> playerInputPointer;
 
 	std::shared_ptr<HealthComponent> healthComponentPointer;
 };
