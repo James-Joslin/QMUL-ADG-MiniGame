@@ -16,7 +16,7 @@ public:
 		{
 			ttl--;
 		}
-	};
+	}
 
 private:
 

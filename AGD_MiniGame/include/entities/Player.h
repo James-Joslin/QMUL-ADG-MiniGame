@@ -1,5 +1,6 @@
 #pragma once
 #include "Entity.h"
+#include "../components/HealthComponent.h"
 
 class Fire;
 
@@ -31,8 +32,7 @@ public:
 	bool isShouting() const { return shouting; }
 	void setShouting(bool sh) { shouting = sh; }
 
-	int getHealth() const { return health; }
-	void addHealth(int h);
+	std::shared_ptr<HealthComponent> getHealthComp() { return healthComponentPointer; }
 
 	int getWood() const { return wood; }
 	void addWood(int w);
@@ -49,11 +49,12 @@ private:
 
 	bool attacking;
 	bool shouting;
-	int health;
 	int wood;
 	float shootCooldown;
 
 	// VI.A (1/2): Declare a unique pointer to a player input handler.
 	std::unique_ptr<PlayerInputHandler> playerInputPointer;
+
+	std::shared_ptr<HealthComponent> healthComponentPointer;
 };
 
