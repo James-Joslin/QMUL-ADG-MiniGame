@@ -12,6 +12,7 @@ public:
 	std::shared_ptr<Command> handleInput();
 
 private:
+	// <FEEDBACK> It is odd to name a variable "pointer". Kind of like calling a variable "pauseVariable". Avoid this (through the code, below as well).
 	std::shared_ptr<Command> pausePointer;
 };
 

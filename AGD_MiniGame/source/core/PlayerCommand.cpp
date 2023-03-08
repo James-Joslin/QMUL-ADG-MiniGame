@@ -4,6 +4,8 @@
 
 void MoveRightCommand::execute(Game& game)
 {
+	// <FEEDBACK> This check is not needed - movement should continue even if you attack or shout
+	//			  Same applies to all movements.
 	if (game.getPlayer()->isAttacking() || game.getPlayer()->isShouting()) return;
 	game.getPlayer()->setVelocityX(1.f);
 }

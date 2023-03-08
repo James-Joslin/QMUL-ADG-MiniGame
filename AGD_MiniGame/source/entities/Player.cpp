@@ -40,6 +40,7 @@ void Player::update(Game* game, float elapsed)
 
 	if (velocity.y > 0)
 	{
+		// <FEEDBACK> You can factorize this case with the y < 0 case (a single IF for when y != 0)
 		spriteSheet.setAnimation("Walk", true, true);
 	}
 
@@ -94,10 +95,10 @@ void Player::update(Game* game, float elapsed)
 		wood >= shootingCost && shootCooldown <= 0
 	)
 	{
-		game->addEntity(
+		game->addEntity( // <FEEDBACK> Correct this indentation.
 			createFire()
 		);
-		wood = getWood() - shootingCost;
+		wood = getWood() - shootingCost; // <FEEDBACK> Access "wood" directly here, no need to call function.
 		
 		// XI.B (1/2): Set the variable shootCooldown to the cooldown time (defined in shootCooldownTime).
 		//        Add another condition to the shooting IF statement that only allows shoowing if shootCooldown <= 0.
@@ -107,6 +108,10 @@ void Player::update(Game* game, float elapsed)
 
 	// VII.B: If we are attacking but the current animation is no longer playing, set the attacking flag to false.
 	//        The same needs to be done for "shouting".
+
+	// <FEEDBACK> This is not correct, the two cases should be treated separately.
+	//			  Check that we are "attacking" and animation is playing -> then set attacking to False.
+	//			  A separate IF is needd for shouting.
 	if (!spriteSheet.getCurrentAnim()->isPlaying())
 	{
 		setAttacking(false);
@@ -134,7 +139,7 @@ void Player::handleInput(Game& game)
 	//       the vector of commands and executes them all.
 	for (auto pointer : playerInputPointer->handleInput())
 	{
-		if (pointer)
+		if (pointer) // <FEEDBACK> Not really necessary, this vector should never have a nullptr in it.
 		{
 			// handle non-null pointer case
 			pointer->execute(game);

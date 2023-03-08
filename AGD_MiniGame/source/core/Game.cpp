@@ -183,6 +183,7 @@ void Game::handleInput()
 
 void Game::update(float elapsed)
 {
+	// <FEEDBACK> Still not correct: window needs updating even if the game is paused.
 	// V.E Only update the game entities if the game is not paused.
 	if (isPaused()) { return; }
 
@@ -212,7 +213,7 @@ void Game::update(float elapsed)
 		if ((*it) != player) {
 			// IX.D: (Inside the loop) Once you have a different entity to player, retrieve it's bounding box
 			// and check if they intersect.
-			auto playerBbox = player->getBoundingBox();
+			auto playerBbox = player->getBoundingBox(); // <FEEDBACK> This BBox is the same object for all iterations. Retrieve it before the loop to save computation.
 			auto entBbox = (*it)->getBoundingBox();
 			if (playerBbox.intersects(entBbox))
 			{
@@ -222,9 +223,9 @@ void Game::update(float elapsed)
 
 				auto entType = (*it)->getEntityType();
 
-				Potion* potion = nullptr;
-				Log* log = nullptr;
-
+				// <FEEDBACK> You don't need any of these 4 declarations & definitions here. Declare & Define only when you needed to (in the switch cases).
+				Potion* potion = nullptr; 
+				Log* log = nullptr;			
 				int healthRestore = 0;
 				int numWood = 0;
 

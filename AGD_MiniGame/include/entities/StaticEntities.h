@@ -14,7 +14,7 @@ public:
 		Entity::init(textureFile, scale);
 		// VIII.C (1/2) Set the top left and bottom right corners of the bounding box for this entity.
 		Vector2f bboxLocation = getPosition();
-		boundingBox.setTopLeft(
+		boundingBox.setTopLeft(	// <FEEDBACK> Correct this indentation.
 			bboxLocation
 		);
 		boundingBox.setBottomRight(
@@ -49,7 +49,7 @@ public:
 		boundingBox.setTopLeft(
 			bboxLocation
 		);
-		boundingBox.setBottomRight(
+		boundingBox.setBottomRight( // <FEEDBACK> Correct this indentation.
 			Vector2f(
 				(bboxLocation.x + bboxSize.x),
 				(bboxLocation.y + bboxSize.y)
