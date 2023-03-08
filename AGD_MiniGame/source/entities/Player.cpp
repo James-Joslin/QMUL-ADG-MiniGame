@@ -137,6 +137,8 @@ void Player::handleInput(Game& game)
 
 	// VII.A Modify the code ABOVE so, instead of calling "execute" in a command pointer, iterates through
 	//       the vector of commands and executes them all.
+	
+	// <FEEDBACK> Avoid calling a variable pointer (or "pointerSomething"). It's not descriptive.
 	for (auto pointer : playerInputPointer->handleInput())
 	{
 		if (pointer) // <FEEDBACK> Not really necessary, this vector should never have a nullptr in it.
