@@ -1,11 +1,12 @@
 #include "../../include/entities/Entity.h"
 #include "../../include/graphics/Window.h"
 #include "../../include/core/Game.h"
+#include "../../include/components/PositionComponent.h"
 #include <iostream>
 
 
 Entity::Entity() :
-	position(0, 0),
+	position(std::make_unique<PositionComponent>()),
 	velocity(0, 0),
 	speed(1),
 	isSpriteSheet(false),
@@ -16,7 +17,7 @@ Entity::Entity() :
 {}
 
 Entity::Entity(EntityType et) : 
-	position(0,0), 
+	position( std::make_unique<PositionComponent>()),
 	velocity(0, 0), 
 	speed(1), 
 	isSpriteSheet(false),
@@ -38,8 +39,9 @@ void Entity::update(Game* game, float elapsed)
 	//       (which is a member variable of this class) and the elapsed time since the last frame 
 	//       (a parameter in this function).
 	
-	setPosition(position.x + (velocity.x * speed * elapsed), 
-				position.y + (velocity.y * speed * elapsed));
+	setPosition(
+		position->getPosition().x + (velocity.x * speed * elapsed),
+		position->getPosition().y + (velocity.y * speed * elapsed));
 	
 	// IV.D (2/2) If this entity has a spritesheet (variable "isSpriteSheet" is true), do two operations:
 	//              i)  Set the sprite position of the spritesheet to the position of this entity.
@@ -54,7 +56,10 @@ void Entity::update(Game* game, float elapsed)
 	}
 	else
 	{
-		sprite.setPosition(sf::Vector2f(position.x, position.y));
+		sprite.setPosition(
+			sf::Vector2f(
+				position->getPosition().x,
+				position->getPosition().y));
 	}
 
 	// VIII.A  The bounding box of an entity has the same dimensions as the texture of the sprite
@@ -114,13 +119,22 @@ void Entity::initSpriteSheet(const std::string& spriteSheetFile)
 					  spriteSheet.getSpriteSize().y * spriteSheet.getSpriteScale().y);
 }
 
+Vector2f Entity::getPosition()
+{
+	return position->getPosition();
+}
+
 void Entity::setPosition(float x, float y)
 {
-	position.x = x; position.y = y;
+	position->setPosition(x, y);
 	if(isSpriteSheet)
-		spriteSheet.getSprite().setPosition(position.x, position.y);
+		spriteSheet.getSprite().setPosition(
+			position->getPosition().x,
+			position->getPosition().y);
 	else
-		sprite.setPosition(position.x, position.y);
+		sprite.setPosition(
+			position->getPosition().x,
+			position->getPosition().y);
 }	
 
 

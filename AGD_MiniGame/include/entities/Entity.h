@@ -2,6 +2,9 @@
 #include "../graphics/Window.h"
 #include "../graphics/SpriteSheet.h"
 #include "../utils/Rectangle.h"
+#include <memory>
+
+class PositionComponent;
 
 using EntityID = unsigned int;
 enum class EntityType
@@ -35,7 +38,7 @@ public:
 	EntityID getID() const { return id; }
 	void setPosition(float x, float y);
 	void setVelocity(const Vector2f& v) { velocity.x = v.x; velocity.y = v.y; }
-	const Vector2f& getPosition() const { return position; }
+	Vector2f getPosition();
 	const Vector2f& getVelocity() const { return velocity; }
 	Rectangle& getBoundingBox() { return boundingBox; };
 	const sf::Vector2f& getSpriteScale() const;
@@ -57,7 +60,7 @@ protected:
 	EntityID id;
 
 	//Position and velocity
-	Vector2f position;
+	std::unique_ptr<PositionComponent> position;
 	Vector2f velocity;
 	float speed;
 
