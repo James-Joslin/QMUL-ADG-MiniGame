@@ -13,20 +13,17 @@
 
 Player::Player() : Entity(EntityType::PLAYER), attacking(false), shouting(false), wood(0), shootCooldown(0)
 {
-	speed = playerSpeed;
-
 	// VI.B: Create the unique pointer to the PlayerInputHandler object
 	playerInputPointer = std::make_unique<PlayerInputComponent>();
-
 	healthComponentPointer = std::make_shared<HealthComponent>(startingHealth, maxHealth);
-
+	velocity = std::make_shared<VelocityComponent>(playerSpeed);
 }
 
 Player::~Player() {}
 
 void Player::update(Game* game, float elapsed)
 {
-
+	velocity->update(*this, elapsed);
 		// VI.G Modify the code below to add the functionality to play the appropriate animations 
 		//      and set the appropriate directions for movement depending on the  value of the
 		//      velocity vector for moving up, down and left.
@@ -36,30 +33,30 @@ void Player::update(Game* game, float elapsed)
 		//            Set the animation of the spritesheet to "Walk". Mind the parameters required for the
 		//			  animation: if it should start playing and if it should loop.
 		//			  Additionally, you must also set the sprite direction (to Direction::Right) of the spritesheet.
-	if (velocity.x > 0 )
+	if (velocity->getVelocityDirection().x > 0)
 	{
 		spriteSheet.setAnimation("Walk", true, true);
 		spriteSheet.setSpriteDirection(Direction::Right);
 	}
 
-	if (velocity.y > 0)
+	if (velocity->getVelocityDirection().y > 0)
 	{
 		spriteSheet.setAnimation("Walk", true, true);
 	}
 
-	if (velocity.x < 0)
+	if (velocity->getVelocityDirection().x < 0)
 	{
 		spriteSheet.setAnimation("Walk", true, true);
 		spriteSheet.setSpriteDirection(Direction::Left);
 	}
 
-	if (velocity.y < 0)
+	if (velocity->getVelocityDirection().y < 0)
 	{
 		spriteSheet.setAnimation("Walk", true, true);
 	}
 
 	// VI.F (2/2) If the player is not moving, we must get back to playing the "Idle" animation.
-	if (velocity.x == 0 && velocity.y == 0 && !attacking && !shouting)
+	if (velocity->getVelocityDirection().x == 0 && velocity->getVelocityDirection().y == 0 && !attacking && !shouting)
 	{
 		spriteSheet.setAnimation("Idle", true, true);
 	}
@@ -133,7 +130,7 @@ std::shared_ptr<Fire> Player::createFire() const
 	fireEntity->setPosition(pos.x, pos.y);
 	Vector2f vel(fireSpeed, 0.f);
 	if (spriteSheet.getSpriteDirection() == Direction::Left) vel.x = vel.x * -1.0f;
-	fireEntity->setVelocity(vel);
+	fireEntity->getVelocityPtr()->setVelocityDirection(vel.x, vel.y);
 
 	return fireEntity;
 }
@@ -158,5 +155,5 @@ void Player::positionSprite(int row, int col, int spriteWH, float tileScale)
 	float cntrFactorX = cntrFactorY * 0.5f;						//to center horizontally
 
 	setPosition(x + cntrFactorX, y + cntrFactorY);
-	setVelocity({ 0.0f, 0.0f });
+	velocity->setVelocityDirection(0.f, 0.f);
 }

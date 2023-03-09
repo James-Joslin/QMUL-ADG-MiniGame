@@ -7,8 +7,6 @@
 
 Entity::Entity() :
 	position(std::make_unique<PositionComponent>()),
-	velocity(0, 0),
-	speed(1),
 	isSpriteSheet(false),
 	id(0),
 	type(EntityType::UNDEFINED),
@@ -18,8 +16,6 @@ Entity::Entity() :
 
 Entity::Entity(EntityType et) : 
 	position( std::make_unique<PositionComponent>()),
-	velocity(0, 0), 
-	speed(1), 
 	isSpriteSheet(false),
 	id(0),
 	type (et),
@@ -39,9 +35,6 @@ void Entity::update(Game* game, float elapsed)
 	//       (which is a member variable of this class) and the elapsed time since the last frame 
 	//       (a parameter in this function).
 	
-	setPosition(
-		position->getPosition().x + (velocity.x * speed * elapsed),
-		position->getPosition().y + (velocity.y * speed * elapsed));
 	
 	// IV.D (2/2) If this entity has a spritesheet (variable "isSpriteSheet" is true), do two operations:
 	//              i)  Set the sprite position of the spritesheet to the position of this entity.

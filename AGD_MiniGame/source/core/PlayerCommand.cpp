@@ -5,25 +5,25 @@
 void MoveRightCommand::execute(Game& game)
 {
 	if (game.getPlayer()->isAttacking() || game.getPlayer()->isShouting()) return;
-	game.getPlayer()->setVelocityX(1.f);
+	game.getPlayer()->getVelocityComp()->setVelocityDirection(1.f, game.getPlayer()->getVelocityComp()->getVelocityDirection().y);
 }
 
 void MoveLeftCommand::execute(Game& game)
 {
 	if (game.getPlayer()->isAttacking() || game.getPlayer()->isShouting()) return;
-	game.getPlayer()->setVelocityX(-1.f);
+	game.getPlayer()->getVelocityComp()->setVelocityDirection(-1.f, game.getPlayer()->getVelocityComp()->getVelocityDirection().y);
 }
 
 void MoveUpCommand::execute(Game& game)
 {
 	if (game.getPlayer()->isAttacking() || game.getPlayer()->isShouting()) return;
-	game.getPlayer()->setVelocityY(-1.f);
+	game.getPlayer()->getVelocityComp()->setVelocityDirection(game.getPlayer()->getVelocityComp()->getVelocityDirection().x, -1.f);
 }
 
 void MoveDownCommand::execute(Game& game)
 {
 	if (game.getPlayer()->isAttacking() || game.getPlayer()->isShouting()) return;
-	game.getPlayer()->setVelocityY(1.f);
+	game.getPlayer()->getVelocityComp()->setVelocityDirection(game.getPlayer()->getVelocityComp()->getVelocityDirection().x, 1.f);
 }
 
 void AttackCommand::execute(Game& game)

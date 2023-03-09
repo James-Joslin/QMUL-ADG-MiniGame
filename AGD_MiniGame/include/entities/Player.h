@@ -1,6 +1,7 @@
 #pragma once
 #include "Entity.h"
 #include "../components/HealthComponent.h"
+#include "../components/VelocityComponent.h"
 
 
 class Fire;
@@ -35,13 +36,12 @@ public:
 	void setShouting(bool sh) { shouting = sh; }
 
 	std::shared_ptr<HealthComponent> getHealthComp() { return healthComponentPointer; }
+	std::shared_ptr<VelocityComponent> getVelocityComp() { return velocity; }
 
 	int getWood() const { return wood; }
 	void addWood(int w);
 
 	bool hasSpriteSheet() const { return isSpriteSheet; }
-	void setVelocityX(float newX) { velocity.x = newX; }
-	void setVelocityY(float newY) { velocity.y = newY; }
 
 	void positionSprite(int row, int col, int spriteWH, float tileScale);
 
@@ -58,7 +58,7 @@ private:
 	//std::unique_ptr<PlayerInputHandler> playerInputPointer;
 
 	std::unique_ptr<InputComponent> playerInputPointer;
-
 	std::shared_ptr<HealthComponent> healthComponentPointer;
+	std::shared_ptr<VelocityComponent> velocity;
 };
 

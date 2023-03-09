@@ -5,6 +5,7 @@
 Fire::Fire() : Entity(EntityType::FIRE)
 {
 	ttlPtr = std::make_unique<TTLComponent>(startTimeToLive);
+	velocityPtr = std::make_shared<VelocityComponent>();
 
 }
 
@@ -20,6 +21,7 @@ void Fire::update(Game* game, float elapsed)
 	//		to 0, the entity must be deleted (here, just setting the deleted flat to ture).
 
 	ttlPtr->update();
+	velocityPtr->update(*this, elapsed);
 
 	if (ttlPtr->getTTL() <= 0)
 	{
