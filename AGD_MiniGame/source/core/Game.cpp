@@ -3,6 +3,7 @@
 #include "../../include/entities/StaticEntities.h"
 #include "../../include/core/InputHandler.h"
 #include "../../include/core/Command.h"
+#include "../../include/components/GraphicsComponent.h"
 #include <iostream>
 
 // III.F Add the initialization (to 0) of the entity counter to the initalizers list of this constructor
@@ -17,7 +18,7 @@ Game::~Game()
 }
 
 template <typename T>
-std::shared_ptr<T> Game::buildEntityAt(const std::string& filename, int col, int row)
+std::shared_ptr<T> Game::buildEntityAt(const std::string& filename, int col, int row, std::shared_ptr<GraphicsComponent> graphicsComponentPointer)
 {
 	auto ent = std::make_shared<T>();
 	float x = col * spriteWH * tileScale;
@@ -25,7 +26,7 @@ std::shared_ptr<T> Game::buildEntityAt(const std::string& filename, int col, int
 	float cntrFactor = (tileScale - itemScale) * spriteWH * 0.5f;
 
 	ent->setPosition(x + cntrFactor, y + cntrFactor);
-	ent->init(filename, itemScale);
+	ent->init(filename, itemScale, graphicsComponentPointer);
 	
 	return ent;
 }
@@ -99,7 +100,7 @@ void Game::init(std::vector<std::string> lines)
 				///       the file with the sprite ("img/log.png"), the column and the row where the log should be place.
 				///		  Then, uncomment the call to the funcion "addEntity" passing the pointer to the new entity as parameter.
 				/// 
-				auto logEntity = buildEntityAt<Log>("./img/log.png", col, row);
+				auto logEntity = buildEntityAt<Log>("./img/log.png", col, row, std::make_shared<SpriteGraphics>());
 				addEntity(logEntity);			/// uncomment this (you may have to change "ent" for the name of the pointer you've just created above).
 	
 				//By default, entities stand on corridors
@@ -113,7 +114,7 @@ void Game::init(std::vector<std::string> lines)
 				/// III.B Call the function "buildEntityAt" to create a Potion pointer. The parameters are the filename to 
 				///       the file with the sprite ("img/potion.png"), the column and the row where the potion should be place.
 				///		  Then, uncomment the call to the funcion "addEntity" passing the pointer to the new entity as parameter.
-				auto potionEntity = buildEntityAt<Potion>("./img/potion.png", col, row);
+				auto potionEntity = buildEntityAt<Potion>("./img/potion.png", col, row, std::make_shared<SpriteGraphics>());
 				addEntity(potionEntity);			/// uncomment this
 	
 				//By default, entities stand on corridors
@@ -129,6 +130,7 @@ void Game::init(std::vector<std::string> lines)
 
 				// IV.B (2/4): Call the function that initializes the Sprite Sheet with a single parameter, a const std::string& filename.
 				//			   This string should be "img/DwarfSpriteSheet_data.txt"
+				player->setGraphicsPointer(std::make_shared<SpriteSheetGraphics>());
 				player->initSpriteSheet("./img/DwarfSpriteSheet_data.txt");
 
 				// IV.B (3/4): Call the function that positions the sprite of the player in the board (Player::positionSprite). 

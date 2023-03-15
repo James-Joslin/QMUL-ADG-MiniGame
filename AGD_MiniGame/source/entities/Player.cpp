@@ -6,9 +6,8 @@
 #include "../../include/core/Command.h"
 #include "../../include/components/InputComponent.h"
 #include "../../include/components/PositionComponent.h"
+#include "../../include/components/GraphicsComponent.h"
 #include <iostream>
-
-
 
 
 Player::Player() : Entity(EntityType::PLAYER), attacking(false), shouting(false), wood(0), shootCooldown(0)
@@ -35,8 +34,8 @@ void Player::update(Game* game, float elapsed)
 		//			  Additionally, you must also set the sprite direction (to Direction::Right) of the spritesheet.
 	if (velocity->getVelocityDirection().x > 0)
 	{
-		spriteSheet.setAnimation("Walk", true, true);
-		spriteSheet.setSpriteDirection(Direction::Right);
+		spriteSheet.setAnimation("Walk", true, true); // Graphics component function to set animation - pass anim string and 2x booleans?
+		spriteSheet.setSpriteDirection(Direction::Right); // grapchics component function to set sprite direction pass direction enum
 	}
 
 	if (velocity->getVelocityDirection().y > 0)
@@ -90,7 +89,7 @@ void Player::update(Game* game, float elapsed)
 	//			  2) The animation is in one of the "in action" frames.
 	//			  3) We have enough wood "ammunition" (variable wood and shootingCost)
 	if (
-		shouting && spriteSheet.getCurrentAnim()->isInAction() 
+		shouting && spriteSheet.getCurrentAnim()->isInAction() // graphics component - function for returning spritesheet animation?
 		&& 
 		wood >= shootingCost && shootCooldown <= 0
 	)
@@ -126,7 +125,7 @@ std::shared_ptr<Fire> Player::createFire() const
 	auto fireEntity = std::make_shared<Fire>();		
 
 	Vector2f pos { position->getPosition().x + getTextureSize().x * 0.5f, position->getPosition().y + getTextureSize().y * 0.5f };
-	fireEntity->init("img/fire.png", 1.0f);
+	fireEntity->init("img/fire.png", 1.0f, std::make_shared<SpriteGraphics>());
 	fireEntity->setPosition(pos.x, pos.y);
 	Vector2f vel(fireSpeed, 0.f);
 	if (spriteSheet.getSpriteDirection() == Direction::Left) vel.x = vel.x * -1.0f;

@@ -1,7 +1,7 @@
 #pragma once
 #include "../graphics/Window.h"
-#include "../graphics/SpriteSheet.h"
 #include "../utils/Rectangle.h"
+#include "../../include/components/GraphicsComponent.h"
 #include <memory>
 
 class PositionComponent;
@@ -28,7 +28,7 @@ public:
 	~Entity();
 
 	//Init and update functions
-	virtual void init(const std::string& textureFile, float scale);
+	virtual void init(const std::string& textureFile, float scale, std::shared_ptr<GraphicsComponent> _graphicsPointer);
 	void initSpriteSheet(const std::string& spriteSheetFile);
 	virtual void update(Game* game, float elapsed = 1.0f);
 	void draw(Window* window);
@@ -44,7 +44,6 @@ public:
 	EntityType getEntityType() const { return type; }
 	const SpriteSheet* getSpriteSheet() const { return &spriteSheet; }
 	bool isSpriteSheetEntity() const { return isSpriteSheet; }
-
 	
 	// X.C  Add two helper functions. One that returns the value of the deleted flag, another one that 
 	//      "deletes" the entity by setting this flag to true. (Q: one of this functions should be "const", which one?).
@@ -65,11 +64,12 @@ protected:
 
 	//Graphics-related variables.
 	bool isSpriteSheet;
-	SpriteSheet spriteSheet;
-	sf::Texture texture;
-	sf::Sprite sprite;
+	//SpriteSheet spriteSheet;
+	//sf::Texture texture;
+	//sf::Sprite sprite;
 
 	// X.A Add a bool member variable "deleted" to this class.
 	bool deleted;
 
+	std::shared_ptr<GraphicsComponent> graphicsPointer;
 };

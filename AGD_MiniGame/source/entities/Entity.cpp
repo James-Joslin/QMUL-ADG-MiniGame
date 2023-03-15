@@ -2,6 +2,7 @@
 #include "../../include/graphics/Window.h"
 #include "../../include/core/Game.h"
 #include "../../include/components/PositionComponent.h"
+#include "../../include/components/GraphicsComponent.h"
 #include <iostream>
 
 
@@ -41,6 +42,9 @@ void Entity::update(Game* game, float elapsed)
 	//              ii) Call update on the spriteSheet, passing the delta time of this update call.
 	//			  If the entity does NOT have a spritesheet ("isSpriteSheet" is false, {else} clause), simply:
 	//			    iii) set the position of the "sprite" variable to the position vector (using sprite.setPosition(...)).
+	
+	//graphicsPointer->update() - pass position component pointer
+
 	if (isSpriteSheet)
 	{
 		const Vector2f position = getPosition();
@@ -95,21 +99,27 @@ void Entity::draw(Window* window)
 	window->draw(boundingBox.getDrawableRect());
 }
 
-void Entity::init(const std::string& textureFile, float scale)
+void Entity::init(const std::string& textureFile, float scale, std::shared_ptr<GraphicsComponent> _graphicsPointer)
 {
-	texture.loadFromFile(textureFile);
-	sprite.setTexture(texture);
-	sprite.setScale(scale, scale);
-	bboxSize = Vector2f(texture.getSize().x * sprite.getScale().x, texture.getSize().y * sprite.getScale().y);
+	graphicsPointer = _graphicsPointer;
+	graphicsPointer->init(textureFile, scale);
+	//texture.loadFromFile(textureFile);
+	//sprite.setTexture(texture);
+	//sprite.setScale(scale, scale);
+	bboxSize = Vector2f(
+		graphicsPointer->getTextureSize().x * graphicsPointer->getScale().x,
+		graphicsPointer->getTextureSize().y * graphicsPointer->getScale().y);
 }
 
 void Entity::initSpriteSheet(const std::string& spriteSheetFile)
 {
-	spriteSheet.loadSheet(spriteSheetFile);
+	graphicsPointer->initSpriteSheet(spriteSheetFile);
+	/*spriteSheet.loadSheet(spriteSheetFile);
 	isSpriteSheet = true;
-	spriteSheet.setAnimation("Idle", true, true);
-	bboxSize = Vector2f(spriteSheet.getSpriteSize().x * spriteSheet.getSpriteScale().x,
-					  spriteSheet.getSpriteSize().y * spriteSheet.getSpriteScale().y);
+	spriteSheet.setAnimation("Idle", true, true);*/
+	bboxSize = Vector2f(
+		graphicsPointer->getSpriteSize().x * graphicsPointer->getSpriteScale().x,
+		graphicsPointer->getSpriteSize().y * graphicsPointer->getSpriteScale().y);
 }
 
 Vector2f Entity::getPosition()
