@@ -207,13 +207,16 @@ void Game::update(float elapsed)
 	// IX.C: Retrieve a reference to the player's bounding box and run through all entities (using an itereator)  
 	//      in the game with a while loop. You don't need to check the player's bounding box to itself, 
 	//      so include a check that skips the player entity while looping through the entities vector.
+	auto playerBbox = player->getBoundingBox();
 	it = entities.begin();
 	while (it != entities.end())
 	{
 		if ((*it) != player) {
 			// IX.D: (Inside the loop) Once you have a different entity to player, retrieve it's bounding box
 			// and check if they intersect.
-			auto playerBbox = player->getBoundingBox(); // <FEEDBACK> This BBox is the same object for all iterations. Retrieve it before the loop to save computation.
+			// <FEEDBACK> This BBox is the same object for all iterations. Retrieve it before the loop to save computation.
+			// <Corrected> Moved playerBbox outside while loop
+			
 			auto entBbox = (*it)->getBoundingBox();
 			if (playerBbox.intersects(entBbox))
 			{
@@ -223,35 +226,35 @@ void Game::update(float elapsed)
 
 				auto entType = (*it)->getEntityType();
 
-				// <FEEDBACK> You don't need any of these 4 declarations & definitions here. Declare & Define only when you needed to (in the switch cases).
-				Potion* potion = nullptr; 
-				Log* log = nullptr;			
-				int healthRestore = 0;
-				int numWood = 0;
+				// <FEEDBACK> You don't need any of these 4 declarations & definitions here. Declare & Define only when you needed to (in the switch cases).	
+				// <Corrected> Moved variable declarations into switch statement
 
 				switch (entType)
 				{
-				case EntityType::POTION:
+				case EntityType::POTION: 
+				{
 					// IX.F: This is a potion
-					potion = dynamic_cast<Potion*>((*it).get());
-					healthRestore = potion->getHealth();
+					Potion* potion = dynamic_cast<Potion*>((*it).get());
+					int healthRestore = potion->getHealth();
 					player->addHealth(healthRestore);
 					(*it)->markDeleted();
 					std::cout << "Collide with potion (health restored: " << healthRestore << ", player health: " << player->getHealth() << ")" << std::endl;
-					break;
-
+				}
+				break;
 				case EntityType::LOG:
+				{
 					if (player->isAttacking() && player->getSpriteSheet()->getCurrentAnim()->isInAction()) // check this
 					{
 						// IX.G: This is a log
-						log = dynamic_cast<Log*>((*it).get());
-						numWood = log->getWood();
+						Log* log = dynamic_cast<Log*>((*it).get());
+						int numWood = log->getWood();
 						player->addWood(numWood);
 						(*it)->markDeleted();
 						std::cout << "Collide with wood (Wood collected: " << numWood << ", Total Player Wood: " << player->getWood() << ")" << std::endl;
-						break;
+						
 					}
-
+				}
+				break;
 				default:
 					break;
 				}

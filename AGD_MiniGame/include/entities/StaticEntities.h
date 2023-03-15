@@ -49,12 +49,8 @@ public:
 		boundingBox.setTopLeft(
 			bboxLocation
 		);
-		boundingBox.setBottomRight( // <FEEDBACK> Correct this indentation.
-			Vector2f(
-				(bboxLocation.x + bboxSize.x),
-				(bboxLocation.y + bboxSize.y)
-			)
-		);
+		boundingBox.setBottomRight( // <FEEDBACK> Correct this indentation. <Corrected>
+			Vector2f((bboxLocation.x + bboxSize.x), (bboxLocation.y + bboxSize.y)));
 	}
 
 	virtual void update(Game* game, float elapsed = 1.0f) override {}

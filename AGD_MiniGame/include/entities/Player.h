@@ -54,6 +54,6 @@ private:
 	float shootCooldown;
 
 	// VI.A (1/2): Declare a unique pointer to a player input handler.
-	std::unique_ptr<PlayerInputHandler> playerInputPointer;
+	std::unique_ptr<PlayerInputHandler> playerInput;
 };
 
