@@ -21,7 +21,7 @@ public:
 	virtual sf::Vector2f getSpriteScale() = 0; // gets sprite scale (out of sprite sheet)
 	virtual void draw(Window* window) = 0;
 	//virtual const Vector2f getPosition(std::unique_ptr<PositionComponent> _positionComponent) = 0;
-	//virtual void setPosition(std::unique_ptr<PositionComponent> _positionComponent, float x, float y) = 0;
+	virtual void setPosition(Vector2f position) = 0;
 	virtual void setAnimation(const std::string& name, bool play, bool loop) = 0;
 	virtual Direction getSpriteDirection() = 0;
 	virtual void setSpriteDirection(Direction direction) = 0;
@@ -53,7 +53,7 @@ public:
 	//{
 	//	return _positionComponent->getPosition();
 	//}
-	//virtual void setPosition(std::unique_ptr<PositionComponent> _positionComponent, float x, float y) override;
+	virtual void setPosition(Vector2f position) override;
 	void setAnimation(const std::string& name, bool play, bool loop) override {}
 	void setSpriteDirection(Direction direction) override {}
 	sf::Sprite getSprite() override { return sprite; }
@@ -75,8 +75,11 @@ public:
 	void initSpriteSheet(const std::string& spriteSheetFile) override; // in Graphics Components cpp
 	sf::Vector2i getTextureSize() override 
 	{
-		throw std::exception(
-			"You are calling a function that would get a texture's size from a sprite, however this is a sprite sheet and therefore you can't access the texture and need to access the sprite first\nYou should be calling getSpriteSize()");
+		auto x = spriteSheet.getSprite().getTexture()->getSize().x;
+		auto y = spriteSheet.getSprite().getTexture()->getSize().y;
+
+		return sf::Vector2i(static_cast<int>(x), static_cast<int>(y));
+
 	}
 	sf::Vector2i getSpriteSize() override { return spriteSheet.getSpriteSize(); }
 	sf::Vector2f getScale() override 
@@ -90,7 +93,7 @@ public:
 	//{
 	//	return _positionComponent->getPosition();
 	//}
-	//virtual void setPosition(std::unique_ptr<PositionComponent> _positionComponent, float x, float y) override;
+	void setPosition(Vector2f position) override;
 	void setAnimation(const std::string& name, bool play, bool loop) override;
 	void setSpriteDirection(Direction direction) override;
 	Direction getSpriteDirection() { return spriteSheet.getSpriteDirection(); }

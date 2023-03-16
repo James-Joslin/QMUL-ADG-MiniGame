@@ -62,12 +62,12 @@ void Player::update(Game* game, float elapsed)
 
 	if (attacking)
 	{
-		graphicsPointer->setAnimation("Attack", true, true);
+		graphicsPointer->setAnimation("Attack", true, false);
 	}
 
 	if (shouting)
 	{
-		graphicsPointer->setAnimation("Shout", true, true);
+		graphicsPointer->setAnimation("Shout", true, false);
 	}
 
 	

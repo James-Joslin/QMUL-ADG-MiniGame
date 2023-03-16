@@ -55,31 +55,15 @@ void SpriteSheetGraphics::draw(Window* window)
 	}
 }
 
-//void SpriteGraphics::setPosition(std::unique_ptr<PositionComponent> _positionComponent, float x, float y)
-//{
-//	_positionComponent->setPosition(x, y);
-//	if (isSpriteSheet)
-//	{
-//		throw std::exception("Sprite sheet being used when setting position with sprite graphcs component");
-//	}
-//	else
-//	{
-//		sprite.setPosition(_positionComponent->getPosition().x, _positionComponent->getPosition().y);
-//	}
-//}
-//
-//void SpriteSheetGraphics::setPosition(std::unique_ptr<PositionComponent> _positionComponent, float x, float y)
-//{
-//	_positionComponent->setPosition(x, y);
-//	if (isSpriteSheet)
-//	{
-//		spriteSheet.getSprite().setPosition(_positionComponent->getPosition().x, _positionComponent->getPosition().y);
-//	}
-//	else
-//	{
-//		throw std::exception("Sprite being used when setting position with object with animated sprite sheet");
-//	}
-//}
+void SpriteGraphics::setPosition(Vector2f position)
+{
+	sprite.setPosition(position.x, position.y);
+}
+
+void SpriteSheetGraphics::setPosition(Vector2f position)
+{
+	spriteSheet.getSprite().setPosition(position.x, position.y);
+}
 
 void SpriteSheetGraphics::setAnimation(const std::string &name, bool play, bool loop)
 {
