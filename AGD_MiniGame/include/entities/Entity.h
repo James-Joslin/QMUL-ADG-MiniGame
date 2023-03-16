@@ -36,7 +36,7 @@ public:
 	//Getters and Setters
 	void setID(EntityID entId) { id = entId; }
 	EntityID getID() const { return id; }
-	void setPosition(float x, float y);
+	void setPosition(float x, float y) ;
 	Vector2f getPosition();
 	Rectangle& getBoundingBox() { return boundingBox; };
 	//const sf::Vector2f& getSpriteScale() const;

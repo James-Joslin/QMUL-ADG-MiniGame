@@ -122,18 +122,18 @@ Vector2f Entity::getPosition() // still being used by bounding box
 	return position->getPosition();
 }
 
-//void Entity::setPosition(float x, float y)
-//{
-//	position->setPosition(x, y);
-//	if(isSpriteSheet)
-//		spriteSheet.getSprite().setPosition(
-//			position->getPosition().x,
-//			position->getPosition().y);
-//	else
-//		sprite.setPosition(
-//			position->getPosition().x,
-//			position->getPosition().y);
-//}	
+void Entity::setPosition(float x, float y)
+{
+	position->setPosition(x, y);
+	if(isSpriteSheet)
+		graphicsPointer->getSpriteSheet()->getSprite().setPosition(
+			position->getPosition().x,
+			position->getPosition().y);
+	else
+		graphicsPointer->getSprite().setPosition(
+			position->getPosition().x,
+			position->getPosition().y);
+}	
 
 
 //const sf::Vector2f& Entity::getSpriteScale() const
