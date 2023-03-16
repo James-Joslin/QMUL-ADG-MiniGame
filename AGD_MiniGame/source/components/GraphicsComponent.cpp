@@ -64,10 +64,7 @@ void SpriteGraphics::setPosition(std::unique_ptr<PositionComponent> _positionCom
 	}
 	else
 	{
-		sprite.setPosition(
-			_positionComponent->getPosition().x,
-			_positionComponent->getPosition().y
-		);
+		sprite.setPosition(_positionComponent->getPosition().x, _positionComponent->getPosition().y);
 	}
 }
 
@@ -76,10 +73,7 @@ void SpriteSheetGraphics::setPosition(std::unique_ptr<PositionComponent> _positi
 	_positionComponent->setPosition(x, y);
 	if (isSpriteSheet)
 	{
-		spriteSheet.getSprite().setPosition(
-			_positionComponent->getPosition().x,
-			_positionComponent->getPosition().y
-		);
+		spriteSheet.getSprite().setPosition(_positionComponent->getPosition().x, _positionComponent->getPosition().y);
 	}
 	else
 	{
@@ -95,4 +89,29 @@ void SpriteSheetGraphics::setAnimation(const std::string &name, bool play, bool 
 void SpriteSheetGraphics::setSpriteDirection(Direction direction)
 {
 	spriteSheet.setSpriteDirection(direction);
+}
+
+void SpriteSheetGraphics::update(Game* game, float elapsed, Vector2f position)
+{
+	if (isSpriteSheet) // <- Needs to go into graphicsPointer->Update()
+	{
+		spriteSheet.setSpritePosition(sf::Vector2f(position.x, position.y));
+		spriteSheet.update(elapsed);
+	}
+	else // <- Needs to go into graphicsPointer->Update()
+	{
+		throw std::exception("SpriteGraphic being processed in SpriteSheetGraphics class");
+	}
+}
+
+void SpriteGraphics::update(Game* game, float elapsed, Vector2f position)
+{
+	if (isSpriteSheet) // <- Needs to go into graphicsPointer->Update()
+	{
+		throw std::exception("SpriteSheetGraphics being processed in SpriteGraphics class");
+	}
+	else // <- Needs to go into graphicsPointer->Update()
+	{
+		sprite.setPosition(sf::Vector2f(position.x, position.y));
+	}
 }

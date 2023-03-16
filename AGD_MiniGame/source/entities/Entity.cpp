@@ -45,21 +45,18 @@ void Entity::update(Game* game, float elapsed)
 	
 
 	//Need to implement an update in graphics component
-	graphicsPointer->update(game, elapsed); // hasn't been implemented yet
+	graphicsPointer->update(game, elapsed, getPosition()); // hasn't been implemented yet
 
-	if (isSpriteSheet) // <- Needs to go into graphicsPointer->Update()
-	{
-		const Vector2f position = getPosition();
-		spriteSheet.setSpritePosition(sf::Vector2f(position.x, position.y));
-		spriteSheet.update(elapsed);
-	}
-	else // <- Needs to go into graphicsPointer->Update()
-	{
-		sprite.setPosition(
-			sf::Vector2f(
-				position->getPosition().x,
-				position->getPosition().y));
-	}
+	//if (isSpriteSheet) // <- Needs to go into graphicsPointer->Update()
+	//{
+	//	const Vector2f position = getPosition();
+	//	spriteSheet.setSpritePosition(sf::Vector2f(position.x, position.y));
+	//	spriteSheet.update(elapsed);
+	//}
+	//else // <- Needs to go into graphicsPointer->Update()
+	//{
+	//	sprite.setPosition(sf::Vector2f(position->getPosition().x, position->getPosition().y));
+	//}
 
 	// VIII.A  The bounding box of an entity has the same dimensions as the texture of the sprite
 	//		   or spritesheet. This is calculated in the init() functions (see below in this file)
@@ -73,15 +70,8 @@ void Entity::update(Game* game, float elapsed)
 		//Rectangle& bbox = getBoundingBox();
 
 		Vector2f bboxLocation = getPosition();
-		boundingBox.setTopLeft(
-			bboxLocation
-		);
-		boundingBox.setBottomRight(
-			Vector2f(
-				(bboxLocation.x + bboxSize.x),
-				(bboxLocation.y + bboxSize.y)
-			)
-		);
+		boundingBox.setTopLeft(bboxLocation);
+		boundingBox.setBottomRight(Vector2f((bboxLocation.x + bboxSize.x), (bboxLocation.y + bboxSize.y)));
 	}
 }
 

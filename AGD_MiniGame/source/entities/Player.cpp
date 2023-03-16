@@ -124,7 +124,7 @@ std::shared_ptr<Fire> Player::createFire() const
 {
 	auto fireEntity = std::make_shared<Fire>();		
 
-	Vector2f pos { position->getPosition().x + getTextureSize().x * 0.5f, position->getPosition().y + getTextureSize().y * 0.5f };
+	Vector2f pos { position->getPosition().x + graphicsPointer->getTextureSize().x * 0.5f, position->getPosition().y + graphicsPointer->getTextureSize().y * 0.5f };
 	fireEntity->init("img/fire.png", 1.0f, std::make_shared<SpriteGraphics>());
 	fireEntity->setPosition(pos.x, pos.y);
 	Vector2f vel(fireSpeed, 0.f);
@@ -144,8 +144,8 @@ void Player::addWood(int w)
 
 void Player::positionSprite(int row, int col, int spriteWH, float tileScale)
 {
-	sf::Vector2f scaleV2f = getSpriteScale();
-	sf::Vector2i textureSize = getTextureSize();
+	sf::Vector2f scaleV2f = graphicsPointer->getSpriteScale();
+	sf::Vector2i textureSize = graphicsPointer->getTextureSize();
 
 	float x = col * spriteWH * tileScale;
 	float y = (row)*spriteWH * tileScale;

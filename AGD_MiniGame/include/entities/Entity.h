@@ -39,8 +39,8 @@ public:
 	void setPosition(float x, float y);
 	Vector2f getPosition();
 	Rectangle& getBoundingBox() { return boundingBox; };
-	const sf::Vector2f& getSpriteScale() const;
-	sf::Vector2i getTextureSize() const;
+	//const sf::Vector2f& getSpriteScale() const;
+	//sf::Vector2i getTextureSize() const;
 	EntityType getEntityType() const { return type; }
 	SpriteSheet* getSpriteSheet() { return graphicsPointer->getSpriteSheet(); }
 	bool isSpriteSheetEntity() const { return isSpriteSheet; }

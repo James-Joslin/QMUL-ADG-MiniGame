@@ -2,7 +2,6 @@
 #include "../utils/Vector2.h"
 #include "../entities/Entity.h"
 
-
 class VelocityComponent
 {
 
