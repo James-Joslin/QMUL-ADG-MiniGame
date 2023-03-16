@@ -28,7 +28,7 @@ public:
 		);
 	}
 
-	virtual void update(Game* game, float elapsed = 1.0f) override { }
+	// virtual void update(Game* game, float elapsed = 1.0f) override { }
 
 	int getHealth() const { return potionHealth; }
 
@@ -60,7 +60,7 @@ public:
 		);
 	}
 
-	virtual void update(Game* game, float elapsed = 1.0f) override {}
+	// virtual void update(Game* game, float elapsed = 1.0f) override {}
 
 	int getWood() const { return woodAdded; }
 

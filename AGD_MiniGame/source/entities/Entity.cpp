@@ -69,9 +69,8 @@ void Entity::update(Game* game, float elapsed)
 	{
 		//Rectangle& bbox = getBoundingBox();
 
-		Vector2f bboxLocation = getPosition();
-		boundingBox.setTopLeft(bboxLocation);
-		boundingBox.setBottomRight(Vector2f((bboxLocation.x + bboxSize.x), (bboxLocation.y + bboxSize.y)));
+		boundingBox.setTopLeft(getPosition());
+		boundingBox.setBottomRight(Vector2f((getPosition().x + bboxSize.x), (getPosition().y + bboxSize.y)));
 	}
 }
 
@@ -125,13 +124,13 @@ Vector2f Entity::getPosition() // still being used by bounding box
 void Entity::setPosition(float x, float y)
 {
 	position->setPosition(x, y);
-	/*Vector2f pos = getPosition();
+	Vector2f pos = getPosition();
 	std::cout << pos.x << pos.y << std::endl;
+	/*graphicsPointer->setPosition(pos);*/
 
-	if (graphicsPointer)
-	{
-		graphicsPointer->setPosition(pos);
-	}*/
+	//if (graphicsPointer)
+	//{
+	//}
 	/*if( graphicsPointer )
 		graphicsPointer->getSpriteSheet()->getSprite().setPosition(
 			position->getPosition().x,

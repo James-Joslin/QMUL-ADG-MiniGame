@@ -20,6 +20,7 @@ Game::~Game()
 template <typename T>
 std::shared_ptr<T> Game::buildEntityAt(const std::string& filename, int col, int row, std::shared_ptr<GraphicsComponent> graphicsComponentPointer)
 {
+
 	auto ent = std::make_shared<T>();
 	float x = col * spriteWH * tileScale;
 	float y = row * spriteWH * tileScale;
@@ -116,7 +117,8 @@ void Game::init(std::vector<std::string> lines)
 				///		  Then, uncomment the call to the funcion "addEntity" passing the pointer to the new entity as parameter.
 				auto potionEntity = buildEntityAt<Potion>("./img/potion.png", col, row, std::make_shared<SpriteGraphics>());
 				addEntity(potionEntity);			/// uncomment this
-	
+				std::cout << row << " " << col << " " << spriteWH << " " << tileScale << std::endl;
+
 				//By default, entities stand on corridors
 				// II.C (4/5) Use the function addTile from Board to add a CORRIDOR tile to this position.
 				board->addTile(col, row, tileScale, TileType::CORRIDOR);
@@ -136,7 +138,6 @@ void Game::init(std::vector<std::string> lines)
 				// IV.B (3/4): Call the function that positions the sprite of the player in the board (Player::positionSprite). 
 				//			   Parameters are the row and column where this object goes in the board, the sprite width and height (const int Game::spriteWH) 
 				//			   and the scale for the tiles (const float Game::tileScale)
-				std::cout << row << " " << col << " " << spriteWH << " " << tileScale << std::endl;
 
 				player->positionSprite(row,col,spriteWH,tileScale); // custom location?
 

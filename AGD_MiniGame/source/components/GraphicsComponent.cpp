@@ -90,12 +90,5 @@ void SpriteSheetGraphics::update(Game* game, float elapsed, Vector2f position)
 
 void SpriteGraphics::update(Game* game, float elapsed, Vector2f position)
 {
-	if (isSpriteSheet) // <- Needs to go into graphicsPointer->Update()
-	{
-		throw std::exception("SpriteSheetGraphics being processed in SpriteGraphics class");
-	}
-	else // <- Needs to go into graphicsPointer->Update()
-	{
-		sprite.setPosition(sf::Vector2f(position.x, position.y));
-	}
+	sprite.setPosition(sf::Vector2f(position.x, position.y));	
 }

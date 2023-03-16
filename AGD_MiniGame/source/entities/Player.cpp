@@ -156,5 +156,5 @@ void Player::positionSprite(int row, int col, int spriteWH, float tileScale)
 	std::cout << x + cntrFactorX << y + cntrFactorY << std::endl;
 
 	setPosition(x + cntrFactorX, y + cntrFactorY);
-	//velocity->setVelocityDirection(0.f, 0.f);
+	velocity->setVelocityDirection(0.f, 0.f);
 }

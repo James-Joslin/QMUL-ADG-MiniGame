@@ -51,6 +51,7 @@ public:
 	void markDeleted() { deleted = true; }
 
 	std::unique_ptr<PositionComponent> position;
+	std::shared_ptr<GraphicsComponent> graphicsPointer;
 
 protected:
 
@@ -72,5 +73,4 @@ protected:
 	bool deleted;
 
 	//Position and velocity
-	std::shared_ptr<GraphicsComponent> graphicsPointer;
 };
