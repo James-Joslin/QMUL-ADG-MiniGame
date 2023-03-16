@@ -42,7 +42,7 @@ public:
 	const sf::Vector2f& getSpriteScale() const;
 	sf::Vector2i getTextureSize() const;
 	EntityType getEntityType() const { return type; }
-	//SpriteSheet* getSpriteSheet() { return &graphicsPointer->getSpriteSheet(); }
+	SpriteSheet* getSpriteSheet() { return graphicsPointer->getSpriteSheet(); }
 	bool isSpriteSheetEntity() const { return isSpriteSheet; }
 	
 	// X.C  Add two helper functions. One that returns the value of the deleted flag, another one that 

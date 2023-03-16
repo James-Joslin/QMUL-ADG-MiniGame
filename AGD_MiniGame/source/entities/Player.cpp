@@ -89,7 +89,7 @@ void Player::update(Game* game, float elapsed)
 	//			  2) The animation is in one of the "in action" frames.
 	//			  3) We have enough wood "ammunition" (variable wood and shootingCost)
 	if (
-		shouting && graphicsPointer->getSpriteSheet().getCurrentAnim()->isInAction() // graphics component - function for returning spritesheet animation?
+		shouting && getSpriteSheet()->getCurrentAnim()->isInAction() // graphics component - function for returning spritesheet animation?
 		&& 
 		wood >= shootingCost && shootCooldown <= 0
 	)
@@ -107,7 +107,7 @@ void Player::update(Game* game, float elapsed)
 
 	// VII.B: If we are attacking but the current animation is no longer playing, set the attacking flag to false.
 	//        The same needs to be done for "shouting".
-	if (!graphicsPointer->getSpriteSheet().getCurrentAnim()->isPlaying())
+	if (!getSpriteSheet()->getCurrentAnim()->isPlaying())
 	{
 		setAttacking(false);
 		setShouting(false);
@@ -128,7 +128,7 @@ std::shared_ptr<Fire> Player::createFire() const
 	fireEntity->init("img/fire.png", 1.0f, std::make_shared<SpriteGraphics>());
 	fireEntity->setPosition(pos.x, pos.y);
 	Vector2f vel(fireSpeed, 0.f);
-	if (graphicsPointer->getSpriteSheet().getSpriteDirection() == Direction::Left) vel.x = vel.x * -1.0f;
+	if (graphicsPointer->getSpriteDirection() == Direction::Left) vel.x = vel.x * -1.0f;
 	fireEntity->getVelocityPtr()->setVelocityDirection(vel.x, vel.y);
 
 	return fireEntity;
