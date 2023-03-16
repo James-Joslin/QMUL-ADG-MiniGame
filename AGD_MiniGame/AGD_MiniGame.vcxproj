@@ -134,6 +134,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="source\components\GraphicsComponent.cpp" />
     <ClCompile Include="source\components\InputComponent.cpp" />
     <ClCompile Include="source\components\VelocityComponent.cpp" />
     <ClCompile Include="source\core\Board.cpp" />
@@ -158,8 +159,12 @@
     <Text Include="levels\lvl0.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\components\ColliderComponent.h" />
+    <ClInclude Include="include\components\GraphicsComponent.h" />
     <ClInclude Include="include\components\HealthComponent.h" />
     <ClInclude Include="include\components\InputComponent.h" />
+    <ClInclude Include="include\components\PlayerStateComponent.h" />
+    <ClInclude Include="include\components\PositionComponent.h" />
     <ClInclude Include="include\components\TTLComponent.h" />
     <ClInclude Include="include\components\VelocityComponent.h" />
     <ClInclude Include="include\core\Board.h" />
