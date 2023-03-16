@@ -34,40 +34,40 @@ void Player::update(Game* game, float elapsed)
 		//			  Additionally, you must also set the sprite direction (to Direction::Right) of the spritesheet.
 	if (velocity->getVelocityDirection().x > 0)
 	{
-		spriteSheet.setAnimation("Walk", true, true); // Graphics component function to set animation - pass anim string and 2x booleans?
-		spriteSheet.setSpriteDirection(Direction::Right); // grapchics component function to set sprite direction pass direction enum
+		graphicsPointer->setAnimation("Walk", true, true);
+		graphicsPointer->setSpriteDirection(Direction::Right);
 	}
 
 	if (velocity->getVelocityDirection().y > 0)
 	{
-		spriteSheet.setAnimation("Walk", true, true);
+		graphicsPointer->setAnimation("Walk", true, true);
 	}
 
 	if (velocity->getVelocityDirection().x < 0)
 	{
-		spriteSheet.setAnimation("Walk", true, true);
-		spriteSheet.setSpriteDirection(Direction::Left);
+		graphicsPointer->setAnimation("Walk", true, true);
+		graphicsPointer->setSpriteDirection(Direction::Left);
 	}
 
 	if (velocity->getVelocityDirection().y < 0)
 	{
-		spriteSheet.setAnimation("Walk", true, true);
+		graphicsPointer->setAnimation("Walk", true, true);
 	}
 
 	// VI.F (2/2) If the player is not moving, we must get back to playing the "Idle" animation.
 	if (velocity->getVelocityDirection().x == 0 && velocity->getVelocityDirection().y == 0 && !attacking && !shouting)
 	{
-		spriteSheet.setAnimation("Idle", true, true);
+		graphicsPointer->setAnimation("Idle", true, true);
 	}
 
 	if (attacking)
 	{
-		spriteSheet.setAnimation("Attack", true, false);
+		graphicsPointer->setAnimation("Attack", true, true);
 	}
 
 	if (shouting)
 	{
-		spriteSheet.setAnimation("Shout", true, false);
+		graphicsPointer->setAnimation("Shout", true, true);
 	}
 
 	
@@ -89,7 +89,7 @@ void Player::update(Game* game, float elapsed)
 	//			  2) The animation is in one of the "in action" frames.
 	//			  3) We have enough wood "ammunition" (variable wood and shootingCost)
 	if (
-		shouting && spriteSheet.getCurrentAnim()->isInAction() // graphics component - function for returning spritesheet animation?
+		shouting && graphicsPointer->getSpriteSheet().getCurrentAnim()->isInAction() // graphics component - function for returning spritesheet animation?
 		&& 
 		wood >= shootingCost && shootCooldown <= 0
 	)
@@ -107,7 +107,7 @@ void Player::update(Game* game, float elapsed)
 
 	// VII.B: If we are attacking but the current animation is no longer playing, set the attacking flag to false.
 	//        The same needs to be done for "shouting".
-	if (!spriteSheet.getCurrentAnim()->isPlaying())
+	if (!graphicsPointer->getSpriteSheet().getCurrentAnim()->isPlaying())
 	{
 		setAttacking(false);
 		setShouting(false);
@@ -128,7 +128,7 @@ std::shared_ptr<Fire> Player::createFire() const
 	fireEntity->init("img/fire.png", 1.0f, std::make_shared<SpriteGraphics>());
 	fireEntity->setPosition(pos.x, pos.y);
 	Vector2f vel(fireSpeed, 0.f);
-	if (spriteSheet.getSpriteDirection() == Direction::Left) vel.x = vel.x * -1.0f;
+	if (graphicsPointer->getSpriteSheet().getSpriteDirection() == Direction::Left) vel.x = vel.x * -1.0f;
 	fireEntity->getVelocityPtr()->setVelocityDirection(vel.x, vel.y);
 
 	return fireEntity;

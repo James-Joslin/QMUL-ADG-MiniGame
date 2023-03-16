@@ -40,18 +40,20 @@ void Entity::update(Game* game, float elapsed)
 	// IV.D (2/2) If this entity has a spritesheet (variable "isSpriteSheet" is true), do two operations:
 	//              i)  Set the sprite position of the spritesheet to the position of this entity.
 	//              ii) Call update on the spriteSheet, passing the delta time of this update call.
-	//			  If the entity does NOT have a spritesheet ("isSpriteSheet" is false, {else} clause), simply:
+	//				If the entity does NOT have a spritesheet ("isSpriteSheet" is false, {else} clause), simply:
 	//			    iii) set the position of the "sprite" variable to the position vector (using sprite.setPosition(...)).
 	
-	//graphicsPointer->update() - pass position component pointer
 
-	if (isSpriteSheet)
+	//Need to implement an update in graphics component
+	graphicsPointer->update(game, elapsed); // hasn't been implemented yet
+
+	if (isSpriteSheet) // <- Needs to go into graphicsPointer->Update()
 	{
 		const Vector2f position = getPosition();
 		spriteSheet.setSpritePosition(sf::Vector2f(position.x, position.y));
 		spriteSheet.update(elapsed);
 	}
-	else
+	else // <- Needs to go into graphicsPointer->Update()
 	{
 		sprite.setPosition(
 			sf::Vector2f(
@@ -65,7 +67,8 @@ void Entity::update(Game* game, float elapsed)
 	//		   The member variable boundingBox is a Rectangle where we'll hold this boundary box. 
 	//		   Set the top left corner of this rectangle to the position of this entity.
 	//		   Set the bottom right corner of this rectangle to the position+bboxSize coordinates.
-	if (isSpriteSheet)
+	
+	if (isSpriteSheet) // bounding box stuff handled by collision component?
 	{
 		//Rectangle& bbox = getBoundingBox();
 
@@ -86,14 +89,16 @@ void Entity::update(Game* game, float elapsed)
 
 void Entity::draw(Window* window)
 {
-	if (isSpriteSheet)
-	{
-		sf::Sprite* sp = &spriteSheet.getSprite();
-		const sf::Vector2f pos = sp->getPosition();
-		window->draw(spriteSheet.getSprite());
-	}
-	else
-		window->draw(sprite); 
+	graphicsPointer->draw(window); // or should the draw still be in the entity class?
+
+	//if (isSpriteSheet)
+	//{
+	//	sf::Sprite* sp = &spriteSheet.getSprite();
+	//	const sf::Vector2f pos = sp->getPosition();
+	//	window->draw(spriteSheet.getSprite());
+	//}
+	//else
+	//	window->draw(sprite); 
 
 	// VIII.B Draw the bounding box by retrieving a drawable rect from the bounding box Rectangle.
 	window->draw(boundingBox.getDrawableRect());
@@ -122,41 +127,41 @@ void Entity::initSpriteSheet(const std::string& spriteSheetFile)
 		graphicsPointer->getSpriteSize().y * graphicsPointer->getSpriteScale().y);
 }
 
-Vector2f Entity::getPosition()
+Vector2f Entity::getPosition() // still being used by bounding box
 {
 	return position->getPosition();
 }
 
-void Entity::setPosition(float x, float y)
-{
-	position->setPosition(x, y);
-	if(isSpriteSheet)
-		spriteSheet.getSprite().setPosition(
-			position->getPosition().x,
-			position->getPosition().y);
-	else
-		sprite.setPosition(
-			position->getPosition().x,
-			position->getPosition().y);
-}	
+//void Entity::setPosition(float x, float y)
+//{
+//	position->setPosition(x, y);
+//	if(isSpriteSheet)
+//		spriteSheet.getSprite().setPosition(
+//			position->getPosition().x,
+//			position->getPosition().y);
+//	else
+//		sprite.setPosition(
+//			position->getPosition().x,
+//			position->getPosition().y);
+//}	
 
 
-const sf::Vector2f& Entity::getSpriteScale() const
-{
-	if (isSpriteSheet)
-	{
-		return spriteSheet.getSpriteScale();
-	}
-
-	return sprite.getScale();
-}
-
-sf::Vector2i Entity::getTextureSize() const
-{
-	if (isSpriteSheet)
-	{
-		return spriteSheet.getSpriteSize();
-	}
-
-	return { static_cast<int>(texture.getSize().x), static_cast<int>(texture.getSize().y) };
-}
+//const sf::Vector2f& Entity::getSpriteScale() const
+//{
+//	if (isSpriteSheet)
+//	{
+//		return spriteSheet.getSpriteScale();
+//	}
+//
+//	return sprite.getScale();
+//}
+//
+//sf::Vector2i Entity::getTextureSize() const
+//{
+//	if (isSpriteSheet)
+//	{
+//		return spriteSheet.getSpriteSize();
+//	}
+//
+//	return { static_cast<int>(texture.getSize().x), static_cast<int>(texture.getSize().y) };
+//}

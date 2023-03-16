@@ -42,7 +42,7 @@ public:
 	const sf::Vector2f& getSpriteScale() const;
 	sf::Vector2i getTextureSize() const;
 	EntityType getEntityType() const { return type; }
-	const SpriteSheet* getSpriteSheet() const { return &spriteSheet; }
+	//SpriteSheet* getSpriteSheet() { return &graphicsPointer->getSpriteSheet(); }
 	bool isSpriteSheetEntity() const { return isSpriteSheet; }
 	
 	// X.C  Add two helper functions. One that returns the value of the deleted flag, another one that 
@@ -55,8 +55,6 @@ protected:
 	EntityType type;
 	EntityID id;
 
-	//Position and velocity
-	std::unique_ptr<PositionComponent> position;
 
 	//Collision
 	Rectangle boundingBox;
@@ -71,5 +69,7 @@ protected:
 	// X.A Add a bool member variable "deleted" to this class.
 	bool deleted;
 
+	//Position and velocity
+	std::unique_ptr<PositionComponent> position;
 	std::shared_ptr<GraphicsComponent> graphicsPointer;
 };
