@@ -145,7 +145,6 @@ void Player::addWood(int w)
 void Player::positionSprite(int row, int col, int spriteWH, float tileScale)
 {
 	sf::Vector2f scaleV2f = graphicsPointer->getSpriteScale();
-
 	sf::Vector2i textureSize = graphicsPointer->getTextureSize();
 
 	float x = col * spriteWH * tileScale;

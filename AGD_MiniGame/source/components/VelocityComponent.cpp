@@ -7,31 +7,11 @@
 
 void VelocityComponent::update(Entity& entity, float elapsedTime)
 {
-	if (entity.getEntityType() == EntityType::PLAYER)
+	if (entity.getEntityType() == EntityType::PLAYER || entity.getEntityType() == EntityType::FIRE)
 	{
-
-		Player& player = dynamic_cast<Player&>(entity);
-		player.setPosition(player.getPosition().x + (getVelocityDirection().x * speed * elapsedTime),
-			player.getPosition().y + (getVelocityDirection().y * speed * elapsedTime));
+		entity.position->setPosition(
+			entity.position->getPosition().x + (velocityDirection.x * speed * elapsedTime),
+			entity.position->getPosition().y + (velocityDirection.y * speed * elapsedTime)
+		);
 	}
-
-
-	
-
-	if (entity.getEntityType() == EntityType::FIRE)
-	{
-		Fire& fire = dynamic_cast<Fire&>(entity);
-		fire.setPosition(fire.getPosition().x + (getVelocityDirection().x * speed * elapsedTime),
-			fire.getPosition().y + (getVelocityDirection().y * speed * elapsedTime));
-	}
-	
-	
-
-
-	//std::cout << player.getVelocityComp()->getVelocityDirection().x << " " << player.getVelocityComp()->getVelocityDirection().y << std::endl;
-		
-	/*setPosition(
-		position->getPosition().x + (velocity.x * speed * elapsed),
-		position->getPosition().y + (velocity.y * speed * elapsed));*/
-
 }

@@ -50,6 +50,8 @@ public:
 	bool isDeleted() const { return deleted; }
 	void markDeleted() { deleted = true; }
 
+	std::unique_ptr<PositionComponent> position;
+
 protected:
 
 	EntityType type;
@@ -70,6 +72,5 @@ protected:
 	bool deleted;
 
 	//Position and velocity
-	std::unique_ptr<PositionComponent> position;
 	std::shared_ptr<GraphicsComponent> graphicsPointer;
 };
