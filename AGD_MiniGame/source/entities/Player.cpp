@@ -145,6 +145,7 @@ void Player::addWood(int w)
 void Player::positionSprite(int row, int col, int spriteWH, float tileScale)
 {
 	sf::Vector2f scaleV2f = graphicsPointer->getSpriteScale();
+
 	sf::Vector2i textureSize = graphicsPointer->getTextureSize();
 
 	float x = col * spriteWH * tileScale;
@@ -153,6 +154,8 @@ void Player::positionSprite(int row, int col, int spriteWH, float tileScale)
 	float cntrFactorY = ((spriteWH * tileScale) - spriteSizeY);	// to align to lower side of the tile.
 	float cntrFactorX = cntrFactorY * 0.5f;						//to center horizontally
 
+	std::cout << x + cntrFactorX << y + cntrFactorY << std::endl;
+
 	setPosition(x + cntrFactorX, y + cntrFactorY);
-	velocity->setVelocityDirection(0.f, 0.f);
+	//velocity->setVelocityDirection(0.f, 0.f);
 }

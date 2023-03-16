@@ -124,9 +124,14 @@ Vector2f Entity::getPosition() // still being used by bounding box
 
 void Entity::setPosition(float x, float y)
 {
-	//position->setPosition(x, y);
+	position->setPosition(x, y);
 	/*Vector2f pos = getPosition();
-	graphicsPointer->setPosition(pos);*/
+	std::cout << pos.x << pos.y << std::endl;
+
+	if (graphicsPointer)
+	{
+		graphicsPointer->setPosition(pos);
+	}*/
 	/*if( graphicsPointer )
 		graphicsPointer->getSpriteSheet()->getSprite().setPosition(
 			position->getPosition().x,

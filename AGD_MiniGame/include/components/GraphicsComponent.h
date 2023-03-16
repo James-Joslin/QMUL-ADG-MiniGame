@@ -73,14 +73,7 @@ class SpriteSheetGraphics : public GraphicsComponent
 public:
 	void init(const std::string& textureFile, float scale) override; // in Graphics Components cpp // will return an exception
 	void initSpriteSheet(const std::string& spriteSheetFile) override; // in Graphics Components cpp
-	sf::Vector2i getTextureSize() override 
-	{
-		auto x = spriteSheet.getSprite().getTexture()->getSize().x;
-		auto y = spriteSheet.getSprite().getTexture()->getSize().y;
-
-		return sf::Vector2i(static_cast<int>(x), static_cast<int>(y));
-
-	}
+	sf::Vector2i getTextureSize() override { return spriteSheet.getSpriteSize(); }
 	sf::Vector2i getSpriteSize() override { return spriteSheet.getSpriteSize(); }
 	sf::Vector2f getScale() override 
 	{

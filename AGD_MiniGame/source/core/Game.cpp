@@ -136,6 +136,8 @@ void Game::init(std::vector<std::string> lines)
 				// IV.B (3/4): Call the function that positions the sprite of the player in the board (Player::positionSprite). 
 				//			   Parameters are the row and column where this object goes in the board, the sprite width and height (const int Game::spriteWH) 
 				//			   and the scale for the tiles (const float Game::tileScale)
+				std::cout << row << " " << col << " " << spriteWH << " " << tileScale << std::endl;
+
 				player->positionSprite(row,col,spriteWH,tileScale); // custom location?
 
 				// IV.B (4/4): Call our function to add an entity to a game passing the player that has just been created.
