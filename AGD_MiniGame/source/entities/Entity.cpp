@@ -8,7 +8,7 @@
 
 Entity::Entity() :
 	position(std::make_unique<PositionComponent>()),
-	isSpriteSheet(false),
+	isSpriteSheet(true),
 	id(0),
 	type(EntityType::UNDEFINED),
 	// X.B (1/2) Add the initialization the deleted flag to false
@@ -17,7 +17,7 @@ Entity::Entity() :
 
 Entity::Entity(EntityType et) : 
 	position( std::make_unique<PositionComponent>()),
-	isSpriteSheet(false),
+	isSpriteSheet(true),
 	id(0),
 	type (et),
 	// X.B (2/2) Add the initialization the deleted flag to false
@@ -126,7 +126,7 @@ void Entity::setPosition(float x, float y)
 	position->setPosition(x, y);
 	Vector2f pos = getPosition();
 	std::cout << pos.x << pos.y << std::endl;
-	/*graphicsPointer->setPosition(pos);*/
+	// graphicsPointer->setPosition(pos);  <- this just returns a null pointer, so we're setting location via update - tabbed out update functions for objects in staticEntities.h
 
 	//if (graphicsPointer)
 	//{

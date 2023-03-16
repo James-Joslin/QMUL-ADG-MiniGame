@@ -20,7 +20,6 @@ public:
 	virtual sf::Vector2f getScale() = 0; // gets texture scale
 	virtual sf::Vector2f getSpriteScale() = 0; // gets sprite scale (out of sprite sheet)
 	virtual void draw(Window* window) = 0;
-	//virtual const Vector2f getPosition(std::unique_ptr<PositionComponent> _positionComponent) = 0;
 	virtual void setPosition(Vector2f position) = 0;
 	virtual void setAnimation(const std::string& name, bool play, bool loop) = 0;
 	virtual Direction getSpriteDirection() = 0;
@@ -49,10 +48,6 @@ public:
 			"You are calling a function that would get a sprite's scale from a sprite sheet, however this is a singular sprite and therefore doesn't have a sprite sheet\nYou should be calling getScale()");
 	}
 	virtual void draw(Window* window) override; // in Graphics Components cpp
-	//virtual const Vector2f getPosition(std::unique_ptr<PositionComponent> _positionComponent) override 
-	//{
-	//	return _positionComponent->getPosition();
-	//}
 	virtual void setPosition(Vector2f position) override;
 	void setAnimation(const std::string& name, bool play, bool loop) override {}
 	void setSpriteDirection(Direction direction) override {}
@@ -82,10 +77,6 @@ public:
 	}
 	sf::Vector2f getSpriteScale() override { return spriteSheet.getSpriteScale(); }
 	virtual void draw(Window* window) override; // in Graphics Components cpp
-	//virtual const Vector2f getPosition(std::unique_ptr<PositionComponent> _positionComponent) override
-	//{
-	//	return _positionComponent->getPosition();
-	//}
 	void setPosition(Vector2f position) override;
 	void setAnimation(const std::string& name, bool play, bool loop) override;
 	void setSpriteDirection(Direction direction) override;

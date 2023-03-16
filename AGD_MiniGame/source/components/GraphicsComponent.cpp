@@ -77,15 +77,10 @@ void SpriteSheetGraphics::setSpriteDirection(Direction direction)
 
 void SpriteSheetGraphics::update(Game* game, float elapsed, Vector2f position)
 {
-	if (isSpriteSheet) // <- Needs to go into graphicsPointer->Update()
-	{
-		spriteSheet.setSpritePosition(sf::Vector2f(position.x, position.y));
-		spriteSheet.update(elapsed);
-	}
-	else // <- Needs to go into graphicsPointer->Update()
-	{
-		throw std::exception("SpriteGraphic being processed in SpriteSheetGraphics class");
-	}
+
+	spriteSheet.setSpritePosition(sf::Vector2f(position.x, position.y));
+	spriteSheet.update(elapsed);
+	
 }
 
 void SpriteGraphics::update(Game* game, float elapsed, Vector2f position)

@@ -20,7 +20,7 @@ public:
 		boundingBox.setTopLeft(
 			bboxLocation
 		);
-		boundingBox.setBottomRight(
+		boundingBox.setBottomRight( 
 			Vector2f(
 				(bboxLocation.x + bboxSize.x),
 				(bboxLocation.y + bboxSize.y)
