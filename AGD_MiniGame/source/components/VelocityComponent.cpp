@@ -13,6 +13,8 @@ void VelocityComponent::update(Entity& entity, float elapsedTime)
 			player.getPosition().y + (getVelocityDirection().y * speed * elapsedTime));
 	}
 
+	
+
 	if (entity.getEntityType() == EntityType::FIRE)
 	{
 		Fire& fire = dynamic_cast<Fire&>(entity);
