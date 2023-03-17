@@ -67,20 +67,14 @@ void Entity::update(Game* game, float elapsed)
 	//		   Set the top left corner of this rectangle to the position of this entity.
 	//		   Set the bottom right corner of this rectangle to the position+bboxSize coordinates.
 	
-	if (isSpriteSheet) // bounding box stuff handled by collision component?
+	
+	//Rectangle& bbox = getBoundingBox();
+	if (type == EntityType::PLAYER)
 	{
-		//Rectangle& bbox = getBoundingBox();
-		if (type != EntityType::FIRE)
-		{
-			collider->getBoundingBox().setTopLeft(getPosition());
-			collider->getBoundingBox().setBottomRight(Vector2f((getPosition().x + collider->getBboxSize().x), (getPosition().y + collider->getBboxSize().y)));
-
-		}
-		
+		collider->setBoundingBoxLocation(getPosition()); // entitiy getPosition calls position-> getPosition
 	}
-}
 
-
+}	
 
 void Entity::draw(Window* window)
 {
@@ -114,10 +108,11 @@ void Entity::init(const std::string& textureFile, float scale, std::shared_ptr<G
 		graphicsPointer->getTextureSize().x * graphicsPointer->getScale().x,
 		graphicsPointer->getTextureSize().y * graphicsPointer->getScale().y);
 
-	
-	collider = std::make_shared<ColliderComponent>();
-	collider->setBboxSize(bboxSize);
-	
+	if (type != EntityType::FIRE)
+	{
+		collider = std::make_shared<ColliderComponent>();
+		collider->setBboxSize(bboxSize);
+	}
 }
 
 void Entity::initSpriteSheet(const std::string& spriteSheetFile)
@@ -130,11 +125,8 @@ void Entity::initSpriteSheet(const std::string& spriteSheetFile)
 		graphicsPointer->getSpriteSize().x * graphicsPointer->getSpriteScale().x,
 		graphicsPointer->getSpriteSize().y * graphicsPointer->getSpriteScale().y);
 
-	if (type != EntityType::FIRE)
-	{
-		collider = std::make_shared<ColliderComponent>();
-		collider->setBboxSize(bboxSize);
-	}
+	collider = std::make_shared<ColliderComponent>();
+	collider->setBboxSize(bboxSize);
 }
 
 Vector2f Entity::getPosition() // still being used by bounding box
