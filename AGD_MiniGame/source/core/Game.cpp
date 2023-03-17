@@ -20,7 +20,6 @@ Game::~Game()
 template <typename T>
 std::shared_ptr<T> Game::buildEntityAt(const std::string& filename, int col, int row, std::shared_ptr<GraphicsComponent> graphicsComponentPointer)
 {
-
 	auto ent = std::make_shared<T>();
 	float x = col * spriteWH * tileScale;
 	float y = row * spriteWH * tileScale;
@@ -216,49 +215,56 @@ void Game::update(float elapsed)
 		if ((*it) != player) {
 			// IX.D: (Inside the loop) Once you have a different entity to player, retrieve it's bounding box
 			// and check if they intersect.
-			auto playerBbox = player->getBoundingBox();
-			auto entBbox = (*it)->getBoundingBox();
-			if (playerBbox.intersects(entBbox))
+			if((*it)->getEntityType() != EntityType::FIRE)
 			{
-				// IX.E (if there is an intesection) Write a switch statement that determines the type of the object (which you
-				// can retrieve with getEntityType()) we are colliding with. For each case, add a console print out that 
-				// says what are you colliding with.
+				auto playerBbox = player->getBoundingBox();
+				auto entBbox = (*it)->getBoundingBox();
 
-				auto entType = (*it)->getEntityType();
-
-				Potion* potion = nullptr;
-				Log* log = nullptr;
-
-				int healthRestore = 0;
-				int numWood = 0;
-
-				switch (entType)
+				if (playerBbox.intersects(entBbox))
 				{
-				case EntityType::POTION:
-					// IX.F: This is a potion
-					potion = dynamic_cast<Potion*>((*it).get());
-					healthRestore = potion->getHealth();
-					player->getHealthComp()->changeHealth(healthRestore);
-					(*it)->markDeleted();
-					std::cout << "Collide with potion (health restored: " << healthRestore << ", player health: " << player->getHealthComp()->getHealth() << ")" << std::endl;
-					break;
+					// IX.E (if there is an intesection) Write a switch statement that determines the type of the object (which you
+					// can retrieve with getEntityType()) we are colliding with. For each case, add a console print out that 
+					// says what are you colliding with.
 
-				case EntityType::LOG:
-					if (player->isAttacking() && player->getSpriteSheet()->getCurrentAnim()->isInAction()) // check this
+					auto entType = (*it)->getEntityType();
+
+					Potion* potion = nullptr;
+					Log* log = nullptr;
+
+					int healthRestore = 0;
+					int numWood = 0;
+
+					switch (entType)
 					{
-						// IX.G: This is a log
-						log = dynamic_cast<Log*>((*it).get());
-						numWood = log->getWood();
-						player->addWood(numWood);
+					case EntityType::POTION:
+						// IX.F: This is a potion
+						potion = dynamic_cast<Potion*>((*it).get());
+						healthRestore = potion->getHealth();
+						player->getHealthComp()->changeHealth(healthRestore);
 						(*it)->markDeleted();
-						std::cout << "Collide with wood (Wood collected: " << numWood << ", Total Player Wood: " << player->getWood() << ")" << std::endl;
+						std::cout << "Collide with potion (health restored: " << healthRestore << ", player health: " << player->getHealthComp()->getHealth() << ")" << std::endl;
+						break;
+
+					case EntityType::LOG:
+						if (player->isAttacking() && player->getSpriteSheet()->getCurrentAnim()->isInAction()) // check this
+						{
+							// IX.G: This is a log
+							log = dynamic_cast<Log*>((*it).get());
+							numWood = log->getWood();
+							player->addWood(numWood);
+							(*it)->markDeleted();
+							std::cout << "Collide with wood (Wood collected: " << numWood << ", Total Player Wood: " << player->getWood() << ")" << std::endl;
+							break;
+						}
+
+					default:
 						break;
 					}
-
-				default:
-					break;
 				}
 			}
+
+			
+			
 		}
 		it++;
 	}

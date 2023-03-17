@@ -8,6 +8,7 @@
 
 Entity::Entity() :
 	position(std::make_unique<PositionComponent>()),
+	collider(nullptr),
 	isSpriteSheet(true),
 	id(0),
 	type(EntityType::UNDEFINED),
@@ -17,6 +18,7 @@ Entity::Entity() :
 
 Entity::Entity(EntityType et) : 
 	position( std::make_unique<PositionComponent>()),
+	collider(nullptr),
 	isSpriteSheet(true),
 	id(0),
 	type (et),
@@ -68,9 +70,13 @@ void Entity::update(Game* game, float elapsed)
 	if (isSpriteSheet) // bounding box stuff handled by collision component?
 	{
 		//Rectangle& bbox = getBoundingBox();
+		if (type != EntityType::FIRE)
+		{
+			collider->getBoundingBox().setTopLeft(getPosition());
+			collider->getBoundingBox().setBottomRight(Vector2f((getPosition().x + collider->getBboxSize().x), (getPosition().y + collider->getBboxSize().y)));
 
-		boundingBox.setTopLeft(getPosition());
-		boundingBox.setBottomRight(Vector2f((getPosition().x + bboxSize.x), (getPosition().y + bboxSize.y)));
+		}
+		
 	}
 }
 
@@ -78,8 +84,8 @@ void Entity::update(Game* game, float elapsed)
 
 void Entity::draw(Window* window)
 {
+	
 	graphicsPointer->draw(window); // or should the draw still be in the entity class?
-
 	//if (isSpriteSheet)
 	//{
 	//	sf::Sprite* sp = &spriteSheet.getSprite();
@@ -90,7 +96,11 @@ void Entity::draw(Window* window)
 	//	window->draw(sprite); 
 
 	// VIII.B Draw the bounding box by retrieving a drawable rect from the bounding box Rectangle.
-	window->draw(boundingBox.getDrawableRect());
+	if (type != EntityType::FIRE)
+	{
+		collider->draw(window);
+	}
+		
 }
 
 void Entity::init(const std::string& textureFile, float scale, std::shared_ptr<GraphicsComponent> _graphicsPointer)
@@ -100,9 +110,14 @@ void Entity::init(const std::string& textureFile, float scale, std::shared_ptr<G
 	//texture.loadFromFile(textureFile);
 	//sprite.setTexture(texture);
 	//sprite.setScale(scale, scale);
-	bboxSize = Vector2f(
+	Vector2f bboxSize = Vector2f(
 		graphicsPointer->getTextureSize().x * graphicsPointer->getScale().x,
 		graphicsPointer->getTextureSize().y * graphicsPointer->getScale().y);
+
+	
+	collider = std::make_shared<ColliderComponent>();
+	collider->setBboxSize(bboxSize);
+	
 }
 
 void Entity::initSpriteSheet(const std::string& spriteSheetFile)
@@ -111,9 +126,15 @@ void Entity::initSpriteSheet(const std::string& spriteSheetFile)
 	/*spriteSheet.loadSheet(spriteSheetFile);
 	isSpriteSheet = true;
 	spriteSheet.setAnimation("Idle", true, true);*/
-	bboxSize = Vector2f(
+	Vector2f bboxSize = Vector2f(
 		graphicsPointer->getSpriteSize().x * graphicsPointer->getSpriteScale().x,
 		graphicsPointer->getSpriteSize().y * graphicsPointer->getSpriteScale().y);
+
+	if (type != EntityType::FIRE)
+	{
+		collider = std::make_shared<ColliderComponent>();
+		collider->setBboxSize(bboxSize);
+	}
 }
 
 Vector2f Entity::getPosition() // still being used by bounding box

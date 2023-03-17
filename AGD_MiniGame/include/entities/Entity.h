@@ -3,6 +3,8 @@
 #include "../utils/Rectangle.h"
 #include "../../include/components/GraphicsComponent.h"
 #include <memory>
+#include "../components/ColliderComponent.h"
+
 
 class PositionComponent;
 
@@ -38,7 +40,7 @@ public:
 	EntityID getID() const { return id; }
 	void setPosition(float x, float y) ;
 	Vector2f getPosition();
-	Rectangle& getBoundingBox() { return boundingBox; };
+	Rectangle& getBoundingBox() { 	return collider->getBoundingBox();	};
 	//const sf::Vector2f& getSpriteScale() const;
 //	sf::Vector2i getTextureSize() const;
 	EntityType getEntityType() const { return type; }
@@ -52,6 +54,7 @@ public:
 
 	std::unique_ptr<PositionComponent> position;
 	std::shared_ptr<GraphicsComponent> graphicsPointer;
+	std::shared_ptr<ColliderComponent> collider;
 
 protected:
 
@@ -60,8 +63,8 @@ protected:
 
 
 	//Collision
-	Rectangle boundingBox;
-	Vector2f bboxSize;
+	/*Rectangle boundingBox;
+	Vector2f bboxSize;*/
 
 	//Graphics-related variables.
 	bool isSpriteSheet;
