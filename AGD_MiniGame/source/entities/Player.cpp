@@ -7,6 +7,7 @@
 #include "../../include/components/InputComponent.h"
 #include "../../include/components/PositionComponent.h"
 #include "../../include/components/GraphicsComponent.h"
+//#include "../../include/components/LogicComponent.h"
 #include <iostream>
 
 
@@ -16,6 +17,7 @@ Player::Player() : Entity(EntityType::PLAYER), attacking(false), shouting(false)
 	playerInputPointer = std::make_unique<PlayerInputComponent>();
 	healthComponentPointer = std::make_shared<HealthComponent>(startingHealth, maxHealth);
 	velocity = std::make_shared<VelocityComponent>(playerSpeed);
+	//logicComponent
 }
 
 Player::~Player() {}

@@ -71,7 +71,7 @@ void Entity::update(Game* game, float elapsed)
 	//Rectangle& bbox = getBoundingBox();
 	if (type == EntityType::PLAYER)
 	{
-		collider->setBoundingBoxLocation(getPosition()); // entitiy getPosition calls position-> getPosition
+		collider->update(getPosition()); // entitiy getPosition calls position-> getPosition
 	}
 
 }	

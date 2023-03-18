@@ -40,9 +40,9 @@ public:
 	EntityID getID() const { return id; }
 	void setPosition(float x, float y) ;
 	Vector2f getPosition();
-	Rectangle& getBoundingBox() { 	return collider->getBoundingBox();	};
+	//Rectangle& getBoundingBox() { 	return collider->getBoundingBox();	};
 	//const sf::Vector2f& getSpriteScale() const;
-//	sf::Vector2i getTextureSize() const;
+	//sf::Vector2i getTextureSize() const;
 	EntityType getEntityType() const { return type; }
 	SpriteSheet* getSpriteSheet() { return graphicsPointer->getSpriteSheet(); }
 	bool isSpriteSheetEntity() const { return isSpriteSheet; }
@@ -55,6 +55,8 @@ public:
 	std::unique_ptr<PositionComponent> position;
 	std::shared_ptr<GraphicsComponent> graphicsPointer;
 	std::shared_ptr<ColliderComponent> collider;
+
+	std::shared_ptr<ColliderComponent> getColliderComponent() { return collider; }
 
 protected:
 

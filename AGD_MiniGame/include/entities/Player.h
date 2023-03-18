@@ -2,10 +2,11 @@
 #include "Entity.h"
 #include "../components/HealthComponent.h"
 #include "../components/VelocityComponent.h"
-
+#include "../components/LogicComponent.h"
 
 class Fire;
 class InputComponent;
+//class LogicComponent;
 
 // VI.A (2/2): Add a forward declaration to the class PlayerInputHandler
 class PlayerInputHandler;
@@ -47,6 +48,8 @@ public:
 
 	void setGraphicsPointer(std::shared_ptr<GraphicsComponent> _graphicsPointer) { graphicsPointer = _graphicsPointer; }
 
+	bool intersects(Entity& other) { return collider->intersects(other.getColliderComponent().get()->getBoundingBox()); }
+
 private:
 
 	std::shared_ptr<Fire> createFire() const;
@@ -62,5 +65,6 @@ private:
 	std::unique_ptr<InputComponent> playerInputPointer;
 	std::shared_ptr<HealthComponent> healthComponentPointer;
 	std::shared_ptr<VelocityComponent> velocity;
+
 };
 
