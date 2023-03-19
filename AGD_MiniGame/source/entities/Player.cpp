@@ -7,7 +7,7 @@
 #include "../../include/components/InputComponent.h"
 #include "../../include/components/PositionComponent.h"
 #include "../../include/components/GraphicsComponent.h"
-//#include "../../include/components/LogicComponent.h"
+#include "../../include/components/LogicComponent.h"
 #include <iostream>
 
 
@@ -17,24 +17,26 @@ Player::Player() : Entity(EntityType::PLAYER), attacking(false), shouting(false)
 	playerInputPointer = std::make_unique<PlayerInputComponent>();
 	healthComponentPointer = std::make_shared<HealthComponent>(startingHealth, maxHealth);
 	velocity = std::make_shared<VelocityComponent>(playerSpeed);
-	//logicComponent
+	state = std::make_unique<PlayerStateComponent>();
 }
 
 Player::~Player() {}
 
 void Player::update(Game* game, float elapsed)
 {
+	// velocity update
 	velocity->update(*this, elapsed);
-		// VI.G Modify the code below to add the functionality to play the appropriate animations 
-		//      and set the appropriate directions for movement depending on the  value of the
-		//      velocity vector for moving up, down and left.
+	// collider update if player spritesheet - no point in updating collider position if the entity doesn't move
+	if (type == EntityType::PLAYER)
+	{
+		collider->update(getPosition()); // entitiy getPosition calls position-> getPosition
+	}
+	//graphics update
+	graphicsPointer->update(game, elapsed, getPosition()); // hasn't been implemented yet
+	// state update
+	state->update(*this, game, elapsed);
 
-
-		// VI.F (1/2) If the X component of the velocity vector is positive, we're moving to the right.
-		//            Set the animation of the spritesheet to "Walk". Mind the parameters required for the
-		//			  animation: if it should start playing and if it should loop.
-		//			  Additionally, you must also set the sprite direction (to Direction::Right) of the spritesheet.
-	if (velocity->getVelocityDirection().x > 0)
+	/*if (velocity->getVelocityDirection().x > 0)
 	{
 		graphicsPointer->setAnimation("Walk", true, true);
 		graphicsPointer->setSpriteDirection(Direction::Right);
@@ -56,7 +58,6 @@ void Player::update(Game* game, float elapsed)
 		graphicsPointer->setAnimation("Walk", true, true);
 	}
 
-	// VI.F (2/2) If the player is not moving, we must get back to playing the "Idle" animation.
 	if (velocity->getVelocityDirection().x == 0 && velocity->getVelocityDirection().y == 0 && !attacking && !shouting)
 	{
 		graphicsPointer->setAnimation("Idle", true, true);
@@ -70,19 +71,28 @@ void Player::update(Game* game, float elapsed)
 	if (shouting)
 	{
 		graphicsPointer->setAnimation("Shout", true, false);
-	}
+	}*/
 
+		// VI.G Modify the code below to add the functionality to play the appropriate animations 
+		//      and set the appropriate directions for movement depending on the  value of the
+		//      velocity vector for moving up, down and left.
+
+
+		// VI.F (1/2) If the X component of the velocity vector is positive, we're moving to the right.
+		//            Set the animation of the spritesheet to "Walk". Mind the parameters required for the
+		//			  animation: if it should start playing and if it should loop.
+		//			  Additionally, you must also set the sprite direction (to Direction::Right) of the spritesheet.
 	
 	
 	// IV.D (1/2) Call the function update in the base class to do the general update stuff that is common to all entities.
-	Entity::update(game, elapsed);
+	//Entity::update(game, elapsed);
 
 	// XI.B (2/2):  Reduce the shoot cooldown counter by the elapsed time at every frame. 
 	//              Only do this if shoot cooldown is > 0 (can you guess why?)
-	if (shootCooldown > 0)
-	{
-		shootCooldown = shootCooldown - elapsed;
-	}
+	//if (shootCooldown > 0)
+	//{
+	//	shootCooldown = shootCooldown - elapsed;
+	//}
 
 	// XI.A: Create an Fire entity object (using Player::createFire()) and add it to the game (using Game::addEntity).
 	//       Then, remove the shooting cost (Player::shootingCost) from the wood member variable of this class
@@ -90,30 +100,30 @@ void Player::update(Game* game, float elapsed)
 	//            1) We are playing the shouting animation
 	//			  2) The animation is in one of the "in action" frames.
 	//			  3) We have enough wood "ammunition" (variable wood and shootingCost)
-	if (
-		shouting && getSpriteSheet()->getCurrentAnim()->isInAction() // graphics component - function for returning spritesheet animation?
-		&& 
-		wood >= shootingCost && shootCooldown <= 0
-	)
-	{
-		game->addEntity(
-			createFire()
-		);
-		wood = getWood() - shootingCost;
-		
-		// XI.B (1/2): Set the variable shootCooldown to the cooldown time (defined in shootCooldownTime).
-		//        Add another condition to the shooting IF statement that only allows shoowing if shootCooldown <= 0.
+	//if (
+	//	shouting && getSpriteSheet()->getCurrentAnim()->isInAction() // graphics component - function for returning spritesheet animation?
+	//	&& 
+	//	wood >= shootingCost && shootCooldown <= 0
+	//)
+	//{
+	//	game->addEntity(
+	//		createFire()
+	//	);
+	//	wood = getWood() - shootingCost;
+	//	
+	//	// XI.B (1/2): Set the variable shootCooldown to the cooldown time (defined in shootCooldownTime).
+	//	//        Add another condition to the shooting IF statement that only allows shoowing if shootCooldown <= 0.
 
-		shootCooldown = shootCooldownTime;
-	}
+	//	shootCooldown = shootCooldownTime;
+	//}
 
-	// VII.B: If we are attacking but the current animation is no longer playing, set the attacking flag to false.
-	//        The same needs to be done for "shouting".
-	if (!getSpriteSheet()->getCurrentAnim()->isPlaying())
-	{
-		setAttacking(false);
-		setShouting(false);
-	}
+	//// VII.B: If we are attacking but the current animation is no longer playing, set the attacking flag to false.
+	////        The same needs to be done for "shouting".
+	//if (!getSpriteSheet()->getCurrentAnim()->isPlaying())
+	//{
+	//	setAttacking(false);
+	//	setShouting(false);
+	//}
 }
 
 
@@ -138,9 +148,7 @@ std::shared_ptr<Fire> Player::createFire() const
 
 void Player::addWood(int w)
 {
-	wood += w;
-	if (wood > maxWood) wood = maxWood;
-	if (wood < 0) wood = 0;
+	state->addWood(*this, w);
 }
 
 
