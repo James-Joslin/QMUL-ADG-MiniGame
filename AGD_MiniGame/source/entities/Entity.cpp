@@ -69,11 +69,10 @@ void Entity::update(Game* game, float elapsed)
 	
 	
 	//Rectangle& bbox = getBoundingBox();
-	if (type == EntityType::PLAYER)
+	if (type != EntityType::FIRE)
 	{
 		collider->update(getPosition()); // entitiy getPosition calls position-> getPosition
 	}
-
 }	
 
 void Entity::draw(Window* window)
