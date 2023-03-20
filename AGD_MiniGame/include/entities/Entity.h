@@ -30,7 +30,7 @@ public:
 	~Entity();
 
 	//Init and update functions
-	virtual void init(const std::string& textureFile, float scale, std::shared_ptr<GraphicsComponent> _graphicsPointer);
+	virtual void init(const std::string& textureFile, float scale, std::shared_ptr<GraphicsComponent> _graphics);
 	void initSpriteSheet(const std::string& spriteSheetFile);
 	virtual void update(Game* game, float elapsed = 1.0f);
 	void draw(Window* window);
@@ -44,7 +44,7 @@ public:
 	//const sf::Vector2f& getSpriteScale() const;
 	//sf::Vector2i getTextureSize() const;
 	EntityType getEntityType() const { return type; }
-	SpriteSheet* getSpriteSheet() { return graphicsPointer->getSpriteSheet(); }
+	SpriteSheet* getSpriteSheet() { return graphics->getSpriteSheet(); }
 	bool isSpriteSheetEntity() const { return isSpriteSheet; }
 	
 	// X.C  Add two helper functions. One that returns the value of the deleted flag, another one that 
@@ -53,7 +53,7 @@ public:
 	void markDeleted() { deleted = true; }
 
 	std::unique_ptr<PositionComponent> position;
-	std::shared_ptr<GraphicsComponent> graphicsPointer;
+	std::shared_ptr<GraphicsComponent> graphics;
 	std::shared_ptr<ColliderComponent> collider;
 
 	std::shared_ptr<ColliderComponent> getColliderComponent() { return collider; }

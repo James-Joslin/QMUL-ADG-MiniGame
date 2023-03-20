@@ -14,62 +14,58 @@ void PlayerStateComponent::update(Entity& entity, Game* game, float elapsed)
 			attacking = player->isAttacking();
 			shouting = player->isShouting();
 
-			if (player->getVelocityComp()->getVelocityDirection().x > 0)
-			{
-				player->graphicsPointer->setAnimation("Walk", true, true);
-				player->graphicsPointer->setSpriteDirection(Direction::Right);
-			}
-
-			if (player->getVelocityComp()->getVelocityDirection().y > 0)
-			{
-				player->graphicsPointer->setAnimation("Walk", true, true);
-			}
-
-			if (player->getVelocityComp()->getVelocityDirection().x < 0)
-			{
-				player->graphicsPointer->setAnimation("Walk", true, true);
-				player->graphicsPointer->setSpriteDirection(Direction::Left);
-			}
-
-			if (player->getVelocityComp()->getVelocityDirection().y < 0)
-			{
-				player->graphicsPointer->setAnimation("Walk", true, true);
-			}
-
-			if (player->getVelocityComp()->getVelocityDirection().x == 0 && player->getVelocityComp()->getVelocityDirection().y == 0 && !attacking && !shouting)
-			{
-				player->graphicsPointer->setAnimation("Idle", true, true);
-			}
-
 			if (attacking)
 			{
-				player->graphicsPointer->setAnimation("Attack", true, false);
+				player->graphics->setAnimation("Attack", true, false);
 			}
 
-			if (shouting)
+			else if (shouting)
 			{
-				player->graphicsPointer->setAnimation("Shout", true, false);
+				player->graphics->setAnimation("Shout", true, false);
 			}
 
-			// Logic for shooting a fireball
+			else
+			{
+				if (player->getVelocityComp()->getVelocityDirection().x > 0)
+				{
+					player->graphics->setAnimation("Walk", true, true);
+					player->graphics->setSpriteDirection(Direction::Right);
+				}
+
+				else if (player->getVelocityComp()->getVelocityDirection().x < 0)
+				{
+					player->graphics->setAnimation("Walk", true, true);
+					player->graphics->setSpriteDirection(Direction::Left);
+				}
+
+				else if (player->getVelocityComp()->getVelocityDirection().x == 0 && player->getVelocityComp()->getVelocityDirection().y == 0 && !attacking && !shouting)
+				{
+					player->graphics->setAnimation("Idle", true, true);
+				}
+
+				else if (player->getVelocityComp()->getVelocityDirection().y != 0)
+				{
+					player->graphics->setAnimation("Walk", true, true);
+				}
+			}
+
 			if (shootCooldown > 0)
 			{
 				shootCooldown = shootCooldown - elapsed;
 			}
-			if
-			(
-				shouting && player->graphicsPointer->getSpriteSheet()->getCurrentAnim()->isInAction() && wood >= player->shootingCost && shootCooldown <= 0
-			)
+			if (shouting && player->graphics->getSpriteSheet()->getCurrentAnim()->isInAction() && wood >= player->shootingCost && shootCooldown <= 0)
 			{
-				game->addEntity(
-					player->createFire()
-				);
+				game->addEntity(player->createFire());
 				wood = wood - player->shootingCost;
 				shootCooldown = player->shootCooldownTime;
 			}
-			if (!player->getSpriteSheet()->getCurrentAnim()->isPlaying())
+			
+			if (attacking && player->graphics->getSpriteSheet()->getCurrentAnim()->isPlaying() == false)
 			{
 				player->setAttacking(false);
+			}
+			if (shouting && player->graphics->getSpriteSheet()->getCurrentAnim()->isPlaying() == false)
+			{
 				player->setShouting(false);
 			}
 		}

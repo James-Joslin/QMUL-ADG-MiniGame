@@ -170,24 +170,25 @@ void Game::handleInput()
 {
 	// V.C: Call the fucntion that handles the input for the game and retrieve the command returned in a variable.
 	//      Then, call the "execute" method of the returned object to run this command.
-	std::shared_ptr<Command> commandPointer = inputHandler->handleInput();
+	std::shared_ptr<Command> command = inputHandler->handleInput();
 
-	if (commandPointer) {
+	if (command) {
 		// handle non-null pointer case
-		commandPointer->execute(*this);
+		command->execute(*this);
 	}
 	
 	// V.D: Call the function handleInput on the player's object.
 	player->handleInput(*this);
-
-
 }
 
 
 void Game::update(float elapsed)
 {
 	// V.E Only update the game entities if the game is not paused.
-	if (isPaused()) { return; }
+	if (!isPaused())
+	{
+
+
 
 		// IV.C Use an STL iterator to run through all entities of the vector of entities of this class. Use a while loop. 
 		//      On each iteration, call the member function update from Entity, passing "this" game instance and the elapsed time.
@@ -196,99 +197,93 @@ void Game::update(float elapsed)
 		//        - end(): returns an iterator pointing at the last element.
 		//		  - (*it): returns the object pointed at by the iterator 'it'
 		//        - iterators override the operators ++ and -- for advancing them to their next and previous element, respectively.
-	
-	auto it = entities.begin();
-	while (it != entities.end())
-	{
-		// Call the update method on the current entity
-		(*it)->update(this, elapsed);
-		++it;
-	}
+
+		auto it = entities.begin();
+		while (it != entities.end())
+		{
+			// Call the update method on the current entity
+			(*it)->update(this, elapsed);
+			++it;
+		}
 		// Collisions block:
 
 	// IX.C: Retrieve a reference to the player's bounding box and run through all entities (using an itereator)  
 	//      in the game with a while loop. You don't need to check the player's bounding box to itself, 
 	//      so include a check that skips the player entity while looping through the entities vector.
-	it = entities.begin();
-	while (it != entities.end())
-	{
-		if ((*it) != player) {
-			// IX.D: (Inside the loop) Once you have a different entity to player, retrieve it's bounding box
-			// and check if they intersect.
-			if((*it)->getEntityType() != EntityType::FIRE)
-			{
-				/*auto playerBbox = player->getBoundingBox();
-				auto entBbox =*/
-
-				if (player->intersects(**it))
+		it = entities.begin();
+		while (it != entities.end())
+		{
+			if ((*it) != player) {
+				// IX.D: (Inside the loop) Once you have a different entity to player, retrieve it's bounding box
+				// and check if they intersect.
+				if ((*it)->getEntityType() != EntityType::FIRE)
 				{
-					// IX.E (if there is an intesection) Write a switch statement that determines the type of the object (which you
-					// can retrieve with getEntityType()) we are colliding with. For each case, add a console print out that 
-					// says what are you colliding with.
+					/*auto playerBbox = player->getBoundingBox();
+					auto entBbox =*/
 
-					auto entType = (*it)->getEntityType();
-
-					Potion* potion = nullptr;
-					Log* log = nullptr;
-
-					int healthRestore = 0;
-					int numWood = 0;
-
-					switch (entType)
+					if (player->intersects(**it))
 					{
-					case EntityType::POTION:
-						// IX.F: This is a potion
-						potion = dynamic_cast<Potion*>((*it).get());
-						healthRestore = potion->getHealth();
-						player->getHealthComp()->changeHealth(healthRestore);
-						(*it)->markDeleted();
-						std::cout << "Collide with potion (health restored: " << healthRestore << ", player health: " << player->getHealthComp()->getHealth() << ")" << std::endl;
-						break;
+						// IX.E (if there is an intesection) Write a switch statement that determines the type of the object (which you
+						// can retrieve with getEntityType()) we are colliding with. For each case, add a console print out that 
+						// says what are you colliding with.
 
-					case EntityType::LOG:
-						if (player->isAttacking() && player->getSpriteSheet()->getCurrentAnim()->isInAction()) // check this
+						auto entType = (*it)->getEntityType();
+
+						switch (entType)
 						{
-							// IX.G: This is a log
-							log = dynamic_cast<Log*>((*it).get());
-							numWood = log->getWood();
-							player->addWood(numWood);
+						case EntityType::POTION:
+						{
+							// IX.F: This is a potion
+							Potion* potion = dynamic_cast<Potion*>((*it).get());
+							int	healthRestore = potion->getHealth();
+							player->getHealthComp()->changeHealth(healthRestore);
 							(*it)->markDeleted();
-							std::cout << "Collide with wood (Wood collected: " << numWood << ", Total Player Wood: " << player->getWood() << ")" << std::endl;
+							std::cout << "Collide with potion (health restored: " << healthRestore << ", player health: " << player->getHealthComp()->getHealth() << ")" << std::endl;
 							break;
 						}
-
-					default:
-						break;
+						case EntityType::LOG:
+						{
+							if (player->isAttacking() && player->getSpriteSheet()->getCurrentAnim()->isInAction()) // check this
+							{
+								// IX.G: This is a log
+								Log* log = dynamic_cast<Log*>((*it).get());
+								int	numWood = log->getWood();
+								player->addWood(numWood);
+								(*it)->markDeleted();
+								std::cout << "Collide with wood (Wood collected: " << numWood << ", Total Player Wood: " << player->getWood() << ")" << std::endl;
+								break;
+							}
+						default:
+							break;
+						}
+						}
 					}
 				}
 			}
-
-			
-			
+			it++;
 		}
-		it++;
-	}
 
-	// X.D Write a loop that iterates through all entities and removes them from the vector of entities.
-	//     Use the function erase from std::vector, which receives an iterator. 
-	//     Q? Should you ALWAYS advance the iterator in this loop?
+		// X.D Write a loop that iterates through all entities and removes them from the vector of entities.
+		//     Use the function erase from std::vector, which receives an iterator. 
+		//     Q? Should you ALWAYS advance the iterator in this loop?
 
-	// Q: Yes, you should always advance the iterator in this loop when erasing elements from the vector, 
-	// to avoid invalidating the iterator and potentially causing undefined behavior. 
+		// Q: Yes, you should always advance the iterator in this loop when erasing elements from the vector, 
+		// to avoid invalidating the iterator and potentially causing undefined behavior. 
 
-	it = entities.begin();
-	while (it != entities.end())
-	{
-		if ((*it)->isDeleted())
+		it = entities.begin();
+		while (it != entities.end())
 		{
-			it = entities.erase(it);
+			if ((*it)->isDeleted())
+			{
+				it = entities.erase(it);
+			}
+			else
+			{
+				++it;
+			}
 		}
-		else
-		{
-			++it;
-		}
+		//Update the window for refreshing the graphics (leave this OUTSIDE the !paused block)
 	}
-	//Update the window for refreshing the graphics (leave this OUTSIDE the !paused block)
 	window.update();
 }
 

@@ -27,8 +27,4 @@ void Fire::update(Game* game, float elapsed)
 	{
 		deleted = true;
 	}
-
-	
-
-
 }

@@ -8,7 +8,7 @@
 
 PlayerInputComponent::PlayerInputComponent()
 {
-	playerInputPointer = std::make_unique<PlayerInputHandler>();
+	playerInput = std::make_unique<PlayerInputHandler>();
 }
 
 void PlayerInputComponent::update(Game& game) 
@@ -17,7 +17,7 @@ void PlayerInputComponent::update(Game& game)
 	v->setVelocityDirection(0.f, 0.f);
 
 	//game.getPlayer()->setVelocity(Vector2f(0, 0));
-	for (auto pointer : playerInputPointer->handleInput())
+	for (auto pointer : playerInput->handleInput())
 	{
 		if (pointer)
 		{

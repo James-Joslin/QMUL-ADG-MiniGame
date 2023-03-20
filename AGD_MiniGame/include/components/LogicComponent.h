@@ -17,6 +17,7 @@ class PlayerStateComponent : public LogicComponent
 {
 public:
 	void update(Entity& entity, Game* game, float elapsed) override;
+	
 	void addWood(Entity& entity, int w);
 
 private:

@@ -27,13 +27,8 @@ void Player::update(Game* game, float elapsed)
 	// velocity update
 	velocity->update(*this, elapsed);
 	// collider update if player spritesheet - no point in updating collider position if the entity doesn't move
-	if (type == EntityType::PLAYER)
-	{
-		collider->update(getPosition()); // entitiy getPosition calls position-> getPosition
-	}
-	//graphics update
-	graphicsPointer->update(game, elapsed, getPosition()); // hasn't been implemented yet
-	// state update
+	collider->update(getPosition()); // entitiy getPosition calls position-> getPosition
+	graphics->update(game, elapsed, getPosition()); // hasn't been implemented yet
 	state->update(*this, game, elapsed);
 
 	/*if (velocity->getVelocityDirection().x > 0)
@@ -136,11 +131,11 @@ std::shared_ptr<Fire> Player::createFire() const
 {
 	auto fireEntity = std::make_shared<Fire>();		
 
-	Vector2f pos { position->getPosition().x + graphicsPointer->getTextureSize().x * 0.5f, position->getPosition().y + graphicsPointer->getTextureSize().y * 0.5f };
+	Vector2f pos { position->getPosition().x + graphics->getTextureSize().x * 0.5f, position->getPosition().y + graphics->getTextureSize().y * 0.5f };
 	fireEntity->init("img/fire.png", 1.0f, std::make_shared<SpriteGraphics>());
 	fireEntity->setPosition(pos.x, pos.y);
 	Vector2f vel(fireSpeed, 0.f);
-	if (graphicsPointer->getSpriteDirection() == Direction::Left) vel.x = vel.x * -1.0f;
+	if (graphics->getSpriteDirection() == Direction::Left) vel.x = vel.x * -1.0f;
 	fireEntity->getVelocityPtr()->setVelocityDirection(vel.x, vel.y);
 
 	return fireEntity;
@@ -154,8 +149,8 @@ void Player::addWood(int w)
 
 void Player::positionSprite(int row, int col, int spriteWH, float tileScale)
 {
-	sf::Vector2f scaleV2f = graphicsPointer->getSpriteScale();
-	sf::Vector2i textureSize = graphicsPointer->getTextureSize();
+	sf::Vector2f scaleV2f = graphics->getSpriteScale();
+	sf::Vector2i textureSize = graphics->getTextureSize();
 
 	float x = col * spriteWH * tileScale;
 	float y = (row)*spriteWH * tileScale;

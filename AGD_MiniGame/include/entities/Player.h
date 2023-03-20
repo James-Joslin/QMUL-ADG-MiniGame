@@ -46,7 +46,7 @@ public:
 
 	void positionSprite(int row, int col, int spriteWH, float tileScale);
 
-	void setGraphicsPointer(std::shared_ptr<GraphicsComponent> _graphicsPointer) { graphicsPointer = _graphicsPointer; }
+	void setGraphicsPointer(std::shared_ptr<GraphicsComponent> _graphics) { graphics = _graphics; }
 
 	bool intersects(Entity& other) { return collider->intersects(other.getColliderComponent().get()->getBoundingBox()); }
 
