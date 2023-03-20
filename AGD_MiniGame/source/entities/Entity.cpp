@@ -66,12 +66,13 @@ void Entity::update(Game* game, float elapsed)
 	//		   Set the bottom right corner of this rectangle to the position+bboxSize coordinates.
 
 	// <FEEDBACK> Why if isSpreadSheet only? This should be applied in both cases.
+	// <Corrected> Removed if statements
 	
-		//Rectangle& bbox = getBoundingBox();
-		Vector2f bboxLocation = getPosition();
-		boundingBox.setTopLeft(bboxLocation); // <FEEDBACK> Why this weird indentation? Put it all in the same line, style needs to be consistent.
-		boundingBox.setBottomRight(Vector2f((bboxLocation.x + bboxSize.x), (bboxLocation.y + bboxSize.y))); // <FEEDBACK> Same here 
-																											// <Corrected>
+	//Rectangle& bbox = getBoundingBox();
+	Vector2f bboxLocation = getPosition();
+	boundingBox.setTopLeft(bboxLocation); // <FEEDBACK> Why this weird indentation? Put it all in the same line, style needs to be consistent.
+	boundingBox.setBottomRight(Vector2f((bboxLocation.x + bboxSize.x), (bboxLocation.y + bboxSize.y))); // <FEEDBACK> Same here 
+																										// <Corrected>
 }
 
 

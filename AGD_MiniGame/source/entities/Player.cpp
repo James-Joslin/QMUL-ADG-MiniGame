@@ -151,7 +151,6 @@ void Player::handleInput(Game& game)
 	{
 		// <FEEDBACK> Not really necessary, this vector should never have a nullptr in it.
 		// <Corrected>
-		// handle non-null pointer case
 		pointer->execute(game);
 		
 	}

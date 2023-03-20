@@ -5,8 +5,9 @@
 bool Rectangle::inside(float x, float y) const
 {
     // <FEEDBACK> Better to check <= instead of < (resp. > and >=)
-    if (x > this->getTopLeft().x and x < this->getBottomRight().x
-        and y > this->getTopLeft().y and y < this->getBottomRight().y)
+    // <Corrected> change operator 
+    if (x >= this->getTopLeft().x and x <= this->getBottomRight().x
+        and y >= this->getTopLeft().y and y <= this->getBottomRight().y)
     {
         return true;
     }
@@ -26,6 +27,7 @@ bool Rectangle::intersects(const Rectangle& rect) const
     Vector2f r1 = rect.getBottomRight();
 
     // <FEEDBACK> Way too verbose. A rectangle is never going to have more than 4 vertices. Creating vectors, pair objects
+    // <Corrected>
     //  and running a 'for' loop creates an unnecessary computational overhead.
     //  Simply make 4 calls (returning earlier if one is true) to inside (...). 
 
