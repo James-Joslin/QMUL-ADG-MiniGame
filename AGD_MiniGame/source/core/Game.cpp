@@ -4,6 +4,7 @@
 #include "../../include/core/InputHandler.h"
 #include "../../include/core/Command.h"
 #include "../../include/components/GraphicsComponent.h"
+#include "../../include/systems/Systems.h"
 #include <iostream>
 
 // III.F Add the initialization (to 0) of the entity counter to the initalizers list of this constructor
@@ -11,7 +12,8 @@ Game::Game() : paused(false), id{ 0 }
 {
 	// V.B: Create the unique pointer to the Input Handler object.
 	inputHandler = std::make_unique<InputHandler>();
-	//systems.push_back(std::make_shared<TTLSystem>());
+
+	systems.push_back(std::make_shared<TTLSystem>());
 }
 
 Game::~Game()
@@ -199,6 +201,7 @@ void Game::update(float elapsed)
 		//		  - (*it): returns the object pointed at by the iterator 'it'
 		//        - iterators override the operators ++ and -- for advancing them to their next and previous element, respectively.
 
+		bitArray(elapsed);
 		auto it = entities.begin();
 		while (it != entities.end())
 		{
@@ -338,7 +341,23 @@ std::shared_ptr<Entity> Game::getEntity(unsigned int idx)
 	return entities[idx];
 }
 
-//void Game::bitArray(float elapsedTime)
-//{
-//
-//}
+void Game::bitArray(float elapsedTime)
+{
+	auto it = systems.begin();
+	while (it != systems.end())
+	{
+		auto it_2 = entities.begin();
+		while (it_2 != entities.end())
+		{
+			if (!(*it_2)->isDeleted())
+			{
+				if ((*it)->validate((*it_2).get()))
+				{
+					(*it)->update((*it_2).get(), this, elapsedTime);
+				}
+			}
+			it_2++;
+		}
+		it++;
+	}
+}

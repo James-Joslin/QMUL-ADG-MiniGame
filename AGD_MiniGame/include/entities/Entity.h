@@ -7,8 +7,6 @@
 #include "../components/TTLComponent.h"
 #include <memory>
 
-
-
 class PositionComponent;
 
 using EntityID = unsigned int;
@@ -56,7 +54,7 @@ public:
 	// X.C  Add two helper functions. One that returns the value of the deleted flag, another one that 
 	//      "deletes" the entity by setting this flag to true. (Q: one of this functions should be "const", which one?).
 	bool isDeleted() const { return deleted; }
-	bool hasComponent(Bitmask mask) const { componentSet.contains(mask); }
+	bool hasComponent(Bitmask mask) const { return componentSet.contains(mask); }
 	void markDeleted() { deleted = true; }
 
 	std::shared_ptr<PositionComponent> position;
