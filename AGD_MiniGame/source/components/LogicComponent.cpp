@@ -55,7 +55,7 @@ void PlayerStateComponent::update(Entity& entity, Game* game, float elapsed)
 			}
 			if (shouting && player->graphics->getSpriteSheet()->getCurrentAnim()->isInAction() && wood >= player->shootingCost && shootCooldown <= 0)
 			{
-				game->addEntity(player->createFire());
+				game->addEntity(createFire(player));
 				wood = wood - player->shootingCost;
 				shootCooldown = player->shootCooldownTime;
 			}
@@ -81,4 +81,19 @@ void PlayerStateComponent::addWood(Entity& entity, int w)
 		if (wood > player->maxWood) wood = player->maxWood;
 		if (wood < 0) wood = 0;
 	}
+}
+
+std::shared_ptr<Fire> PlayerStateComponent:: createFire(Entity* player) const
+{
+	auto fireEntity = std::make_shared<Fire>();
+	//Player* player = dynamic_cast<Player*>(&entity);
+
+	Vector2f pos{ player->getPosition().x + player->graphics->getTextureSize().x * 0.5f, player->getPosition().y + player->graphics->getTextureSize().y * 0.5f};
+	fireEntity->init("img/fire.png", 1.0f, std::make_shared<SpriteGraphics>());
+	fireEntity->setPosition(pos.x, pos.y);
+	Vector2f vel(fireSpeed, 0.f);
+	if (player->graphics->getSpriteDirection() == Direction::Left) vel.x = vel.x * -1.0f;
+	fireEntity->getVelocityPtr()->setVelocityDirection(vel.x, vel.y);
+
+	return fireEntity;
 }

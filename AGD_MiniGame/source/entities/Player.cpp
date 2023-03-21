@@ -127,19 +127,19 @@ void Player::handleInput(Game& game)
 	playerInputPointer->update(game);
 }
 
-std::shared_ptr<Fire> Player::createFire() const
-{
-	auto fireEntity = std::make_shared<Fire>();		
-
-	Vector2f pos { position->getPosition().x + graphics->getTextureSize().x * 0.5f, position->getPosition().y + graphics->getTextureSize().y * 0.5f };
-	fireEntity->init("img/fire.png", 1.0f, std::make_shared<SpriteGraphics>());
-	fireEntity->setPosition(pos.x, pos.y);
-	Vector2f vel(fireSpeed, 0.f);
-	if (graphics->getSpriteDirection() == Direction::Left) vel.x = vel.x * -1.0f;
-	fireEntity->getVelocityPtr()->setVelocityDirection(vel.x, vel.y);
-
-	return fireEntity;
-}
+//std::shared_ptr<Fire> Player::createFire() const
+//{
+//	auto fireEntity = std::make_shared<Fire>();		
+//
+//	Vector2f pos { position->getPosition().x + graphics->getTextureSize().x * 0.5f, position->getPosition().y + graphics->getTextureSize().y * 0.5f };
+//	fireEntity->init("img/fire.png", 1.0f, std::make_shared<SpriteGraphics>());
+//	fireEntity->setPosition(pos.x, pos.y);
+//	Vector2f vel(fireSpeed, 0.f);
+//	if (graphics->getSpriteDirection() == Direction::Left) vel.x = vel.x * -1.0f;
+//	fireEntity->getVelocityPtr()->setVelocityDirection(vel.x, vel.y);
+//
+//	return fireEntity;
+//}
 
 void Player::addWood(int w)
 {

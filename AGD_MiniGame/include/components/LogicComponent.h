@@ -20,10 +20,13 @@ public:
 	
 	void addWood(Entity& entity, int w);
 
+	std::shared_ptr<Fire> createFire(Entity*) const;
+
 private:
 
 	bool attacking{ false };
 	bool shouting{ false };
 	int wood{ 0 };
 	float shootCooldown{ 0 };
+	float fireSpeed = 200.f;
 };
