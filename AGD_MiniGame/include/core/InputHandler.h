@@ -12,7 +12,9 @@ public:
 	std::shared_ptr<Command> handleInput();
 
 private:
-	std::shared_ptr<Command> pausePointer;
+	// <FEEDBACK> It is odd to name a variable "pointer". Kind of like calling a variable "pauseVariable". Avoid this (through the code, below as well).
+	// <Corrected> Renamed all variables that have "pointer" in the name
+	std::shared_ptr<Command> pause;
 };
 
 class PlayerInputHandler
@@ -24,10 +26,10 @@ public:
 
 private:
 	std::vector<std::shared_ptr<Command>> arrayCommand;
-	std::shared_ptr<Command> rightPointer;
-	std::shared_ptr<Command> leftPointer;
-	std::shared_ptr<Command> upPointer;
-	std::shared_ptr<Command> downPointer;
-	std::shared_ptr<Command> attackPointer;
-	std::shared_ptr<Command> firePointer;
+	std::shared_ptr<Command> right;
+	std::shared_ptr<Command> left;
+	std::shared_ptr<Command> up;
+	std::shared_ptr<Command> down;
+	std::shared_ptr<Command> attack;
+	std::shared_ptr<Command> fire;
 };

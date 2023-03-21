@@ -48,7 +48,8 @@ void Entity::update(Game* game, float elapsed)
 	//			    iii) set the position of the "sprite" variable to the position vector (using sprite.setPosition(...)).
 	if (isSpriteSheet)
 	{
-		const Vector2f position = getPosition();
+		// <FEEDBACK> You don't need to call the getPosition() function, position is a member of this class.
+		// <Corrected>
 		spriteSheet.setSpritePosition(sf::Vector2f(position.x, position.y));
 		spriteSheet.update(elapsed);
 	}
@@ -63,21 +64,15 @@ void Entity::update(Game* game, float elapsed)
 	//		   The member variable boundingBox is a Rectangle where we'll hold this boundary box. 
 	//		   Set the top left corner of this rectangle to the position of this entity.
 	//		   Set the bottom right corner of this rectangle to the position+bboxSize coordinates.
-	if (isSpriteSheet)
-	{
-		//Rectangle& bbox = getBoundingBox();
 
-		Vector2f bboxLocation = getPosition();
-		boundingBox.setTopLeft(
-			bboxLocation
-		);
-		boundingBox.setBottomRight(
-			Vector2f(
-				(bboxLocation.x + bboxSize.x),
-				(bboxLocation.y + bboxSize.y)
-			)
-		);
-	}
+	// <FEEDBACK> Why if isSpreadSheet only? This should be applied in both cases.
+	// <Corrected> Removed if statements
+	
+	//Rectangle& bbox = getBoundingBox();
+	Vector2f bboxLocation = getPosition();
+	boundingBox.setTopLeft(bboxLocation); // <FEEDBACK> Why this weird indentation? Put it all in the same line, style needs to be consistent.
+	boundingBox.setBottomRight(Vector2f((bboxLocation.x + bboxSize.x), (bboxLocation.y + bboxSize.y))); // <FEEDBACK> Same here 
+																										// <Corrected>
 }
 
 

@@ -14,7 +14,7 @@ Player::Player() : Entity(EntityType::PLAYER), attacking(false), shouting(false)
 	speed = playerSpeed;
 
 	// VI.B: Create the unique pointer to the PlayerInputHandler object
-	playerInputPointer = std::make_unique<PlayerInputHandler>();
+	playerInput = std::make_unique<PlayerInputHandler>();
 
 }
 
@@ -32,43 +32,47 @@ void Player::update(Game* game, float elapsed)
 		//            Set the animation of the spritesheet to "Walk". Mind the parameters required for the
 		//			  animation: if it should start playing and if it should loop.
 		//			  Additionally, you must also set the sprite direction (to Direction::Right) of the spritesheet.
-	if (velocity.x > 0 )
-	{
-		spriteSheet.setAnimation("Walk", true, true);
-		spriteSheet.setSpriteDirection(Direction::Right);
-	}
-
-	if (velocity.y > 0)
-	{
-		spriteSheet.setAnimation("Walk", true, true);
-	}
-
-	if (velocity.x < 0)
-	{
-		spriteSheet.setAnimation("Walk", true, true);
-		spriteSheet.setSpriteDirection(Direction::Left);
-	}
-
-	if (velocity.y < 0)
-	{
-		spriteSheet.setAnimation("Walk", true, true);
-	}
-
-	// VI.F (2/2) If the player is not moving, we must get back to playing the "Idle" animation.
-	if (velocity.x == 0 && velocity.y == 0 && !attacking && !shouting)
-	{
-		spriteSheet.setAnimation("Idle", true, true);
-	}
-
 	if (attacking)
 	{
 		spriteSheet.setAnimation("Attack", true, false);
 	}
 
-	if (shouting)
+	else if (shouting)
 	{
 		spriteSheet.setAnimation("Shout", true, false);
 	}
+	
+	else 
+	{
+		if (velocity.x > 0)
+		{
+			spriteSheet.setAnimation("Walk", true, true);
+			spriteSheet.setSpriteDirection(Direction::Right);
+		}
+
+		else if (velocity.y != 0)
+		{
+			// <FEEDBACK> You can factorize this case with the y < 0 case (a single IF for when y != 0)
+			// <Corrected>
+			spriteSheet.setAnimation("Walk", true, true);
+		}
+
+		else if (velocity.x < 0)
+		{
+			spriteSheet.setAnimation("Walk", true, true);
+			spriteSheet.setSpriteDirection(Direction::Left);
+		}
+
+
+		// VI.F (2/2) If the player is not moving, we must get back to playing the "Idle" animation.
+		else if (velocity.x == 0 && velocity.y == 0 && !attacking && !shouting)
+		{
+			spriteSheet.setAnimation("Idle", true, true);
+		}
+	}
+	
+
+	
 
 	
 	
@@ -94,10 +98,11 @@ void Player::update(Game* game, float elapsed)
 		wood >= shootingCost && shootCooldown <= 0
 	)
 	{
-		game->addEntity(
-			createFire()
-		);
-		wood = getWood() - shootingCost;
+		game->addEntity(createFire()); // <FEEDBACK> Correct this indentation.
+									   // <Corrected>
+
+		wood = wood - shootingCost; // <FEEDBACK> Access "wood" directly here, no need to call function.
+									// <Corrected>
 		
 		// XI.B (1/2): Set the variable shootCooldown to the cooldown time (defined in shootCooldownTime).
 		//        Add another condition to the shooting IF statement that only allows shoowing if shootCooldown <= 0.
@@ -107,9 +112,17 @@ void Player::update(Game* game, float elapsed)
 
 	// VII.B: If we are attacking but the current animation is no longer playing, set the attacking flag to false.
 	//        The same needs to be done for "shouting".
-	if (!spriteSheet.getCurrentAnim()->isPlaying())
+
+	// <FEEDBACK> This is not correct, the two cases should be treated separately.
+	//			  Check that we are "attacking" and animation is playing -> then set attacking to False.
+	//			  A separate IF is needd for shouting.
+	// <Corrected> Seperated Attack and Shout cases.
+	if (attacking && spriteSheet.getCurrentAnim()->isPlaying() == false)
 	{
 		setAttacking(false);
+	}
+	if (shouting && spriteSheet.getCurrentAnim()->isPlaying() == false)
+	{
 		setShouting(false);
 	}
 }
@@ -132,13 +145,14 @@ void Player::handleInput(Game& game)
 
 	// VII.A Modify the code ABOVE so, instead of calling "execute" in a command pointer, iterates through
 	//       the vector of commands and executes them all.
-	for (auto pointer : playerInputPointer->handleInput())
+	
+	// <FEEDBACK> Avoid calling a variable pointer (or "pointerSomething"). It's not descriptive.
+	for (auto pointer : playerInput->handleInput())
 	{
-		if (pointer)
-		{
-			// handle non-null pointer case
-			pointer->execute(game);
-		}
+		// <FEEDBACK> Not really necessary, this vector should never have a nullptr in it.
+		// <Corrected>
+		pointer->execute(game);
+		
 	}
 }
 
