@@ -1,9 +1,10 @@
 #include <memory>
+#include "Components.h"
 
 class Game;
 class PlayerInputHandler;
 
-class InputComponent
+class InputComponent : public Component
 {
 public:
 	virtual ~InputComponent() {};
@@ -16,6 +17,9 @@ class PlayerInputComponent : public InputComponent
 public:
 	PlayerInputComponent();
 	void update(Game&) override;
+	
+	ComponentID getID() { return ComponentID::INPUT; }
+
 
 private:
 	std::unique_ptr<PlayerInputHandler> playerInput;

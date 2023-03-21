@@ -1,12 +1,13 @@
 #pragma once
 #include <memory>
+#include "Components.h"
 
 class VelocityComponent;
 class Entity;
 class Game;
 class Fire;
 
-class LogicComponent
+class LogicComponent : public Component
 {
 public:
 	~LogicComponent() {};
@@ -21,6 +22,7 @@ public:
 	void addWood(Entity& entity, int w);
 
 	std::shared_ptr<Fire> createFire(Entity*) const;
+	ComponentID getID() { return ComponentID::STATE; }
 
 private:
 

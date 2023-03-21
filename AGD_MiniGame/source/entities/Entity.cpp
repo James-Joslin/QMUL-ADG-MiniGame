@@ -7,24 +7,29 @@
 
 
 Entity::Entity() :
-	position(std::make_unique<PositionComponent>()),
+	position(std::make_shared<PositionComponent>()),
 	collider(nullptr),
 	isSpriteSheet(true),
 	id(0),
 	type(EntityType::UNDEFINED),
 	// X.B (1/2) Add the initialization the deleted flag to false
 	deleted(false)
-{}
+{
+	addComponent(position);
+}
 
 Entity::Entity(EntityType et) : 
-	position( std::make_unique<PositionComponent>()),
+	position( std::make_shared<PositionComponent>()),
 	collider(nullptr),
 	isSpriteSheet(true),
 	id(0),
 	type (et),
 	// X.B (2/2) Add the initialization the deleted flag to false
 	deleted(false)
-{}
+
+{
+	addComponent(position);
+}
 
 Entity::~Entity()
 {
@@ -153,23 +158,12 @@ void Entity::setPosition(float x, float y)
 	//		position->getPosition().y);
 }	
 
+void Entity::addComponent(std::shared_ptr<Component> something)
+{
+	componentSet.turnOnBit(static_cast<unsigned int>(something->getID()));
+}
 
-//const sf::Vector2f& Entity::getSpriteScale() const
-//{
-//	if (isSpriteSheet)
-//	{
-//		return spriteSheet.getSpriteScale();
-//	}
-//
-//	return sprite.getScale();
-//}
-//
-//sf::Vector2i Entity::getTextureSize() const
-//{
-//	if (isSpriteSheet)
-//	{
-//		return spriteSheet.getSpriteSize();
-//	}
-//
-//	return { static_cast<int>(texture.getSize().x), static_cast<int>(texture.getSize().y) };
-//}
+std::shared_ptr<TTLComponent> Entity::getTTLComponent()
+{
+	return nullptr;
+}

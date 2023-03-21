@@ -14,10 +14,14 @@
 Player::Player() : Entity(EntityType::PLAYER), attacking(false), shouting(false), wood(0), shootCooldown(0)
 {
 	// VI.B: Create the unique pointer to the PlayerInputHandler object
-	playerInputPointer = std::make_unique<PlayerInputComponent>();
-	healthComponentPointer = std::make_shared<HealthComponent>(startingHealth, maxHealth);
+	playerInput = std::make_shared<PlayerInputComponent>();
+	addComponent(playerInput);
+	healthComponent = std::make_shared<HealthComponent>(startingHealth, maxHealth);
+	addComponent(healthComponent);
 	velocity = std::make_shared<VelocityComponent>(playerSpeed);
-	state = std::make_unique<PlayerStateComponent>();
+	addComponent(velocity);
+	state = std::make_shared<PlayerStateComponent>();
+	addComponent(state);
 }
 
 Player::~Player() {}
@@ -124,7 +128,7 @@ void Player::update(Game* game, float elapsed)
 
 void Player::handleInput(Game& game)
 {
-	playerInputPointer->update(game);
+	playerInput->update(game);
 }
 
 //std::shared_ptr<Fire> Player::createFire() const

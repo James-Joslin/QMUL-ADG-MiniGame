@@ -1,10 +1,11 @@
 #pragma once
 #include "../utils/Vector2.h"
 #include "../entities/Entity.h"
+#include "Components.h"
 
 class PositionComponent;
 
-class VelocityComponent
+class VelocityComponent : public Component
 {
 
 public:
@@ -19,6 +20,8 @@ public:
 	const Vector2f getVelocityDirection() { return velocityDirection; }
 
 	void update(Entity&, float);
+
+	ComponentID getID() { return ComponentID::VELOCITY; }
 
 private:
 	Vector2f velocityDirection;

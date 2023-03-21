@@ -1,5 +1,6 @@
 #include "../graphics/SpriteSheet.h"
 #include "../../include/components/PositionComponent.h"
+#include "Components.h"
 #include "SFML/Graphics.hpp"
 #include <iostream>
 #include <memory>
@@ -9,7 +10,7 @@ class Game;
 
 #pragma once
 // Graphics interface with virutal components
-class GraphicsComponent
+class GraphicsComponent : public Component
 {
 public:
 	~GraphicsComponent() {};
@@ -27,6 +28,7 @@ public:
 	virtual SpriteSheet* getSpriteSheet() = 0;
 	virtual sf::Sprite getSprite() = 0;
 	virtual void update(Game* game, float elapsed, Vector2f) = 0;
+	ComponentID getID() { return ComponentID::GRAPHICS; }
 };
 
 // Subclasses - Sprite Graphics

@@ -86,6 +86,7 @@ void PlayerStateComponent::addWood(Entity& entity, int w)
 std::shared_ptr<Fire> PlayerStateComponent:: createFire(Entity* player) const
 {
 	auto fireEntity = std::make_shared<Fire>();
+	
 	//Player* player = dynamic_cast<Player*>(&entity);
 
 	Vector2f pos{ player->getPosition().x + player->graphics->getTextureSize().x * 0.5f, player->getPosition().y + player->graphics->getTextureSize().y * 0.5f};

@@ -1,22 +1,17 @@
 #pragma once
+#include "Components.h"
 
 
-
-class TTLComponent
+class TTLComponent : public Component
 {
 public:
 
 	TTLComponent(int _ttl) : ttl{ _ttl } {}
 
 	int getTTL() { return ttl; }
+	ComponentID getID() { return ComponentID::TTL; }
 
-	void update()
-	{
-		if (ttl > 0)
-		{
-			ttl--;
-		}
-	}
+	void decrementTTL() { --ttl; }
 
 private:
 

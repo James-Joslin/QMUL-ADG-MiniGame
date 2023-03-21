@@ -13,14 +13,20 @@ public:
 
 	virtual void update(Game* game, float elapsed = 1.0f) override;
 
+	std::shared_ptr<TTLComponent> getTTLComponent() override
+	{
+		return ttlPtr;
+	}
+
 	int getTTL() const { return ttlPtr->getTTL(); }
 
 	std::shared_ptr<VelocityComponent>getVelocityPtr() { return velocityPtr; }
 
 private:
 
-	std::unique_ptr<TTLComponent> ttlPtr;
+	std::shared_ptr<TTLComponent> ttlPtr;
 	std::shared_ptr<VelocityComponent> velocityPtr;
+
 
 };
 

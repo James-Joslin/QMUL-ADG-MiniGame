@@ -36,7 +36,7 @@ public:
 	bool isShouting() const { return shouting; }
 	void setShouting(bool sh) { shouting = sh; }
 
-	std::shared_ptr<HealthComponent> getHealthComp() { return healthComponentPointer; }
+	std::shared_ptr<HealthComponent> getHealthComp() { return healthComponent; }
 	std::shared_ptr<VelocityComponent> getVelocityComp() { return velocity; }
 
 	int getWood() const { return wood; }
@@ -51,7 +51,7 @@ public:
 	bool intersects(Entity& other) { return collider->intersects(other.getColliderComponent().get()->getBoundingBox()); }
 
 
-	std::shared_ptr<Fire> createFire() const;
+	// std::shared_ptr<Fire> createFire() const;
 
 private:
 
@@ -63,10 +63,10 @@ private:
 
 	// VI.A (1/2): Declare a unique pointer to a player input handler.
 	//std::unique_ptr<PlayerInputHandler> playerInputPointer;
-	std::unique_ptr<InputComponent> playerInputPointer;
-	std::shared_ptr<HealthComponent> healthComponentPointer;
+	std::shared_ptr<InputComponent> playerInput;
+	std::shared_ptr<HealthComponent> healthComponent;
 	std::shared_ptr<VelocityComponent> velocity;
-	std::unique_ptr<PlayerStateComponent> state;
+	std::shared_ptr<PlayerStateComponent> state;
 
 };
 

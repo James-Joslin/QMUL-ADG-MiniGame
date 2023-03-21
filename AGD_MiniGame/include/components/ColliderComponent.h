@@ -4,7 +4,7 @@
 class Entity;
 
 
-class ColliderComponent
+class ColliderComponent : public Component
 {
 public:
 	Rectangle& getBoundingBox() { return boundingBox; }
@@ -25,6 +25,8 @@ public:
 		boundingBox.setTopLeft(position);
 		boundingBox.setBottomRight(Vector2f((position.x + bboxSize.x), (position.y + bboxSize.y)));
 	}
+
+	ComponentID getID() { return ComponentID::COLLIDER; }
 
 private:
 	Rectangle boundingBox;

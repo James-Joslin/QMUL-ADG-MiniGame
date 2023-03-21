@@ -11,6 +11,7 @@ Game::Game() : paused(false), id{ 0 }
 {
 	// V.B: Create the unique pointer to the Input Handler object.
 	inputHandler = std::make_unique<InputHandler>();
+	//systems.push_back(std::make_shared<TTLSystem>());
 }
 
 Game::~Game()
@@ -336,3 +337,8 @@ std::shared_ptr<Entity> Game::getEntity(unsigned int idx)
 	}
 	return entities[idx];
 }
+
+//void Game::bitArray(float elapsedTime)
+//{
+//
+//}
