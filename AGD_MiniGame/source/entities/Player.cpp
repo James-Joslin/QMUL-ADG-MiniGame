@@ -50,24 +50,23 @@ void Player::update(Game* game, float elapsed)
 			spriteSheet.setSpriteDirection(Direction::Right);
 		}
 
-		else if (velocity.y != 0)
-		{
-			// <FEEDBACK> You can factorize this case with the y < 0 case (a single IF for when y != 0)
-			// <Corrected>
-			spriteSheet.setAnimation("Walk", true, true);
-		}
-
 		else if (velocity.x < 0)
 		{
 			spriteSheet.setAnimation("Walk", true, true);
 			spriteSheet.setSpriteDirection(Direction::Left);
 		}
 
-
 		// VI.F (2/2) If the player is not moving, we must get back to playing the "Idle" animation.
 		else if (velocity.x == 0 && velocity.y == 0 && !attacking && !shouting)
 		{
 			spriteSheet.setAnimation("Idle", true, true);
+		}
+
+		else if (velocity.y != 0)
+		{
+			// <FEEDBACK> You can factorize this case with the y < 0 case (a single IF for when y != 0)
+			// <Corrected>
+			spriteSheet.setAnimation("Walk", true, true);
 		}
 	}
 	
