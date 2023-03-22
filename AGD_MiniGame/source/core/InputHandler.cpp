@@ -5,17 +5,17 @@
 
 InputHandler::InputHandler()
 {
-	pause = std::make_shared<PauseCommand>();
+	pausePointer = std::make_shared<PauseCommand>();
 }
 
 PlayerInputHandler::PlayerInputHandler()
 {
-    right = std::make_shared<MoveRightCommand>();
-    left = std::make_shared<MoveLeftCommand>();
-    up = std::make_shared<MoveUpCommand>();
-    down = std::make_shared<MoveDownCommand>();
-    attack = std::make_shared<AttackCommand>();
-    fire = std::make_shared<FireCommand>();
+    rightPointer = std::make_shared<MoveRightCommand>();
+    leftPointer = std::make_shared<MoveLeftCommand>();
+    upPointer = std::make_shared<MoveUpCommand>();
+    downPointer = std::make_shared<MoveDownCommand>();
+    attackPointer = std::make_shared<AttackCommand>();
+    firePointer = std::make_shared<FireCommand>();
 }
 
 std::shared_ptr<Command> InputHandler::handleInput()
@@ -27,7 +27,7 @@ std::shared_ptr<Command> InputHandler::handleInput()
         if (!isEscapePressed)
         {
             isEscapePressed = true;
-            return pause;
+            return pausePointer;
         }
     }
     else
@@ -42,27 +42,27 @@ std::vector <std::shared_ptr<Command>> PlayerInputHandler::handleInput()
     arrayCommand.clear();
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
     {
-        arrayCommand.push_back(right);
+        arrayCommand.push_back(rightPointer);
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
     {
-        arrayCommand.push_back(left);
+        arrayCommand.push_back(leftPointer);
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
     {
-        arrayCommand.push_back(up);
+        arrayCommand.push_back(upPointer);
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
     {
-        arrayCommand.push_back(down);
+        arrayCommand.push_back(downPointer);
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
     {
-        arrayCommand.push_back(attack);
+        arrayCommand.push_back(attackPointer);
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift))
     {
-        arrayCommand.push_back(fire);
+        arrayCommand.push_back(firePointer);
     }
     //arrayCommand.push_back(nullptr);
     return arrayCommand;

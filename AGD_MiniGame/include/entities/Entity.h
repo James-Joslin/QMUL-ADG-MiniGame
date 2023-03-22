@@ -30,7 +30,7 @@ public:
 	~Entity();
 
 	//Init and update functions
-	virtual void init(const std::string& textureFile, float scale, std::shared_ptr<GraphicsComponent> _graphics);
+	virtual void init(const std::string& textureFile, float scale, std::shared_ptr<GraphicsComponent> _graphicsPointer);
 	void initSpriteSheet(const std::string& spriteSheetFile);
 	virtual void update(Game* game, float elapsed = 1.0f);
 	void draw(Window* window);
@@ -40,11 +40,15 @@ public:
 	EntityID getID() const { return id; }
 	void setPosition(float x, float y) ;
 	Vector2f getPosition();
-	//Rectangle& getBoundingBox() { 	return collider->getBoundingBox();	};
+	Rectangle& getBoundingBox() { 	return collider->getBoundingBox();	};
 	//const sf::Vector2f& getSpriteScale() const;
-	//sf::Vector2i getTextureSize() const;
+//	sf::Vector2i getTextureSize() const;
+
 	EntityType getEntityType() const { return type; }
-	SpriteSheet* getSpriteSheet() { return graphics->getSpriteSheet(); }
+
+	// <FEEDBACK> These functions should not exist. We request components, not objects of those components. Same for the bounding box above.
+	// isSpriteSheet is not required, as noone should care how the graphics component does things internally.
+	SpriteSheet* getSpriteSheet() { return graphicsPointer->getSpriteSheet(); }
 	bool isSpriteSheetEntity() const { return isSpriteSheet; }
 	
 	// X.C  Add two helper functions. One that returns the value of the deleted flag, another one that 
@@ -53,10 +57,8 @@ public:
 	void markDeleted() { deleted = true; }
 
 	std::unique_ptr<PositionComponent> position;
-	std::shared_ptr<GraphicsComponent> graphics;
-	std::shared_ptr<ColliderComponent> collider;
-
-	std::shared_ptr<ColliderComponent> getColliderComponent() { return collider; }
+	std::shared_ptr<GraphicsComponent> graphicsPointer;
+	std::shared_ptr<ColliderComponent> collider; // <FEEDABCK> Not all entities need a collider. This is better in the subclasses that do (objects and player).
 
 protected:
 
@@ -69,7 +71,8 @@ protected:
 	Vector2f bboxSize;*/
 
 	//Graphics-related variables.
-	bool isSpriteSheet;
+	bool isSpriteSheet; // <FEEDBACK> Not needed
+	
 	//SpriteSheet spriteSheet;
 	//sf::Texture texture;
 	//sf::Sprite sprite;

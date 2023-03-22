@@ -12,6 +12,9 @@ class Game;
 class GraphicsComponent
 {
 public:
+
+	// <FEEDBACK> Several of these functions (especially, the getters) should be CONST.
+
 	~GraphicsComponent() {};
 	virtual void init(const std::string& textureFile, float scale) = 0;
 	virtual void initSpriteSheet(const std::string& spriteSheetFile) = 0;
@@ -59,6 +62,8 @@ public:
 private:
 	sf::Texture texture;
 	sf::Sprite sprite;
+
+	// <FEEDBACK> You don't need this variable.
 	bool isSpriteSheet{ false };
 };
 
@@ -87,5 +92,7 @@ public:
 
 private:
 	SpriteSheet spriteSheet;
+
+	// <FEEDBACK> You don't need this variable
 	bool isSpriteSheet{ true };
 };

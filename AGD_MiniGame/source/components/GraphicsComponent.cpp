@@ -43,6 +43,8 @@ void SpriteGraphics::draw(Window* window)
 
 void SpriteSheetGraphics::draw(Window* window)
 {
+	// <FEEDBACK>  In which case isSpriteSheet is going to be false in this class?
+    // You don't need this variable.	
 	if (isSpriteSheet)
 	{
 		sf::Sprite* sp = &spriteSheet.getSprite();
@@ -51,6 +53,7 @@ void SpriteSheetGraphics::draw(Window* window)
 	}
 	else
 	{
+		// <FEEDBACK> Be more descriptive in your error messages.
 		throw std::exception("This is a spritesheet");
 	}
 }

@@ -47,7 +47,7 @@ void Entity::update(Game* game, float elapsed)
 	
 
 	//Need to implement an update in graphics component
-	graphics->update(game, elapsed, getPosition()); // hasn't been implemented yet
+	graphicsPointer->update(game, elapsed, getPosition()); // hasn't been implemented yet
 
 	//if (isSpriteSheet) // <- Needs to go into graphicsPointer->Update()
 	//{
@@ -69,16 +69,17 @@ void Entity::update(Game* game, float elapsed)
 	
 	
 	//Rectangle& bbox = getBoundingBox();
-	if (type != EntityType::FIRE)
+	if (type == EntityType::PLAYER)
 	{
-		collider->update(getPosition()); // entitiy getPosition calls position-> getPosition
+		collider->setBoundingBoxLocation(getPosition()); // entitiy getPosition calls position-> getPosition
 	}
+
 }	
 
 void Entity::draw(Window* window)
 {
 	
-	graphics->draw(window); // or should the draw still be in the entity class?
+	graphicsPointer->draw(window); // or should the draw still be in the entity class?
 	//if (isSpriteSheet)
 	//{
 	//	sf::Sprite* sp = &spriteSheet.getSprite();
@@ -98,14 +99,14 @@ void Entity::draw(Window* window)
 
 void Entity::init(const std::string& textureFile, float scale, std::shared_ptr<GraphicsComponent> _graphicsPointer)
 {
-	graphics = _graphicsPointer;
-	graphics->init(textureFile, scale);
+	graphicsPointer = _graphicsPointer;
+	graphicsPointer->init(textureFile, scale);
 	//texture.loadFromFile(textureFile);
 	//sprite.setTexture(texture);
 	//sprite.setScale(scale, scale);
 	Vector2f bboxSize = Vector2f(
-		graphics->getTextureSize().x * graphics->getScale().x,
-		graphics->getTextureSize().y * graphics->getScale().y);
+		graphicsPointer->getTextureSize().x * graphicsPointer->getScale().x,
+		graphicsPointer->getTextureSize().y * graphicsPointer->getScale().y);
 
 	if (type != EntityType::FIRE)
 	{
@@ -116,13 +117,13 @@ void Entity::init(const std::string& textureFile, float scale, std::shared_ptr<G
 
 void Entity::initSpriteSheet(const std::string& spriteSheetFile)
 {
-	graphics->initSpriteSheet(spriteSheetFile);
+	graphicsPointer->initSpriteSheet(spriteSheetFile);
 	/*spriteSheet.loadSheet(spriteSheetFile);
 	isSpriteSheet = true;
 	spriteSheet.setAnimation("Idle", true, true);*/
 	Vector2f bboxSize = Vector2f(
-		graphics->getSpriteSize().x * graphics->getSpriteScale().x,
-		graphics->getSpriteSize().y * graphics->getSpriteScale().y);
+		graphicsPointer->getSpriteSize().x * graphicsPointer->getSpriteScale().x,
+		graphicsPointer->getSpriteSize().y * graphicsPointer->getSpriteScale().y);
 
 	collider = std::make_shared<ColliderComponent>();
 	collider->setBboxSize(bboxSize);

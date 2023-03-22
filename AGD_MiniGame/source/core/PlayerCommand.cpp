@@ -4,30 +4,36 @@
 
 void MoveRightCommand::execute(Game& game)
 {
+	if (game.getPlayer()->isAttacking() || game.getPlayer()->isShouting()) return;
 	game.getPlayer()->getVelocityComp()->setVelocityDirection(1.f, game.getPlayer()->getVelocityComp()->getVelocityDirection().y);
 }
 
 void MoveLeftCommand::execute(Game& game)
 {
+	if (game.getPlayer()->isAttacking() || game.getPlayer()->isShouting()) return;
 	game.getPlayer()->getVelocityComp()->setVelocityDirection(-1.f, game.getPlayer()->getVelocityComp()->getVelocityDirection().y);
 }
 
 void MoveUpCommand::execute(Game& game)
 {
+	if (game.getPlayer()->isAttacking() || game.getPlayer()->isShouting()) return;
 	game.getPlayer()->getVelocityComp()->setVelocityDirection(game.getPlayer()->getVelocityComp()->getVelocityDirection().x, -1.f);
 }
 
 void MoveDownCommand::execute(Game& game)
 {
+	if (game.getPlayer()->isAttacking() || game.getPlayer()->isShouting()) return;
 	game.getPlayer()->getVelocityComp()->setVelocityDirection(game.getPlayer()->getVelocityComp()->getVelocityDirection().x, 1.f);
 }
 
 void AttackCommand::execute(Game& game)
 {
+	if (game.getPlayer()->isAttacking() || game.getPlayer()->isShouting()) return;
 	game.getPlayer()->setAttacking(true);
 }
 
 void FireCommand::execute(Game& game)
 {
+	if (game.getPlayer()->isAttacking() || game.getPlayer()->isShouting()) return;
 	game.getPlayer()->setShouting(true);
 }

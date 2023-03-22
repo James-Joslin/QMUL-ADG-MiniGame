@@ -18,6 +18,6 @@ public:
 	void update(Game&) override;
 
 private:
-	std::unique_ptr<PlayerInputHandler> playerInput;
+	std::unique_ptr<PlayerInputHandler> playerInputPointer;
 
 };
