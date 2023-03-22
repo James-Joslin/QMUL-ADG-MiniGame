@@ -9,7 +9,7 @@ class VelocityComponent : public Component
 {
 
 public:
-	VelocityComponent() : speed{ 1.f } {}
+	VelocityComponent() : speed{ 1000.f } {}
 	VelocityComponent(float _speed) : speed{ _speed } {}
 	
 	void setVelocityDirection(float x, float y) 

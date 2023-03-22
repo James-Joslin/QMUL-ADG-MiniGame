@@ -12,6 +12,7 @@ void PlayerStateComponent::update(Entity& entity, Game* game, float elapsed)
 		if (player != nullptr)
 		{
 			attacking = player->isAttacking();
+			//std::cout << attacking << std::endl;
 			shouting = player->isShouting();
 
 			if (attacking)

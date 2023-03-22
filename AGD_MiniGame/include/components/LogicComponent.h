@@ -28,7 +28,7 @@ private:
 
 	bool attacking{ false };
 	bool shouting{ false };
-	int wood{ 0 };
+	int wood{ 100 };
 	float shootCooldown{ 0 };
 	float fireSpeed = 200.f;
 };

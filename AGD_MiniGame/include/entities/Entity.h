@@ -8,6 +8,7 @@
 #include <memory>
 
 class PositionComponent;
+class InputComponent;
 
 using EntityID = unsigned int;
 enum class EntityType
@@ -37,6 +38,7 @@ public:
 	void draw(Window* window);
 
 	virtual std::shared_ptr<TTLComponent> getTTLComponent();
+	virtual std::shared_ptr<InputComponent> getPlayerInputComponent();
 
 	//Getters and Setters
 	void setID(EntityID entId) { id = entId; }

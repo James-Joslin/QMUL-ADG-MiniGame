@@ -167,3 +167,9 @@ std::shared_ptr<TTLComponent> Entity::getTTLComponent()
 {
 	return nullptr;
 }
+
+std::shared_ptr<InputComponent> Entity::getPlayerInputComponent()
+{
+	return nullptr;
+}
+

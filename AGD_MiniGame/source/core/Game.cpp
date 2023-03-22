@@ -14,6 +14,7 @@ Game::Game() : paused(false), id{ 0 }
 	inputHandler = std::make_unique<InputHandler>();
 
 	systems.push_back(std::make_shared<TTLSystem>());
+	systems.push_back(std::make_shared<InputSystem>());
 }
 
 Game::~Game()
@@ -130,7 +131,7 @@ void Game::init(std::vector<std::string> lines)
 				{
 
 				// IV.B (1/4): Create the player shared pointer.
-				player = std::make_unique<Player>();
+				player = std::make_shared<Player>();
 
 				// IV.B (2/4): Call the function that initializes the Sprite Sheet with a single parameter, a const std::string& filename.
 				//			   This string should be "img/DwarfSpriteSheet_data.txt"
@@ -173,15 +174,15 @@ void Game::handleInput()
 {
 	// V.C: Call the fucntion that handles the input for the game and retrieve the command returned in a variable.
 	//      Then, call the "execute" method of the returned object to run this command.
-	std::shared_ptr<Command> command = inputHandler->handleInput();
+	//std::shared_ptr<Command> command = inputHandler->handleInput();
 
-	if (command) {
-		// handle non-null pointer case
-		command->execute(*this);
-	}
+	//if (command) {
+	//	// handle non-null pointer case
+	//	command->execute(*this);
+	//}
 	
 	// V.D: Call the function handleInput on the player's object.
-	player->handleInput(*this);
+	//player->handleInput(*this);
 }
 
 

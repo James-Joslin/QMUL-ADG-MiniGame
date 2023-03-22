@@ -8,13 +8,13 @@
 
 PlayerInputComponent::PlayerInputComponent()
 {
-	playerInput = std::make_unique<PlayerInputHandler>();
+	playerInput = std::make_shared<PlayerInputHandler>();
 }
 
-void PlayerInputComponent::update(Game& game) 
+void PlayerInputComponent::update(Game* game) 
 {
-	auto v = game.getPlayer()->getVelocityComp();
-	v->setVelocityDirection(0.f, 0.f);
+	//auto v = game.getPlayer()->getVelocityComp();
+	//v->setVelocityDirection(0.f, 0.f);
 
 	//game.getPlayer()->setVelocity(Vector2f(0, 0));
 	for (auto pointer : playerInput->handleInput())
@@ -22,7 +22,7 @@ void PlayerInputComponent::update(Game& game)
 		if (pointer)
 		{
 			// handle non-null pointer case
-			pointer->execute(game);
+			pointer->execute(*game);
 		}
 	}
 }

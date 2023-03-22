@@ -28,7 +28,12 @@ public:
 
 	virtual void update(Game* game, float elapsed = 1.0f) override;
 
-	void handleInput(Game& game);
+	std::shared_ptr<InputComponent> getPlayerInputComponent() override
+	{
+		return playerInput;
+	}
+
+//	void handleInput(Game& game);
 
 	bool isAttacking() const { return attacking; }
 	void setAttacking(bool at) { attacking = at; }
@@ -38,6 +43,8 @@ public:
 
 	std::shared_ptr<HealthComponent> getHealthComp() { return healthComponent; }
 	std::shared_ptr<VelocityComponent> getVelocityComp() { return velocity; }
+
+//	std::shared_ptr<InputComponent> getPlayerInput() { return playerInput; }
 
 	int getWood() const { return wood; }
 	void addWood(int w);
