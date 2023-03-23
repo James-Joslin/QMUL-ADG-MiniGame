@@ -33,6 +33,11 @@ public:
 		return playerInput;
 	}
 
+	std::shared_ptr<VelocityComponent> getVelocityComponent() override
+	{
+		return velocity; 
+	}
+
 //	void handleInput(Game& game);
 
 	bool isAttacking() const { return attacking; }

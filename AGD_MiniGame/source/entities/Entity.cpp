@@ -173,3 +173,8 @@ std::shared_ptr<InputComponent> Entity::getPlayerInputComponent()
 	return nullptr;
 }
 
+std::shared_ptr<VelocityComponent> Entity::getVelocityComponent()
+{
+	return nullptr;
+}
+

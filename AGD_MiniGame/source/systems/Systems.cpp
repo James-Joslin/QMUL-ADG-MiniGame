@@ -24,27 +24,38 @@ void TTLSystem::update(Entity* entity, Game* game, float elapsedTime)
 }
 
 void InputSystem::update(Entity* entity, Game* game, float elapsedTime)
-{
-	auto v = game->getPlayer()->getVelocityComp();
-	v->setVelocityDirection(0.f, 0.f);
-
-	
-	
+{	
 	if (entity->getPlayerInputComponent())
 	{
-		//std::cout << entity->getPlayerInputComponent() << std::endl;
+		entity->getVelocityComponent()->setVelocityDirection(0.f, 0.f);
 		for (auto pointer : entity->getPlayerInputComponent()->getPlayerInputHander()->handleInput())
 		{
 			if (pointer)
 			{
-				//std::cout << pointer << std::endl;
-				// handle non-null pointer case
 				pointer->execute(*game);
 			}
 		}	
 	}
 	else
 	{
-		//std::cout << entity->getPlayerInputComponent() << std::endl;
+
+	}
+}
+
+void MovementSystem::update(Entity* entity, Game* game, float elapsedTime)
+{
+	if (entity->getVelocityComponent())
+	{
+		if (entity->getEntityType() == EntityType::PLAYER || entity->getEntityType() == EntityType::FIRE)
+		{
+			entity->position->setPosition(
+				entity->position->getPosition().x + (entity->getVelocityComponent()->getVelocityDirection().x * entity->getVelocityComponent()->getSpeed() * elapsedTime),
+				entity->position->getPosition().y + (entity->getVelocityComponent()->getVelocityDirection().y * entity->getVelocityComponent()->getSpeed() * elapsedTime)
+			);
+		}
+	}
+	else
+	{
+
 	}
 }

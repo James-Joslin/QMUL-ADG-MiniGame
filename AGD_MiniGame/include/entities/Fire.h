@@ -18,6 +18,11 @@ public:
 		return ttlPtr;
 	}
 
+	std::shared_ptr<VelocityComponent> getVelocityComponent() override
+	{
+		return velocityPtr;
+	}
+
 	int getTTL() const { return ttlPtr->getTTL(); }
 
 	std::shared_ptr<VelocityComponent>getVelocityPtr() { return velocityPtr; }

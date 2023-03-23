@@ -4,7 +4,6 @@
 
 void MoveRightCommand::execute(Game& game)
 {
-	std::cout << "Right" << std::endl;
 	game.getPlayer()->getVelocityComp()->setVelocityDirection(1.f, game.getPlayer()->getVelocityComp()->getVelocityDirection().y);
 }
 

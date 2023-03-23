@@ -15,6 +15,7 @@ Game::Game() : paused(false), id{ 0 }
 
 	systems.push_back(std::make_shared<TTLSystem>());
 	systems.push_back(std::make_shared<InputSystem>());
+	systems.push_back(std::make_shared<MovementSystem>());
 }
 
 Game::~Game()
