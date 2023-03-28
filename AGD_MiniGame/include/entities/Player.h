@@ -28,19 +28,19 @@ public:
 
 	virtual void update(Game* game, float elapsed = 1.0f) override;
 
-	std::shared_ptr<InputComponent> getPlayerInputComponent() override
+	/*std::shared_ptr<InputComponent> getPlayerInputComponent() override
 	{
 		return playerInput;
-	}
+	}*/
 
-	std::shared_ptr<VelocityComponent> getVelocityComponent() override
+	/*std::shared_ptr<VelocityComponent> getVelocityComponent() override
 	{
 		return velocity; 
-	}
-	std::shared_ptr<PlayerStateComponent> getStateComponent() override
-	{
-		return state;
-	}
+	}*/
+	//std::shared_ptr<PlayerStateComponent> getStateComponent() override
+	//{
+	//	return state;
+	//}
 
 //	void handleInput(Game& game);
 
@@ -51,7 +51,7 @@ public:
 	void setShouting(bool sh) { shouting = sh; }
 
 	std::shared_ptr<HealthComponent> getHealthComp() { return healthComponent; }
-	std::shared_ptr<VelocityComponent> getVelocityComp() { return velocity; }
+	//std::shared_ptr<VelocityComponent> getVelocityComp() { return velocity; }
 
 //	std::shared_ptr<InputComponent> getPlayerInput() { return playerInput; }
 
@@ -67,7 +67,7 @@ public:
 		graphics = _graphics; 
 	}
 
-	bool intersects(Entity& other) { return collider->intersects(other.getColliderComponent().get()->getBoundingBox()); }
+	bool intersects(Entity& other);
 
 
 	// std::shared_ptr<Fire> createFire() const;

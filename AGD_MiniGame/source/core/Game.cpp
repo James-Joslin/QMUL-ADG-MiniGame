@@ -4,6 +4,7 @@
 #include "../../include/core/InputHandler.h"
 #include "../../include/core/Command.h"
 #include "../../include/components/GraphicsComponent.h"
+#include "../../include/components/LogicComponent.h"
 #include "../../include/systems/Systems.h"
 #include <iostream>
 
@@ -257,8 +258,9 @@ void Game::update(float elapsed)
 							{
 								// IX.G: This is a log
 								Log* log = dynamic_cast<Log*>((*it).get());
-								//int	numWood = log->getWood();
-								player->getStateComponent()->addWood(*player, log->getWood());
+
+								std::shared_ptr<PlayerStateComponent> state = std::dynamic_pointer_cast<PlayerStateComponent>(player->getComponent(ComponentID::STATE));
+								state->addWood(*player, log->getWood());
 								(*it)->markDeleted();
 								break;
 							}

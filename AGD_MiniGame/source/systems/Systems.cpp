@@ -9,10 +9,12 @@
 
 void TTLSystem::update(Entity* entity, Game* game, float elapsedTime)
 {
-	if (entity->getTTLComponent())
+	if (entity->getComponent(ComponentID::TTL))
 	{
-		entity->getTTLComponent()->decrementTTL();
-		if (entity->getTTLComponent()->getTTL() <= 0)
+		std::shared_ptr<TTLComponent> ttl = std::dynamic_pointer_cast<TTLComponent>(entity->getComponent(ComponentID::TTL));
+
+		ttl->decrementTTL();
+		if (ttl->getTTL() <= 0)
 		{
 			entity->markDeleted();
 		}
@@ -25,10 +27,13 @@ void TTLSystem::update(Entity* entity, Game* game, float elapsedTime)
 
 void InputSystem::update(Entity* entity, Game* game, float elapsedTime)
 {	
-	if (entity->getPlayerInputComponent())
-	{
-		entity->getVelocityComponent()->setVelocityDirection(0.f, 0.f);
-		for (auto pointer : entity->getPlayerInputComponent()->getPlayerInputHander()->handleInput())
+	if (entity->getComponent(ComponentID::INPUT))
+	{	
+		std::shared_ptr<VelocityComponent> velocity = std::dynamic_pointer_cast<VelocityComponent>(entity->getComponent(ComponentID::VELOCITY));
+		std::shared_ptr<InputComponent> input = std::dynamic_pointer_cast<InputComponent>(entity->getComponent(ComponentID::INPUT));
+
+		velocity->setVelocityDirection(0.f, 0.f);
+		for (auto pointer : input->getPlayerInputHander()->handleInput())
 		{
 			if (pointer)
 			{
@@ -44,14 +49,25 @@ void InputSystem::update(Entity* entity, Game* game, float elapsedTime)
 
 void MovementSystem::update(Entity* entity, Game* game, float elapsedTime)
 {
-	if (entity->getVelocityComponent())
+	std::shared_ptr<VelocityComponent> velocity = std::dynamic_pointer_cast<VelocityComponent>(entity->getComponent(ComponentID::VELOCITY));
+	std::shared_ptr<PositionComponent> position = std::dynamic_pointer_cast<PositionComponent>(entity->getComponent(ComponentID::POSITION));
+
+	if (velocity)
 	{
 		if (entity->getEntityType() == EntityType::PLAYER || entity->getEntityType() == EntityType::FIRE)
 		{
-			entity->setPosition(
-				entity->position->getPosition().x + (entity->getVelocityComponent()->getVelocityDirection().x * entity->getVelocityComponent()->getSpeed() * elapsedTime),
-				entity->position->getPosition().y + (entity->getVelocityComponent()->getVelocityDirection().y * entity->getVelocityComponent()->getSpeed() * elapsedTime)
+			position->setPosition(
+				position->getPosition().x + (velocity->getVelocityDirection().x * velocity->getSpeed() * elapsedTime),
+				position->getPosition().y + (velocity->getVelocityDirection().y * velocity->getSpeed() * elapsedTime)
 			);
+
+
+
+		}
+		if (entity->getEntityType() == EntityType::FIRE)
+		{
+			std::cout << position->getPosition().x << " hello" << std::endl;
+			//std::cout << velocity->getPosition().x << " hello" << std::endl;
 		}
 	}
 	else
@@ -62,22 +78,25 @@ void MovementSystem::update(Entity* entity, Game* game, float elapsedTime)
 
 void GraphicsSystem::update(Entity* entity, Game* game, float elapsedTime)
 {
-	entity->getGraphicsComponent()->draw(game->getWindow());
+	std::shared_ptr<GraphicsComponent> graphics = std::dynamic_pointer_cast<GraphicsComponent>(entity->getComponent(ComponentID::GRAPHICS));
+	graphics->draw(game->getWindow());
 }
 
 void ColliderSystem::update(Entity* entity, Game* game, float elapsedTime)
 {
-	if (entity->getColliderComponent())
-	{
-		entity->getColliderComponent()->update(entity->getPosition());
-		//entity->getColliderComponent()->draw(game->getWindow()); <- broken like graphics draw method
-	}
+	std::shared_ptr<ColliderComponent> collider = std::dynamic_pointer_cast<ColliderComponent>(entity->getComponent(ComponentID::COLLIDER));
+	/*if (entity->getColliderComponent())
+	{*/
+	collider->update(entity->getPosition());
+		//entity->getColliderComponent()->draw(game->getWindow()); // <- broken like graphics draw method
+	//}
 }
 
 void GameplaySystem::update(Entity* entity, Game* game, float elapsedTime)
 {
-	if (entity->getStateComponent())
-	{
-		entity->getStateComponent()->update(*entity, game, elapsedTime);
-	}
+	std::shared_ptr<PlayerStateComponent> state = std::dynamic_pointer_cast<PlayerStateComponent>(entity->getComponent(ComponentID::STATE));
+	//if (entity->getStateComponent())
+	//{
+	state->update(*entity, game, elapsedTime);
+	//}
 }

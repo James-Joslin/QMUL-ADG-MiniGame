@@ -17,7 +17,7 @@ public:
 class PlayerStateComponent : public LogicComponent
 {
 public:
-	PlayerStateComponent(int _maxWood, int _wood) : maxWood{ _maxWood }, wood{ _wood } {};
+	PlayerStateComponent(int _maxWood, int _wood, std::shared_ptr<VelocityComponent> _velocity) : maxWood{ _maxWood }, wood{ _wood }, velocity{ _velocity } {};
 
 	void update(Entity& entity, Game* game, float elapsed) override;
 	
@@ -27,6 +27,8 @@ public:
 	ComponentID getID() { return ComponentID::STATE; }
 
 private:
+
+	std::shared_ptr<VelocityComponent> velocity;
 
 	bool attacking{ false };
 	bool shouting{ false };
