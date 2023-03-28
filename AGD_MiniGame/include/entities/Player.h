@@ -37,6 +37,10 @@ public:
 	{
 		return velocity; 
 	}
+	std::shared_ptr<PlayerStateComponent> getStateComponent() override
+	{
+		return state;
+	}
 
 //	void handleInput(Game& game);
 

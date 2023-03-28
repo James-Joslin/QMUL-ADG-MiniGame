@@ -16,6 +16,7 @@ Game::Game() : paused(false), id{ 0 }
 	systems.push_back(std::make_shared<TTLSystem>());
 	systems.push_back(std::make_shared<InputSystem>());
 	systems.push_back(std::make_shared<MovementSystem>());
+	systems.push_back(std::make_shared<GameplaySystem>());
 }
 
 Game::~Game()
@@ -253,10 +254,9 @@ void Game::update(float elapsed)
 							{
 								// IX.G: This is a log
 								Log* log = dynamic_cast<Log*>((*it).get());
-								int	numWood = log->getWood();
-								player->addWood(numWood);
+								//int	numWood = log->getWood();
+								player->getStateComponent()->addWood(*player, log->getWood());
 								(*it)->markDeleted();
-								std::cout << "Collide with wood (Wood collected: " << numWood << ", Total Player Wood: " << player->getWood() << ")" << std::endl;
 								break;
 							}
 						default:

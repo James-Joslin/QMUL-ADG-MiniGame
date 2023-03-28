@@ -46,3 +46,13 @@ public:
 	}
 	void update(Entity*, Game*, float) override;
 };
+
+class GameplaySystem : public System
+{
+public:
+	GameplaySystem()
+	{
+		componentMask.turnOnBit(static_cast<int>(ComponentID::STATE));
+	}
+	void update(Entity*, Game*, float) override;
+};

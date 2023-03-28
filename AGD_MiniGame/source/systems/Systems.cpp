@@ -59,3 +59,11 @@ void MovementSystem::update(Entity* entity, Game* game, float elapsedTime)
 
 	}
 }
+
+void GameplaySystem::update(Entity* entity, Game* game, float elapsedTime)
+{
+	if (entity->getStateComponent())
+	{
+		entity->getStateComponent()->update(*entity, game, elapsedTime);
+	}
+}

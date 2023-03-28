@@ -75,13 +75,14 @@ void PlayerStateComponent::update(Entity& entity, Game* game, float elapsed)
 
 void PlayerStateComponent::addWood(Entity& entity, int w)
 {
-	Player* player = dynamic_cast<Player*>(&entity);
+	/*Player* player = dynamic_cast<Player*>(&entity);
 	if (player != nullptr)
-	{
-		wood += w;
-		if (wood > player->maxWood) wood = player->maxWood;
-		if (wood < 0) wood = 0;
-	}
+	{*/
+	wood += w;
+	if (wood > maxWood) wood = maxWood;
+	if (wood < 0) wood = 0;
+	std::cout << "Collide with wood (Wood collected: " << w << ", Total Player Wood: " << wood << ")" << std::endl;
+	//}
 }
 
 std::shared_ptr<Fire> PlayerStateComponent:: createFire(Entity* player) const

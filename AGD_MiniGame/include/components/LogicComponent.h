@@ -17,6 +17,8 @@ public:
 class PlayerStateComponent : public LogicComponent
 {
 public:
+	PlayerStateComponent(int _maxWood, int _wood) : maxWood{ _maxWood }, wood{ _wood } {};
+
 	void update(Entity& entity, Game* game, float elapsed) override;
 	
 	void addWood(Entity& entity, int w);
@@ -28,7 +30,8 @@ private:
 
 	bool attacking{ false };
 	bool shouting{ false };
-	int wood{ 100 };
+	int wood;
+	int maxWood;
 	float shootCooldown{ 0 };
 	float fireSpeed = 200.f;
 };

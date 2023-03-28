@@ -178,3 +178,7 @@ std::shared_ptr<VelocityComponent> Entity::getVelocityComponent()
 	return nullptr;
 }
 
+std::shared_ptr<PlayerStateComponent> Entity::getStateComponent()
+{
+	return nullptr;
+}

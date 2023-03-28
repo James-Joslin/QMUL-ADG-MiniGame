@@ -10,6 +10,7 @@
 class PositionComponent;
 class InputComponent;
 class VelocityComponent;
+class PlayerStateComponent;
 
 using EntityID = unsigned int;
 enum class EntityType
@@ -41,6 +42,7 @@ public:
 	virtual std::shared_ptr<TTLComponent> getTTLComponent();
 	virtual std::shared_ptr<InputComponent> getPlayerInputComponent();
 	virtual std::shared_ptr<VelocityComponent> getVelocityComponent();
+	virtual std::shared_ptr<PlayerStateComponent> getStateComponent();
 
 	//Getters and Setters
 	void setID(EntityID entId) { id = entId; }

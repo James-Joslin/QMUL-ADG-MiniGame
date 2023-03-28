@@ -20,7 +20,7 @@ Player::Player() : Entity(EntityType::PLAYER), attacking(false), shouting(false)
 	addComponent(healthComponent);
 	velocity = std::make_shared<VelocityComponent>(playerSpeed);
 	addComponent(velocity);
-	state = std::make_shared<PlayerStateComponent>();
+	state = std::make_shared<PlayerStateComponent>(maxWood, wood);
 	addComponent(state);
 }
 
@@ -33,7 +33,7 @@ void Player::update(Game* game, float elapsed)
 	// collider update if player spritesheet - no point in updating collider position if the entity doesn't move
 	collider->update(getPosition()); // entitiy getPosition calls position-> getPosition
 	graphics->update(game, elapsed, getPosition()); // hasn't been implemented yet
-	state->update(*this, game, elapsed);
+	//state->update(*this, game, elapsed);
 
 	/*if (velocity->getVelocityDirection().x > 0)
 	{
@@ -145,10 +145,10 @@ void Player::update(Game* game, float elapsed)
 //	return fireEntity;
 //}
 
-void Player::addWood(int w)
-{
-	state->addWood(*this, w);
-}
+//void Player::addWood(int w)
+//{
+//	state->addWood(*this, w);
+//}
 
 
 void Player::positionSprite(int row, int col, int spriteWH, float tileScale)
