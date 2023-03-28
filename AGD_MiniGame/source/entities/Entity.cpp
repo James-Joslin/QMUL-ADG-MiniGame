@@ -13,7 +13,8 @@ Entity::Entity() :
 	id(0),
 	type(EntityType::UNDEFINED),
 	// X.B (1/2) Add the initialization the deleted flag to false
-	deleted(false)
+	deleted(false),
+	componentSet(0)
 {
 	addComponent(position);
 }
@@ -24,6 +25,7 @@ Entity::Entity(EntityType et) :
 	isSpriteSheet(true),
 	id(0),
 	type (et),
+	componentSet(0),
 	// X.B (2/2) Add the initialization the deleted flag to false
 	deleted(false)
 
@@ -52,7 +54,7 @@ void Entity::update(Game* game, float elapsed)
 	
 
 	//Need to implement an update in graphics component
-	graphics->update(game, elapsed, getPosition()); // hasn't been implemented yet
+	//graphics->update(game, elapsed, getPosition()); // hasn't been implemented yet
 
 	//if (isSpriteSheet) // <- Needs to go into graphicsPointer->Update()
 	//{
@@ -74,10 +76,10 @@ void Entity::update(Game* game, float elapsed)
 	
 	
 	//Rectangle& bbox = getBoundingBox();
-	if (type != EntityType::FIRE)
-	{
-		collider->update(getPosition()); // entitiy getPosition calls position-> getPosition
-	}
+	
+	//{
+	//	collider->update(getPosition()); // entitiy getPosition calls position-> getPosition
+	//}
 }	
 
 void Entity::draw(Window* window)
@@ -104,6 +106,7 @@ void Entity::draw(Window* window)
 void Entity::init(const std::string& textureFile, float scale, std::shared_ptr<GraphicsComponent> _graphicsPointer)
 {
 	graphics = _graphicsPointer;
+	addComponent(graphics);
 	graphics->init(textureFile, scale);
 	//texture.loadFromFile(textureFile);
 	//sprite.setTexture(texture);
@@ -115,6 +118,7 @@ void Entity::init(const std::string& textureFile, float scale, std::shared_ptr<G
 	if (type != EntityType::FIRE)
 	{
 		collider = std::make_shared<ColliderComponent>();
+		addComponent(collider);
 		collider->setBboxSize(bboxSize);
 	}
 }
@@ -130,6 +134,7 @@ void Entity::initSpriteSheet(const std::string& spriteSheetFile)
 		graphics->getSpriteSize().y * graphics->getSpriteScale().y);
 
 	collider = std::make_shared<ColliderComponent>();
+	addComponent(collider);
 	collider->setBboxSize(bboxSize);
 }
 
@@ -143,7 +148,7 @@ void Entity::setPosition(float x, float y)
 	position->setPosition(x, y);
 	Vector2f pos = getPosition();
 	std::cout << pos.x << pos.y << std::endl;
-	// graphicsPointer->setPosition(pos);  <- this just returns a null pointer, so we're setting location via update - tabbed out update functions for objects in staticEntities.h
+	graphics->setPosition(pos); // <- this just returns a null pointer, so we're setting location via update - tabbed out update functions for objects in staticEntities.h
 
 	//if (graphicsPointer)
 	//{

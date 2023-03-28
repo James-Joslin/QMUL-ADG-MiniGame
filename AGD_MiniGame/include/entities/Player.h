@@ -56,13 +56,16 @@ public:
 //	std::shared_ptr<InputComponent> getPlayerInput() { return playerInput; }
 
 	int getWood() const { return wood; }
-	void addWood(int w);
+	//void addWood(int w);
 
 	bool hasSpriteSheet() const { return isSpriteSheet; }
 
 	void positionSprite(int row, int col, int spriteWH, float tileScale);
 
-	void setGraphicsPointer(std::shared_ptr<GraphicsComponent> _graphics) { graphics = _graphics; }
+	void setGraphicsPointer(std::shared_ptr<GraphicsComponent> _graphics) { 
+		addComponent(_graphics);
+		graphics = _graphics; 
+	}
 
 	bool intersects(Entity& other) { return collider->intersects(other.getColliderComponent().get()->getBoundingBox()); }
 

@@ -48,7 +48,7 @@ void MovementSystem::update(Entity* entity, Game* game, float elapsedTime)
 	{
 		if (entity->getEntityType() == EntityType::PLAYER || entity->getEntityType() == EntityType::FIRE)
 		{
-			entity->position->setPosition(
+			entity->setPosition(
 				entity->position->getPosition().x + (entity->getVelocityComponent()->getVelocityDirection().x * entity->getVelocityComponent()->getSpeed() * elapsedTime),
 				entity->position->getPosition().y + (entity->getVelocityComponent()->getVelocityDirection().y * entity->getVelocityComponent()->getSpeed() * elapsedTime)
 			);
@@ -57,6 +57,20 @@ void MovementSystem::update(Entity* entity, Game* game, float elapsedTime)
 	else
 	{
 
+	}
+}
+
+void GraphicsSystem::update(Entity* entity, Game* game, float elapsedTime)
+{
+	entity->getGraphicsComponent()->draw(game->getWindow());
+}
+
+void ColliderSystem::update(Entity* entity, Game* game, float elapsedTime)
+{
+	if (entity->getColliderComponent())
+	{
+		entity->getColliderComponent()->update(entity->getPosition());
+		//entity->getColliderComponent()->draw(game->getWindow()); <- broken like graphics draw method
 	}
 }
 

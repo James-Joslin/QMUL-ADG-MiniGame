@@ -31,7 +31,7 @@ void Player::update(Game* game, float elapsed)
 	// velocity update
 	velocity->update(*this, elapsed);
 	// collider update if player spritesheet - no point in updating collider position if the entity doesn't move
-	collider->update(getPosition()); // entitiy getPosition calls position-> getPosition
+	//collider->update(getPosition()); // entitiy getPosition calls position-> getPosition
 	graphics->update(game, elapsed, getPosition()); // hasn't been implemented yet
 	//state->update(*this, game, elapsed);
 

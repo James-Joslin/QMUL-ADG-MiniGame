@@ -17,6 +17,8 @@ Game::Game() : paused(false), id{ 0 }
 	systems.push_back(std::make_shared<InputSystem>());
 	systems.push_back(std::make_shared<MovementSystem>());
 	systems.push_back(std::make_shared<GameplaySystem>());
+	systems.push_back(std::make_shared<GraphicsSystem>());
+	systems.push_back(std::make_shared<ColliderSystem>());
 }
 
 Game::~Game()
@@ -31,8 +33,8 @@ std::shared_ptr<T> Game::buildEntityAt(const std::string& filename, int col, int
 	float y = row * spriteWH * tileScale;
 	float cntrFactor = (tileScale - itemScale) * spriteWH * 0.5f;
 
-	ent->setPosition(x + cntrFactor, y + cntrFactor);
 	ent->init(filename, itemScale, graphicsComponentPointer);
+	ent->setPosition(x + cntrFactor, y + cntrFactor);
 	
 	return ent;
 }
@@ -134,6 +136,7 @@ void Game::init(std::vector<std::string> lines)
 
 				// IV.B (1/4): Create the player shared pointer.
 				player = std::make_shared<Player>();
+				
 
 				// IV.B (2/4): Call the function that initializes the Sprite Sheet with a single parameter, a const std::string& filename.
 				//			   This string should be "img/DwarfSpriteSheet_data.txt"

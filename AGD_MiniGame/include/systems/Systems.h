@@ -8,7 +8,7 @@ class System
 {
 public:
 	virtual void update(Entity*, Game*, float) = 0;
-	bool validate(Entity* entity) { return entity->hasComponent(entity->getComponentSet()); }
+	bool validate(Entity* entity) { return entity->hasComponent(componentMask); }
 
 protected:
 	Bitmask componentMask;
@@ -47,12 +47,34 @@ public:
 	void update(Entity*, Game*, float) override;
 };
 
+class GraphicsSystem : public System
+{
+public:
+	GraphicsSystem()
+	{
+		componentMask.turnOnBit(static_cast<int>(ComponentID::POSITION));
+		componentMask.turnOnBit(static_cast<int>(ComponentID::GRAPHICS));
+	}
+	void update(Entity*, Game*, float) override;
+};
+
 class GameplaySystem : public System
 {
 public:
 	GameplaySystem()
 	{
 		componentMask.turnOnBit(static_cast<int>(ComponentID::STATE));
+	}
+	void update(Entity*, Game*, float) override;
+};
+
+class ColliderSystem : public System
+{
+public: 
+	ColliderSystem()
+	{
+		componentMask.turnOnBit(static_cast<int>(ComponentID::POSITION));
+		componentMask.turnOnBit(static_cast<int>(ComponentID::COLLIDER));
 	}
 	void update(Entity*, Game*, float) override;
 };

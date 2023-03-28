@@ -45,8 +45,9 @@ void SpriteSheetGraphics::draw(Window* window)
 {
 	if (isSpriteSheet)
 	{
-		sf::Sprite* sp = &spriteSheet.getSprite();
-		const sf::Vector2f pos = sp->getPosition();
+		/*sf::Sprite* sp = &spriteSheet.getSprite();
+		const sf::Vector2f pos = sp->getPosition();*/
+		
 		window->draw(spriteSheet.getSprite());
 	}
 	else

@@ -43,6 +43,7 @@ public:
 	virtual std::shared_ptr<InputComponent> getPlayerInputComponent();
 	virtual std::shared_ptr<VelocityComponent> getVelocityComponent();
 	virtual std::shared_ptr<PlayerStateComponent> getStateComponent();
+	std::shared_ptr<GraphicsComponent> getGraphicsComponent() { return graphics; }
 
 	//Getters and Setters
 	void setID(EntityID entId) { id = entId; }

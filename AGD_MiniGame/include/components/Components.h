@@ -16,9 +16,9 @@ enum class ComponentID
 class Component
 {
 public:
-
-	virtual ComponentID getID() = 0;
 	~Component() {};
+	virtual ComponentID getID() = 0;
+	
 
 private:
 
