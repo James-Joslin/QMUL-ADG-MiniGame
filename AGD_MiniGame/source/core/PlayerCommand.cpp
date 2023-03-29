@@ -28,10 +28,12 @@ void MoveDownCommand::execute(Game& game)
 
 void AttackCommand::execute(Game& game)
 {
-	game.getPlayer()->setAttacking(true);
+	std::shared_ptr<PlayerStateComponent> state = std::dynamic_pointer_cast<PlayerStateComponent>(game.getPlayer()->getComponent(ComponentID::STATE));
+	state->setAttacking(true);
 }
 
 void FireCommand::execute(Game& game)
 {
-	game.getPlayer()->setShouting(true);
+	std::shared_ptr<PlayerStateComponent> state = std::dynamic_pointer_cast<PlayerStateComponent>(game.getPlayer()->getComponent(ComponentID::STATE));
+	state->setShouting(true);
 }

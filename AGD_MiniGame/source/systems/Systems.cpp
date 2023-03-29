@@ -39,7 +39,7 @@ void InputSystem::update(Entity* entity, Game* game, float elapsedTime)
 			{
 				pointer->execute(*game);
 			}
-		}	
+		}
 	}
 	else
 	{
@@ -64,11 +64,11 @@ void MovementSystem::update(Entity* entity, Game* game, float elapsedTime)
 
 
 		}
-		if (entity->getEntityType() == EntityType::FIRE)
-		{
-			std::cout << position->getPosition().x << " hello" << std::endl;
-			//std::cout << velocity->getPosition().x << " hello" << std::endl;
-		}
+		//if (entity->getEntityType() == EntityType::FIRE)
+		//{
+		//	std::cout << position->getPosition().x << " hello" << std::endl;
+		//	//std::cout << velocity->getPosition().x << " hello" << std::endl;
+		//}
 	}
 	else
 	{
@@ -85,18 +85,15 @@ void GraphicsSystem::update(Entity* entity, Game* game, float elapsedTime)
 void ColliderSystem::update(Entity* entity, Game* game, float elapsedTime)
 {
 	std::shared_ptr<ColliderComponent> collider = std::dynamic_pointer_cast<ColliderComponent>(entity->getComponent(ComponentID::COLLIDER));
-	/*if (entity->getColliderComponent())
-	{*/
+
 	collider->update(entity->getPosition());
-		//entity->getColliderComponent()->draw(game->getWindow()); // <- broken like graphics draw method
-	//}
+	//entity->getColliderComponent()->draw(game->getWindow()); // <- broken like graphics draw method
+
 }
 
 void GameplaySystem::update(Entity* entity, Game* game, float elapsedTime)
 {
 	std::shared_ptr<PlayerStateComponent> state = std::dynamic_pointer_cast<PlayerStateComponent>(entity->getComponent(ComponentID::STATE));
-	//if (entity->getStateComponent())
-	//{
+
 	state->update(*entity, game, elapsedTime);
-	//}
 }

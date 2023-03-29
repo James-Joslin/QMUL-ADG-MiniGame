@@ -12,9 +12,6 @@ void PlayerStateComponent::update(Entity& entity, Game* game, float elapsed)
 		Player* player = dynamic_cast<Player*>(&entity);
 		if (player != nullptr)
 		{
-			attacking = player->isAttacking();
-			shouting = player->isShouting();
-
 			if (attacking)
 			{
 				player->graphics->setAnimation("Attack", true, false);
@@ -63,11 +60,11 @@ void PlayerStateComponent::update(Entity& entity, Game* game, float elapsed)
 			
 			if (attacking && player->graphics->getSpriteSheet()->getCurrentAnim()->isPlaying() == false)
 			{
-				player->setAttacking(false);
+				setAttacking(false);
 			}
 			if (shouting && player->graphics->getSpriteSheet()->getCurrentAnim()->isPlaying() == false)
 			{
-				player->setShouting(false);
+				setShouting(false);
 			}
 		}
 	}

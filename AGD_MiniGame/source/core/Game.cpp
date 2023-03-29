@@ -180,15 +180,15 @@ void Game::handleInput()
 {
 	// V.C: Call the fucntion that handles the input for the game and retrieve the command returned in a variable.
 	//      Then, call the "execute" method of the returned object to run this command.
-	//std::shared_ptr<Command> command = inputHandler->handleInput();
+	//std::shared_ptr<command> command = inputhandler->handleinput();
 
 	//if (command) {
 	//	// handle non-null pointer case
 	//	command->execute(*this);
 	//}
-	
-	// V.D: Call the function handleInput on the player's object.
-	//player->handleInput(*this);
+	//
+	// //v.d: call the function handleinput on the player's object.
+	//player->handleinput(*this);
 }
 
 
@@ -239,7 +239,7 @@ void Game::update(float elapsed)
 						// says what are you colliding with.
 
 						auto entType = (*it)->getEntityType();
-
+						std::shared_ptr<PlayerStateComponent> state = std::dynamic_pointer_cast<PlayerStateComponent>(player->getComponent(ComponentID::STATE));
 						switch (entType)
 						{
 						case EntityType::POTION:
@@ -254,12 +254,10 @@ void Game::update(float elapsed)
 						}
 						case EntityType::LOG:
 						{
-							if (player->isAttacking() && player->getSpriteSheet()->getCurrentAnim()->isInAction()) // check this
+							if (state->isAttacking() && player->getSpriteSheet()->getCurrentAnim()->isInAction()) // check this
 							{
 								// IX.G: This is a log
 								Log* log = dynamic_cast<Log*>((*it).get());
-
-								std::shared_ptr<PlayerStateComponent> state = std::dynamic_pointer_cast<PlayerStateComponent>(player->getComponent(ComponentID::STATE));
 								state->addWood(*player, log->getWood());
 								(*it)->markDeleted();
 								break;

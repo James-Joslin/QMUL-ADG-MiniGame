@@ -20,7 +20,7 @@ Player::Player() : Entity(EntityType::PLAYER), attacking(false), shouting(false)
 	addComponent(healthComponent);
 	velocity = std::make_shared<VelocityComponent>(playerSpeed);
 	addComponent(velocity);
-	state = std::make_shared<PlayerStateComponent>(maxWood, wood, velocity);
+	state = std::make_shared<PlayerStateComponent>(attacking, shouting, maxWood, wood, fireSpeed, velocity);
 	addComponent(state);
 }
 

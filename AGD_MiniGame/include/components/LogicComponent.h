@@ -17,23 +17,41 @@ public:
 class PlayerStateComponent : public LogicComponent
 {
 public:
-	PlayerStateComponent(int _maxWood, int _wood, std::shared_ptr<VelocityComponent> _velocity) : maxWood{ _maxWood }, wood{ _wood }, velocity{ _velocity } {};
+	PlayerStateComponent(
+		bool _attacking,
+		bool _shouting,
+		int _maxWood,
+		int _wood,
+		float _fireSpeed,
+		std::shared_ptr<VelocityComponent> _velocity) : 
+		attacking{ _attacking }, 
+		shouting{ _shouting },  
+		maxWood { _maxWood }, 
+		wood{ _wood }, 
+		fireSpeed{ _fireSpeed }, 
+		velocity{ _velocity } {};
 
 	void update(Entity& entity, Game* game, float elapsed) override;
-	
+
 	void addWood(Entity& entity, int w);
 
 	std::shared_ptr<Fire> createFire(Entity*) const;
 	ComponentID getID() { return ComponentID::STATE; }
 
+	bool isAttacking() const { return attacking; }
+	void setAttacking(bool at) { attacking = at; }
+
+	bool isShouting() const { return shouting; }
+	void setShouting(bool sh) { shouting = sh; }
+
 private:
 
 	std::shared_ptr<VelocityComponent> velocity;
 
-	bool attacking{ false };
-	bool shouting{ false };
+	bool attacking;
+	bool shouting;
 	int wood;
 	int maxWood;
 	float shootCooldown{ 0 };
-	float fireSpeed = 200.f;
+	float fireSpeed;
 };

@@ -43,7 +43,7 @@ void Entity::update(Game* game, float elapsed)
 
 void Entity::draw(Window* window)
 {
-	graphics->draw(window); // or should the draw still be in the entity class?
+	graphics->draw(window); 
 	// VIII.B Draw the bounding box by retrieving a drawable rect from the bounding box Rectangle.
 	if (type != EntityType::FIRE)
 	{
