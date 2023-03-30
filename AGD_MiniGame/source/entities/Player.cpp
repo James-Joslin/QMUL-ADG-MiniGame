@@ -26,11 +26,11 @@ Player::Player() : Entity(EntityType::PLAYER), attacking(false), shouting(false)
 
 Player::~Player() {}
 
-void Player::update(Game* game, float elapsed)
-{
-	// velocity->update(*this, elapsed);
-	graphics->update(game, elapsed, getPosition()); // hasn't been implemented yet
-}
+//void Player::update(Game* game, float elapsed)
+//{
+//	// velocity->update(*this, elapsed);
+//	// graphics->update(game, elapsed, getPosition()); // hasn't been implemented yet
+//}
 
 void Player::positionSprite(int row, int col, int spriteWH, float tileScale)
 {
@@ -43,7 +43,7 @@ void Player::positionSprite(int row, int col, int spriteWH, float tileScale)
 	float cntrFactorY = ((spriteWH * tileScale) - spriteSizeY);	// to align to lower side of the tile.
 	float cntrFactorX = cntrFactorY * 0.5f;						//to center horizontally
 
-	std::cout << x + cntrFactorX << y + cntrFactorY << std::endl;
+	//std::cout << x + cntrFactorX << y + cntrFactorY << std::endl;
 
 	setPosition(x + cntrFactorX, y + cntrFactorY);
 	velocity->setVelocityDirection(0.f, 0.f);

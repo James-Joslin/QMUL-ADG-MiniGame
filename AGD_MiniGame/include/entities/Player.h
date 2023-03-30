@@ -26,7 +26,7 @@ public:
 	Player();
 	~Player();
 
-	virtual void update(Game* game, float elapsed = 1.0f) override;
+	//virtual void update(Game* game, float elapsed = 1.0f) override;
 
 	/*std::shared_ptr<InputComponent> getPlayerInputComponent() override
 	{

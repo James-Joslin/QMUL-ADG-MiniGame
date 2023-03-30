@@ -29,9 +29,12 @@ void InputSystem::update(Entity* entity, Game* game, float elapsedTime)
 {	
 	if (entity->getComponent(ComponentID::INPUT))
 	{	
+		// code that was in the input component update -> should update code be put back and all we do in the system is call the update
+		// code of the component via a pointer?
 		std::shared_ptr<VelocityComponent> velocity = std::dynamic_pointer_cast<VelocityComponent>(entity->getComponent(ComponentID::VELOCITY));
 		std::shared_ptr<InputComponent> input = std::dynamic_pointer_cast<InputComponent>(entity->getComponent(ComponentID::INPUT));
 
+		// Code that was in velocity update function
 		velocity->setVelocityDirection(0.f, 0.f);
 		for (auto pointer : input->getPlayerInputHander()->handleInput())
 		{
@@ -52,6 +55,7 @@ void MovementSystem::update(Entity* entity, Game* game, float elapsedTime)
 	std::shared_ptr<VelocityComponent> velocity = std::dynamic_pointer_cast<VelocityComponent>(entity->getComponent(ComponentID::VELOCITY));
 	std::shared_ptr<PositionComponent> position = std::dynamic_pointer_cast<PositionComponent>(entity->getComponent(ComponentID::POSITION));
 
+	// Code that was in the movement system update
 	if (velocity)
 	{
 		if (entity->getEntityType() == EntityType::PLAYER || entity->getEntityType() == EntityType::FIRE)
@@ -60,15 +64,7 @@ void MovementSystem::update(Entity* entity, Game* game, float elapsedTime)
 				position->getPosition().x + (velocity->getVelocityDirection().x * velocity->getSpeed() * elapsedTime),
 				position->getPosition().y + (velocity->getVelocityDirection().y * velocity->getSpeed() * elapsedTime)
 			);
-
-
-
 		}
-		//if (entity->getEntityType() == EntityType::FIRE)
-		//{
-		//	std::cout << position->getPosition().x << " hello" << std::endl;
-		//	//std::cout << velocity->getPosition().x << " hello" << std::endl;
-		//}
 	}
 	else
 	{
@@ -79,7 +75,27 @@ void MovementSystem::update(Entity* entity, Game* game, float elapsedTime)
 void GraphicsSystem::update(Entity* entity, Game* game, float elapsedTime)
 {
 	std::shared_ptr<GraphicsComponent> graphics = std::dynamic_pointer_cast<GraphicsComponent>(entity->getComponent(ComponentID::GRAPHICS));
-	graphics->draw(game->getWindow());
+	std::shared_ptr<PositionComponent> position = std::dynamic_pointer_cast<PositionComponent>(entity->getComponent(ComponentID::POSITION));
+	
+	// code that was in graphics pointer update
+	if (graphics->isSpriteSheetEntity())
+	{
+		// updating graphic positioning
+		graphics->getSpriteSheet()->setSpritePosition(sf::Vector2f(position->getPosition().x, position->getPosition().y));
+		graphics->getSpriteSheet()->update(elapsedTime);
+
+		// draw - being called in game::render()
+		// just calling draw in graphics component via pointer
+		game->getWindow()->draw(graphics->getSpriteSheet()->getSprite());
+	}
+	else
+	{
+		sf::Sprite* sprite = graphics->getSprite();
+		sprite->setPosition(sf::Vector2f(position->getPosition().x, position->getPosition().y));
+
+		// draw being handled in game::render()
+		game->getWindow()->draw(*sprite);
+	}	
 }
 
 void ColliderSystem::update(Entity* entity, Game* game, float elapsedTime)
@@ -87,8 +103,13 @@ void ColliderSystem::update(Entity* entity, Game* game, float elapsedTime)
 	std::shared_ptr<ColliderComponent> collider = std::dynamic_pointer_cast<ColliderComponent>(entity->getComponent(ComponentID::COLLIDER));
 
 	collider->update(entity->getPosition());
-	//entity->getColliderComponent()->draw(game->getWindow()); // <- broken like graphics draw method
 
+}
+
+void PrintDebugSystem::update(Entity* entity, Game* game, float elapsedTime)
+{
+	std::shared_ptr<ColliderComponent> collider = std::dynamic_pointer_cast<ColliderComponent>(entity->getComponent(ComponentID::COLLIDER));
+	collider->draw(game->getWindow());
 }
 
 void GameplaySystem::update(Entity* entity, Game* game, float elapsedTime)

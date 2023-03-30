@@ -9,17 +9,22 @@
 #include <iostream>
 
 // III.F Add the initialization (to 0) of the entity counter to the initalizers list of this constructor
-Game::Game() : paused(false), id{ 0 }
+Game::Game() : paused(false), drawDebug(false), id{ 0 }
 {
 	// V.B: Create the unique pointer to the Input Handler object.
 	inputHandler = std::make_unique<InputHandler>();
 
-	systems.push_back(std::make_shared<TTLSystem>());
-	systems.push_back(std::make_shared<InputSystem>());
-	systems.push_back(std::make_shared<MovementSystem>());
-	systems.push_back(std::make_shared<GameplaySystem>());
-	systems.push_back(std::make_shared<GraphicsSystem>());
-	systems.push_back(std::make_shared<ColliderSystem>());
+	logicSystems.push_back(std::make_shared<TTLSystem>());
+	logicSystems.push_back(std::make_shared<InputSystem>());
+	logicSystems.push_back(std::make_shared<MovementSystem>());
+	logicSystems.push_back(std::make_shared<GameplaySystem>());
+	logicSystems.push_back(std::make_shared<ColliderSystem>());
+
+	graphicsSystems.push_back(std::make_shared<GraphicsSystem>());
+	if (drawDebug) // set to false in initialiser list - change to true if you want to see debug
+	{
+		graphicsSystems.push_back(std::make_shared<PrintDebugSystem>());
+	}
 }
 
 Game::~Game()
@@ -125,7 +130,7 @@ void Game::init(std::vector<std::string> lines)
 				///		  Then, uncomment the call to the funcion "addEntity" passing the pointer to the new entity as parameter.
 				auto potionEntity = buildEntityAt<Potion>("./img/potion.png", col, row, std::make_shared<SpriteGraphics>());
 				addEntity(potionEntity);			/// uncomment this
-				std::cout << row << " " << col << " " << spriteWH << " " << tileScale << std::endl;
+				//std::cout << row << " " << col << " " << spriteWH << " " << tileScale << std::endl;
 
 				//By default, entities stand on corridors
 				// II.C (4/5) Use the function addTile from Board to add a CORRIDOR tile to this position.
@@ -208,20 +213,20 @@ void Game::update(float elapsed)
 		//		  - (*it): returns the object pointed at by the iterator 'it'
 		//        - iterators override the operators ++ and -- for advancing them to their next and previous element, respectively.
 
-		bitArray(elapsed);
-		auto it = entities.begin();
-		while (it != entities.end())
-		{
-			// Call the update method on the current entity
-			(*it)->update(this, elapsed);
-			++it;
-		}
+		bigArray(elapsed, logicSystems); // because logic systems now handle all updates, we can disable the update iterator loop below
+		//auto it = entities.begin();
+		//while (it != entities.end())
+		//{
+		//	// Call the update method on the current entity
+		//	(*it)->update(this, elapsed);
+		//	++it;
+		//}
 		// Collisions block:
 
 	// IX.C: Retrieve a reference to the player's bounding box and run through all entities (using an itereator)  
 	//      in the game with a while loop. You don't need to check the player's bounding box to itself, 
 	//      so include a check that skips the player entity while looping through the entities vector.
-		it = entities.begin();
+		auto it = entities.begin();
 		while (it != entities.end())
 		{
 			if ((*it) != player) {
@@ -304,6 +309,8 @@ void Game::render(float elapsed)
 	// II.D Call the draw method of the board object passing a pointer to the window.
 	board->draw(&window);
 
+	bigArray(elapsed, graphicsSystems); // the graphical systems
+
 	// III.J Draw all units. Write a loop that iterates over all entities in this class's vector
 	//       and calls the "draw" method in the entities.
 	for (int i = 0; i < entities.size(); i++)
@@ -346,10 +353,10 @@ std::shared_ptr<Entity> Game::getEntity(unsigned int idx)
 	return entities[idx];
 }
 
-void Game::bitArray(float elapsedTime)
+void Game::bigArray(float elapsedTime, std::vector<std::shared_ptr<System>> system)
 {
-	auto it = systems.begin();
-	while (it != systems.end())
+	auto it = system.begin();
+	while (it != system.end())
 	{
 		auto it_2 = entities.begin();
 		while (it_2 != entities.end())

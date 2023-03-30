@@ -86,12 +86,11 @@ std::shared_ptr<Fire> PlayerStateComponent:: createFire(Entity* player) const
 	fireEntity->init("img/fire.png", 1.0f, std::make_shared<SpriteGraphics>());
 	fireEntity->setPosition(pos.x, pos.y);
 	Vector2f vel(fireSpeed, 0.f);
-	if (player->graphics->getSpriteDirection() == Direction::Left) vel.x = vel.x * -1.0f;
 
+	std::shared_ptr<GraphicsComponent> playerGraphics = std::dynamic_pointer_cast<GraphicsComponent>(player->getComponent(ComponentID::GRAPHICS));
+	if (playerGraphics->getSpriteDirection() == Direction::Left) vel.x = vel.x * -1.0f;
 
 	std::shared_ptr<VelocityComponent> velocity = std::dynamic_pointer_cast<VelocityComponent>(fireEntity->getComponent(ComponentID::VELOCITY));
-
-
 	velocity->setVelocityDirection(vel.x, vel.y);
 
 	return fireEntity;

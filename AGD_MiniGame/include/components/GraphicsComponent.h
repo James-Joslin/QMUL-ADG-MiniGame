@@ -26,8 +26,9 @@ public:
 	virtual Direction getSpriteDirection() = 0;
 	virtual void setSpriteDirection(Direction direction) = 0;
 	virtual SpriteSheet* getSpriteSheet() = 0;
-	virtual sf::Sprite getSprite() = 0;
+	virtual sf::Sprite* getSprite() = 0;
 	virtual void update(Game* game, float elapsed, Vector2f) = 0;
+	virtual bool isSpriteSheetEntity() = 0;
 	ComponentID getID() { return ComponentID::GRAPHICS; }
 };
 
@@ -53,10 +54,11 @@ public:
 	virtual void setPosition(Vector2f position) override;
 	void setAnimation(const std::string& name, bool play, bool loop) override {}
 	void setSpriteDirection(Direction direction) override {}
-	sf::Sprite getSprite() override { return sprite; }
+	sf::Sprite* getSprite() override { return &sprite; }
 	SpriteSheet* getSpriteSheet() { throw std::exception("No spritesheet available"); }
 	Direction getSpriteDirection() { throw std::exception("No spritesheet available"); }
 	virtual void update(Game* game, float elapsed, Vector2f) override;
+	bool isSpriteSheetEntity() override { return isSpriteSheet; }
 
 private:
 	sf::Texture texture;
@@ -83,9 +85,10 @@ public:
 	void setAnimation(const std::string& name, bool play, bool loop) override;
 	void setSpriteDirection(Direction direction) override;
 	Direction getSpriteDirection() { return spriteSheet.getSpriteDirection(); }
-	sf::Sprite getSprite() override { throw std::exception("No sprite available"); }
+	sf::Sprite* getSprite() override { throw std::exception("No sprite available"); }
 	SpriteSheet* getSpriteSheet() { return &spriteSheet; }
 	virtual void update(Game* game, float elapsed, Vector2f) override;
+	bool isSpriteSheetEntity() override { return isSpriteSheet; }
 
 private:
 	SpriteSheet spriteSheet;

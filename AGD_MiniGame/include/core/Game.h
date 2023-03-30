@@ -34,7 +34,7 @@ public:
 	void togglePause() { paused = !paused; }
 	bool isPaused() const { return paused; }
 
-	void bitArray(float);
+	void bigArray(float, std::vector<std::shared_ptr<System>>);
 
 	//  IV.A (2/2) Write a function that returns the shared pointer of the player of the game.
 	std::shared_ptr<Player> getPlayer() { return player; }
@@ -71,8 +71,9 @@ private:
 	// V.A Declare a unique pointer to an Input Handler object for this class.
 	std::unique_ptr<InputHandler> inputHandler;
 
-	std::vector<std::shared_ptr<System>> systems;
+	std::vector<std::shared_ptr<System>> logicSystems;
+	std::vector<std::shared_ptr<System>> graphicsSystems;
 
-
+	bool drawDebug;
 };
 

@@ -11,7 +11,7 @@ public:
 	Fire();
 	~Fire();
 
-	virtual void update(Game* game, float elapsed = 1.0f) override;
+	//virtual void update(Game* game, float elapsed = 1.0f) override;
 
 	/*std::shared_ptr<TTLComponent> getTTLComponent() override
 	{
@@ -31,7 +31,5 @@ private:
 
 	std::shared_ptr<TTLComponent> ttlPtr;
 	std::shared_ptr<VelocityComponent> velocityPtr;
-
-
 };
 

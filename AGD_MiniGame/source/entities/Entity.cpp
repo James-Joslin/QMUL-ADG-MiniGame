@@ -43,12 +43,12 @@ void Entity::update(Game* game, float elapsed)
 
 void Entity::draw(Window* window)
 {
-	graphics->draw(window); 
+	//graphics->draw(window); 
 	// VIII.B Draw the bounding box by retrieving a drawable rect from the bounding box Rectangle.
-	if (type != EntityType::FIRE)
+	/*if (type != EntityType::FIRE)
 	{
 		collider->draw(window);
-	}
+	}*/
 }
 
 void Entity::init(const std::string& textureFile, float scale, std::shared_ptr<GraphicsComponent> _graphicsPointer)
@@ -89,7 +89,7 @@ void Entity::setPosition(float x, float y)
 {
 	position->setPosition(x, y);
 	Vector2f pos = getPosition();
-	std::cout << pos.x << pos.y << std::endl;
+	//std::cout << pos.x << pos.y << std::endl;
 	graphics->setPosition(pos); // <- this just returns a null pointer, so we're setting location via update - tabbed out update functions for objects in staticEntities.h
 }	
 

@@ -78,3 +78,13 @@ public:
 	}
 	void update(Entity*, Game*, float) override;
 };
+
+class PrintDebugSystem : public System
+{
+public:
+	PrintDebugSystem()
+	{
+		componentMask.turnOnBit(static_cast<int>(ComponentID::COLLIDER));
+	}
+	void update(Entity*, Game*, float) override;
+};
