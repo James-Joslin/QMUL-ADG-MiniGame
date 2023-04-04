@@ -9,7 +9,7 @@
 Entity::Entity() :
 	position(std::make_unique<PositionComponent>()),
 	collider(nullptr),
-	isSpriteSheet(true),
+	//isSpriteSheet(true),
 	id(0),
 	type(EntityType::UNDEFINED),
 	// X.B (1/2) Add the initialization the deleted flag to false
@@ -19,7 +19,7 @@ Entity::Entity() :
 Entity::Entity(EntityType et) : 
 	position( std::make_unique<PositionComponent>()),
 	collider(nullptr),
-	isSpriteSheet(true),
+	//isSpriteSheet(true),
 	id(0),
 	type (et),
 	// X.B (2/2) Add the initialization the deleted flag to false

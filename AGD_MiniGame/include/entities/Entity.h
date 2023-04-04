@@ -44,8 +44,12 @@ public:
 	//const sf::Vector2f& getSpriteScale() const;
 	//sf::Vector2i getTextureSize() const;
 	EntityType getEntityType() const { return type; }
-	SpriteSheet* getSpriteSheet() { return graphics->getSpriteSheet(); }
-	bool isSpriteSheetEntity() const { return isSpriteSheet; }
+
+	//<FEEDBACK> These functions should not exist. We request components, not objects of those components. Same for the bounding box above.
+	// isSpriteSheet is not required, as noone should care how the graphics component does things internally.
+	//<CORRECTED> Removed isSpriteSheet functions
+//	SpriteSheet* getSpriteSheet() { return graphics->getSpriteSheet(); }
+//	bool isSpriteSheetEntity() const { return isSpriteSheet; }
 	
 	// X.C  Add two helper functions. One that returns the value of the deleted flag, another one that 
 	//      "deletes" the entity by setting this flag to true. (Q: one of this functions should be "const", which one?).
@@ -69,7 +73,10 @@ protected:
 	Vector2f bboxSize;*/
 
 	//Graphics-related variables.
-	bool isSpriteSheet;
+// <FEEDBACK> Not needed
+// <CORRECTION> isSpriteSheet bool removed
+
+//	bool isSpriteSheet;
 	//SpriteSheet spriteSheet;
 	//sf::Texture texture;
 	//sf::Sprite sprite;

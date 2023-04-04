@@ -19,10 +19,8 @@ void PlayerInputComponent::update(Game& game)
 	//game.getPlayer()->setVelocity(Vector2f(0, 0));
 	for (auto pointer : playerInput->handleInput())
 	{
-		if (pointer)
-		{
-			// handle non-null pointer case
-			pointer->execute(game);
-		}
+		//<FEEDBACK> This should never be the case, as you are not adding nullptr to the vector of the command pointers.
+		//<CORRECTED> Removed nullptr if statement check.
+		pointer->execute(game);
 	}
 }

@@ -42,7 +42,7 @@ public:
 	int getWood() const { return wood; }
 	void addWood(int w);
 
-	bool hasSpriteSheet() const { return isSpriteSheet; }
+//	bool hasSpriteSheet() const { return isSpriteSheet; }
 
 	void positionSprite(int row, int col, int spriteWH, float tileScale);
 

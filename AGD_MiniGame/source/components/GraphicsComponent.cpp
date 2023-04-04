@@ -25,37 +25,26 @@ void SpriteGraphics::initSpriteSheet(const std::string& spriteSheetFile)
 void SpriteSheetGraphics::initSpriteSheet(const std::string& spriteSheetFile)
 {
 	spriteSheet.loadSheet(spriteSheetFile);
-	isSpriteSheet = true;
 	spriteSheet.setAnimation("Idle", true, true);
 }
 
+//<FEEDBACK> 
 void SpriteGraphics::draw(Window* window)
 {
-	if (isSpriteSheet)
-	{
-		throw std::exception("You are trying to draw an animated sprite sheet as if it were a still sprite");
-	}
-	else
-	{
-		window->draw(sprite);
-	}
+	window->draw(sprite);
 }
 
 void SpriteSheetGraphics::draw(Window* window)
 {
-	if (isSpriteSheet)
-	{
-		sf::Sprite* sp = &spriteSheet.getSprite();
-		const sf::Vector2f pos = sp->getPosition();
-		window->draw(spriteSheet.getSprite());
-	}
-	else
-	{
-		throw std::exception("This is a spritesheet");
-	}
+	//<FEEDBACK> In which case isSpriteSheet is going to be false in this class?
+	// You don't need this variable
+	//<CORRECTED> Removed if statement
+	window->draw(spriteSheet.getSprite());
+	//<FEEDBACK> Be more descriptive in your error message
+	//<CORRECTED> Feedback noted, however error message was not neccessary and therefore removed
 }
 
-void SpriteGraphics::setPosition(Vector2f position)
+void SpriteGraphics::setPosition(Vector2f position) 
 {
 	sprite.setPosition(position.x, position.y);
 }

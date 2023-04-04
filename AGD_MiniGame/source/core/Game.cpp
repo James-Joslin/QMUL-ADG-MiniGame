@@ -243,7 +243,7 @@ void Game::update(float elapsed)
 						}
 						case EntityType::LOG:
 						{
-							if (player->isAttacking() && player->getSpriteSheet()->getCurrentAnim()->isInAction()) // check this
+							if (player->isAttacking() && player->graphics->getSpriteSheet()->getCurrentAnim()->isInAction()) // check this
 							{
 								// IX.G: This is a log
 								Log* log = dynamic_cast<Log*>((*it).get());
