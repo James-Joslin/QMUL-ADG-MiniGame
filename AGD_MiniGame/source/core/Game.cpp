@@ -243,14 +243,12 @@ void Game::update(float elapsed)
 						}
 						case EntityType::LOG:
 						{
-							if (player->isAttacking() && player->graphics->getSpriteSheet()->getCurrentAnim()->isInAction()) // check this
+							if (player->getStateComp()->isAttacking() && player->graphics->getSpriteSheet()->getCurrentAnim()->isInAction()) // check this
 							{
 								// IX.G: This is a log
 								Log* log = dynamic_cast<Log*>((*it).get());
-								int	numWood = log->getWood();
-								player->addWood(numWood);
+								player->getStateComp()->addWood(log->getWood());
 								(*it)->markDeleted();
-								std::cout << "Collide with wood (Wood collected: " << numWood << ", Total Player Wood: " << player->getWood() << ")" << std::endl;
 								break;
 							}
 						default:

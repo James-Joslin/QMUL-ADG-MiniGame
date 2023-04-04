@@ -30,14 +30,9 @@ public:
 
 	void handleInput(Game& game);
 
-	bool isAttacking() const { return attacking; }
-	void setAttacking(bool at) { attacking = at; }
-
-	bool isShouting() const { return shouting; }
-	void setShouting(bool sh) { shouting = sh; }
-
 	std::shared_ptr<HealthComponent> getHealthComp() { return healthComponentPointer; }
 	std::shared_ptr<VelocityComponent> getVelocityComp() { return velocity; }
+	std::shared_ptr<PlayerStateComponent> getStateComp() { return state; }
 
 	int getWood() const { return wood; }
 	void addWood(int w);
@@ -50,11 +45,7 @@ public:
 
 	bool intersects(Entity& other) { return collider->intersects(other.getColliderComponent().get()->getBoundingBox()); }
 
-
-	std::shared_ptr<Fire> createFire() const;
-
 private:
-
 
 	bool attacking;
 	bool shouting;
@@ -66,7 +57,7 @@ private:
 	std::unique_ptr<InputComponent> playerInputPointer;
 	std::shared_ptr<HealthComponent> healthComponentPointer;
 	std::shared_ptr<VelocityComponent> velocity;
-	std::unique_ptr<PlayerStateComponent> state;
+	std::shared_ptr<PlayerStateComponent> state;
 
 };
 

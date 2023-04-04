@@ -24,10 +24,10 @@ void MoveDownCommand::execute(Game& game)
 
 void AttackCommand::execute(Game& game)
 {
-	game.getPlayer()->setAttacking(true);
+	game.getPlayer()->getStateComp()->setAttacking(true);
 }
 
 void FireCommand::execute(Game& game)
 {
-	game.getPlayer()->setShouting(true);
+	game.getPlayer()->getStateComp()->setShouting(true);
 }

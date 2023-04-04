@@ -9,11 +9,7 @@ void PlayerStateComponent::update(Entity& entity, Game* game, float elapsed)
 	if (entity.getEntityType() == EntityType::PLAYER)
 	{
 		Player* player = dynamic_cast<Player*>(&entity);
-		if (player != nullptr)
 		{
-			attacking = player->isAttacking();
-			shouting = player->isShouting();
-
 			if (attacking)
 			{
 				player->graphics->setAnimation("Attack", true, false);
@@ -62,32 +58,27 @@ void PlayerStateComponent::update(Entity& entity, Game* game, float elapsed)
 			
 			if (attacking && player->graphics->getSpriteSheet()->getCurrentAnim()->isPlaying() == false)
 			{
-				player->setAttacking(false);
+				setAttacking(false);
 			}
 			if (shouting && player->graphics->getSpriteSheet()->getCurrentAnim()->isPlaying() == false)
 			{
-				player->setShouting(false);
+				setShouting(false);
 			}
 		}
 	}
 }
 
-void PlayerStateComponent::addWood(Entity& entity, int w)
+void PlayerStateComponent::addWood(int w)
 {
-	Player* player = dynamic_cast<Player*>(&entity);
-	if (player != nullptr)
-	{
-		wood += w;
-		if (wood > player->maxWood) wood = player->maxWood;
-		if (wood < 0) wood = 0;
-	}
+	wood += w;
+	if (wood > maxWood) wood = maxWood;
+	if (wood < 0) wood = 0;
+	std::cout << "Collide with wood (Wood collected: " << w << ", Total Player Wood: " << wood << ")" << std::endl;
 }
 
 std::shared_ptr<Fire> PlayerStateComponent:: createFire(Entity* player) const
 {
 	auto fireEntity = std::make_shared<Fire>();
-	//Player* player = dynamic_cast<Player*>(&entity);
-
 	Vector2f pos{ player->getPosition().x + player->graphics->getTextureSize().x * 0.5f, player->getPosition().y + player->graphics->getTextureSize().y * 0.5f};
 	fireEntity->init("img/fire.png", 1.0f, std::make_shared<SpriteGraphics>());
 	fireEntity->setPosition(pos.x, pos.y);
