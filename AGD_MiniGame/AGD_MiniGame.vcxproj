@@ -134,8 +134,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="source\components\ColliderComponent.cpp" />
     <ClCompile Include="source\components\GraphicsComponent.cpp" />
     <ClCompile Include="source\components\InputComponent.cpp" />
+    <ClCompile Include="source\components\LogicComponent.cpp" />
     <ClCompile Include="source\components\VelocityComponent.cpp" />
     <ClCompile Include="source\core\Board.cpp" />
     <ClCompile Include="source\core\Game.cpp" />
@@ -163,7 +165,7 @@
     <ClInclude Include="include\components\GraphicsComponent.h" />
     <ClInclude Include="include\components\HealthComponent.h" />
     <ClInclude Include="include\components\InputComponent.h" />
-    <ClInclude Include="include\components\PlayerStateComponent.h" />
+    <ClInclude Include="include\components\LogicComponent.h" />
     <ClInclude Include="include\components\PositionComponent.h" />
     <ClInclude Include="include\components\TTLComponent.h" />
     <ClInclude Include="include\components\VelocityComponent.h" />
