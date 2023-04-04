@@ -21,12 +21,18 @@ public:
 		bool _shouting,
 		int _maxWood,
 		int _wood,
-		float _fireSpeed) :
+		float _fireSpeed,
+		float _shootCooldown,
+		int _shootingCost,
+		float _shootCooldownTime) :
 		attacking{ _attacking },
 		shouting{ _shouting },
 		maxWood{ _maxWood },
 		wood{ _wood },
-		fireSpeed{ _fireSpeed } {};
+		fireSpeed{ _fireSpeed },
+		shootCooldown{ _shootCooldown },
+		shootingCost{ _shootingCost },
+		shootCooldownTime{ _shootCooldownTime } {};
 
 	void update(Entity& entity, Game* game, float elapsed) override;
 	
@@ -47,7 +53,9 @@ private:
 	bool attacking;
 	bool shouting;
 	int wood;
-	int maxWood;
-	float fireSpeed;
-	float shootCooldown{ 0 };
+	const int maxWood;
+	const float fireSpeed;
+	float shootCooldown;
+	const int shootingCost;
+	const float shootCooldownTime;
 };

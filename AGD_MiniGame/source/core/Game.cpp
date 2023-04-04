@@ -116,7 +116,6 @@ void Game::init(std::vector<std::string> lines)
 				///		  Then, uncomment the call to the funcion "addEntity" passing the pointer to the new entity as parameter.
 				auto potionEntity = buildEntityAt<Potion>("./img/potion.png", col, row, std::make_shared<SpriteGraphics>());
 				addEntity(potionEntity);			/// uncomment this
-				std::cout << row << " " << col << " " << spriteWH << " " << tileScale << std::endl;
 
 				//By default, entities stand on corridors
 				// II.C (4/5) Use the function addTile from Board to add a CORRIDOR tile to this position.
@@ -184,22 +183,8 @@ void Game::handleInput()
 
 void Game::update(float elapsed)
 {
-	// <FEEDBACK> Still not correct: window needs updating even if the game is paused.
-	// <Corrected> Window still updates when game is paused 
-	// V.E Only update the game entities if the game is not paused.
 	if (!isPaused())
 	{
-
-
-
-		// IV.C Use an STL iterator to run through all entities of the vector of entities of this class. Use a while loop. 
-		//      On each iteration, call the member function update from Entity, passing "this" game instance and the elapsed time.
-		//      Some useful functions for iterators: 
-		//        - begin(): returns an iterator pointing at the first element.
-		//        - end(): returns an iterator pointing at the last element.
-		//		  - (*it): returns the object pointed at by the iterator 'it'
-		//        - iterators override the operators ++ and -- for advancing them to their next and previous element, respectively.
-
 		auto it = entities.begin();
 		while (it != entities.end())
 		{
@@ -222,15 +207,8 @@ void Game::update(float elapsed)
 
 				if ((*it)->getEntityType() != EntityType::FIRE)
 				{
-					/*auto playerBbox = player->getBoundingBox();
-					auto entBbox =*/
-
 					if (player->intersects(**it))
 					{
-						// IX.E (if there is an intesection) Write a switch statement that determines the type of the object (which you
-						// can retrieve with getEntityType()) we are colliding with. For each case, add a console print out that 
-						// says what are you colliding with.
-
 						auto entType = (*it)->getEntityType();
 
 						switch (entType)
@@ -264,13 +242,6 @@ void Game::update(float elapsed)
 			}
 			it++;
 		}
-
-		// X.D Write a loop that iterates through all entities and removes them from the vector of entities.
-		//     Use the function erase from std::vector, which receives an iterator. 
-		//     Q? Should you ALWAYS advance the iterator in this loop?
-
-		// Q: Yes, you should always advance the iterator in this loop when erasing elements from the vector, 
-		// to avoid invalidating the iterator and potentially causing undefined behavior. 
 
 		it = entities.begin();
 		while (it != entities.end())

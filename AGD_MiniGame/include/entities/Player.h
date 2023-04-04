@@ -30,14 +30,9 @@ public:
 
 	void handleInput(Game& game);
 
-	std::shared_ptr<HealthComponent> getHealthComp() { return healthComponentPointer; }
+	std::shared_ptr<HealthComponent> getHealthComp() { return healthComponent; }
 	std::shared_ptr<VelocityComponent> getVelocityComp() { return velocity; }
 	std::shared_ptr<PlayerStateComponent> getStateComp() { return state; }
-
-	int getWood() const { return wood; }
-	void addWood(int w);
-
-//	bool hasSpriteSheet() const { return isSpriteSheet; }
 
 	void positionSprite(int row, int col, int spriteWH, float tileScale);
 
@@ -53,9 +48,8 @@ private:
 	float shootCooldown;
 
 	// VI.A (1/2): Declare a unique pointer to a player input handler.
-	//std::unique_ptr<PlayerInputHandler> playerInputPointer;
-	std::unique_ptr<InputComponent> playerInputPointer;
-	std::shared_ptr<HealthComponent> healthComponentPointer;
+	std::unique_ptr<InputComponent> playerInput;
+	std::shared_ptr<HealthComponent> healthComponent;
 	std::shared_ptr<VelocityComponent> velocity;
 	std::shared_ptr<PlayerStateComponent> state;
 };

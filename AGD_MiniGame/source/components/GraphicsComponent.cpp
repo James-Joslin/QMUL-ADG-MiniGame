@@ -28,7 +28,6 @@ void SpriteSheetGraphics::initSpriteSheet(const std::string& spriteSheetFile)
 	spriteSheet.setAnimation("Idle", true, true);
 }
 
-//<FEEDBACK> 
 void SpriteGraphics::draw(Window* window)
 {
 	window->draw(sprite);

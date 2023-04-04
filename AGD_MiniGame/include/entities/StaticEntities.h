@@ -20,8 +20,6 @@ public:
 		collider->setBoundingBoxLocation(getPosition());
 	}
 
-	// virtual void update(Game* game, float elapsed = 1.0f) override { }
-
 	int getHealth() const { return potionHealth; }
 
 protected:
@@ -42,8 +40,6 @@ public:
 		// VIII.C (2/2) Set the top left and bottom right corners of the bounding box for this entity.
 		collider->setBoundingBoxLocation(getPosition());
 	}
-
-	// virtual void update(Game* game, float elapsed = 1.0f) override {}
 
 	int getWood() const { return woodAdded; }
 

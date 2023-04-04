@@ -14,10 +14,10 @@
 Player::Player() : Entity(EntityType::PLAYER), attacking(false), shouting(false), wood(0), shootCooldown(0)
 {
 	// VI.B: Create the unique pointer to the PlayerInputHandler object
-	playerInputPointer = std::make_unique<PlayerInputComponent>();
-	healthComponentPointer = std::make_shared<HealthComponent>(startingHealth, maxHealth);
+	playerInput = std::make_unique<PlayerInputComponent>();
+	healthComponent = std::make_shared<HealthComponent>(startingHealth, maxHealth);
 	velocity = std::make_shared<VelocityComponent>(playerSpeed);
-	state = std::make_shared<PlayerStateComponent>(attacking, shouting, maxWood, wood, fireSpeed);
+	state = std::make_shared<PlayerStateComponent>(attacking, shouting, maxWood, wood, fireSpeed, shootCooldown, shootingCost, shootCooldownTime);
 }
 
 Player::~Player() {}
@@ -33,7 +33,7 @@ void Player::update(Game* game, float elapsed)
 
 void Player::handleInput(Game& game)
 {
-	playerInputPointer->update(game);
+	playerInput->update(game);
 }
 
 void Player::positionSprite(int row, int col, int spriteWH, float tileScale)
@@ -46,8 +46,6 @@ void Player::positionSprite(int row, int col, int spriteWH, float tileScale)
 	float spriteSizeY = scaleV2f.y * textureSize.y;
 	float cntrFactorY = ((spriteWH * tileScale) - spriteSizeY);	// to align to lower side of the tile.
 	float cntrFactorX = cntrFactorY * 0.5f;						//to center horizontally
-
-	std::cout << x + cntrFactorX << y + cntrFactorY << std::endl;
 
 	setPosition(x + cntrFactorX, y + cntrFactorY);
 	velocity->setVelocityDirection(0.f, 0.f);
