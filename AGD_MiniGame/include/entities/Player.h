@@ -58,6 +58,5 @@ private:
 	std::shared_ptr<HealthComponent> healthComponentPointer;
 	std::shared_ptr<VelocityComponent> velocity;
 	std::shared_ptr<PlayerStateComponent> state;
-
 };
 

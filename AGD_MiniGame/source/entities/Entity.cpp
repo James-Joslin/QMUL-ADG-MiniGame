@@ -44,6 +44,7 @@ void Entity::update(Game* game, float elapsed)
 	//              ii) Call update on the spriteSheet, passing the delta time of this update call.
 	//				If the entity does NOT have a spritesheet ("isSpriteSheet" is false, {else} clause), simply:
 	//			    iii) set the position of the "sprite" variable to the position vector (using sprite.setPosition(...)).
+
 	
 
 	//Need to implement an update in graphics component

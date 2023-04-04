@@ -184,6 +184,8 @@ void Game::handleInput()
 
 void Game::update(float elapsed)
 {
+	// <FEEDBACK> Still not correct: window needs updating even if the game is paused.
+	// <Corrected> Window still updates when game is paused 
 	// V.E Only update the game entities if the game is not paused.
 	if (!isPaused())
 	{
@@ -210,12 +212,14 @@ void Game::update(float elapsed)
 	// IX.C: Retrieve a reference to the player's bounding box and run through all entities (using an itereator)  
 	//      in the game with a while loop. You don't need to check the player's bounding box to itself, 
 	//      so include a check that skips the player entity while looping through the entities vector.
+
 		it = entities.begin();
 		while (it != entities.end())
 		{
 			if ((*it) != player) {
 				// IX.D: (Inside the loop) Once you have a different entity to player, retrieve it's bounding box
 				// and check if they intersect.
+
 				if ((*it)->getEntityType() != EntityType::FIRE)
 				{
 					/*auto playerBbox = player->getBoundingBox();

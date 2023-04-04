@@ -16,6 +16,7 @@ public:
 		// III.C (1/2) Call the init() function in Entity to initalize this object
 		Entity::init(textureFile, scale, _graphicsPointer);
 		// VIII.C (1/2) Set the top left and bottom right corners of the bounding box for this entity.
+
 		collider->setBoundingBoxLocation(getPosition());
 	}
 
