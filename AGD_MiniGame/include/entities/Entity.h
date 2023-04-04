@@ -1,7 +1,12 @@
 #pragma once
 #include "../graphics/Window.h"
-#include "../graphics/SpriteSheet.h"
 #include "../utils/Rectangle.h"
+#include "../../include/components/GraphicsComponent.h"
+#include <memory>
+#include "../components/ColliderComponent.h"
+
+
+class PositionComponent;
 
 using EntityID = unsigned int;
 enum class EntityType
@@ -25,7 +30,7 @@ public:
 	~Entity();
 
 	//Init and update functions
-	virtual void init(const std::string& textureFile, float scale);
+	virtual void init(const std::string& textureFile, float scale, std::shared_ptr<GraphicsComponent> _graphics);
 	void initSpriteSheet(const std::string& spriteSheetFile);
 	virtual void update(Game* game, float elapsed = 1.0f);
 	void draw(Window* window);
@@ -33,45 +38,51 @@ public:
 	//Getters and Setters
 	void setID(EntityID entId) { id = entId; }
 	EntityID getID() const { return id; }
-	void setPosition(float x, float y);
-	void setVelocity(const Vector2f& v) { velocity.x = v.x; velocity.y = v.y; }
-	const Vector2f& getPosition() const { return position; }
-	const Vector2f& getVelocity() const { return velocity; }
-	Rectangle& getBoundingBox() { return boundingBox; };
-	const sf::Vector2f& getSpriteScale() const;
-	sf::Vector2i getTextureSize() const;
+	void setPosition(float x, float y) ;
+	Vector2f getPosition();
+	//Rectangle& getBoundingBox() { 	return collider->getBoundingBox();	};
+	//const sf::Vector2f& getSpriteScale() const;
+	//sf::Vector2i getTextureSize() const;
 	EntityType getEntityType() const { return type; }
-	const SpriteSheet* getSpriteSheet() const { return &spriteSheet; }
-	float getSpeed() const { return speed; }
-	bool isSpriteSheetEntity() const { return isSpriteSheet; }
 
+	//<FEEDBACK> These functions should not exist. We request components, not objects of those components. Same for the bounding box above.
+	// isSpriteSheet is not required, as noone should care how the graphics component does things internally.
+	//<CORRECTED> Removed isSpriteSheet functions
+//	SpriteSheet* getSpriteSheet() { return graphics->getSpriteSheet(); }
+//	bool isSpriteSheetEntity() const { return isSpriteSheet; }
 	
 	// X.C  Add two helper functions. One that returns the value of the deleted flag, another one that 
 	//      "deletes" the entity by setting this flag to true. (Q: one of this functions should be "const", which one?).
 	bool isDeleted() const { return deleted; }
 	void markDeleted() { deleted = true; }
 
+	std::unique_ptr<PositionComponent> position;
+	std::shared_ptr<GraphicsComponent> graphics;
+	std::shared_ptr<ColliderComponent> collider;
+
+	std::shared_ptr<ColliderComponent> getColliderComponent() { return collider; }
+
 protected:
 
 	EntityType type;
 	EntityID id;
 
-	//Position and velocity
-	Vector2f position;
-	Vector2f velocity;
-	float speed;
 
 	//Collision
-	Rectangle boundingBox;
-	Vector2f bboxSize;
+	/*Rectangle boundingBox;
+	Vector2f bboxSize;*/
 
 	//Graphics-related variables.
-	bool isSpriteSheet;
-	SpriteSheet spriteSheet;
-	sf::Texture texture;
-	sf::Sprite sprite;
+// <FEEDBACK> Not needed
+// <CORRECTION> isSpriteSheet bool removed
+
+//	bool isSpriteSheet;
+	//SpriteSheet spriteSheet;
+	//sf::Texture texture;
+	//sf::Sprite sprite;
 
 	// X.A Add a bool member variable "deleted" to this class.
 	bool deleted;
 
+	//Position and velocity
 };

@@ -4,33 +4,30 @@
 
 void MoveRightCommand::execute(Game& game)
 {
-	// <FEEDBACK> This check is not needed - movement should continue even if you attack or shout
-	//			  Same applies to all movements.
-	// <Corrected> Removed if statements preventing movement when animations are playing 
-	game.getPlayer()->setVelocityX(1.f);
+	game.getPlayer()->getVelocityComp()->setVelocityDirection(1.f, game.getPlayer()->getVelocityComp()->getVelocityDirection().y);
 }
 
 void MoveLeftCommand::execute(Game& game)
 {
-	game.getPlayer()->setVelocityX(-1.f);
+	game.getPlayer()->getVelocityComp()->setVelocityDirection(-1.f, game.getPlayer()->getVelocityComp()->getVelocityDirection().y);
 }
 
 void MoveUpCommand::execute(Game& game)
 {
-	game.getPlayer()->setVelocityY(-1.f);
+	game.getPlayer()->getVelocityComp()->setVelocityDirection(game.getPlayer()->getVelocityComp()->getVelocityDirection().x, -1.f);
 }
 
 void MoveDownCommand::execute(Game& game)
 {
-	game.getPlayer()->setVelocityY(1.f);
+	game.getPlayer()->getVelocityComp()->setVelocityDirection(game.getPlayer()->getVelocityComp()->getVelocityDirection().x, 1.f);
 }
 
 void AttackCommand::execute(Game& game)
 {
-	game.getPlayer()->setAttacking(true);
+	game.getPlayer()->getStateComp()->setAttacking(true);
 }
 
 void FireCommand::execute(Game& game)
 {
-	game.getPlayer()->setShouting(true);
+	game.getPlayer()->getStateComp()->setShouting(true);
 }

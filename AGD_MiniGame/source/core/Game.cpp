@@ -3,6 +3,7 @@
 #include "../../include/entities/StaticEntities.h"
 #include "../../include/core/InputHandler.h"
 #include "../../include/core/Command.h"
+#include "../../include/components/GraphicsComponent.h"
 #include <iostream>
 
 // III.F Add the initialization (to 0) of the entity counter to the initalizers list of this constructor
@@ -17,7 +18,7 @@ Game::~Game()
 }
 
 template <typename T>
-std::shared_ptr<T> Game::buildEntityAt(const std::string& filename, int col, int row)
+std::shared_ptr<T> Game::buildEntityAt(const std::string& filename, int col, int row, std::shared_ptr<GraphicsComponent> graphicsComponentPointer)
 {
 	auto ent = std::make_shared<T>();
 	float x = col * spriteWH * tileScale;
@@ -25,8 +26,7 @@ std::shared_ptr<T> Game::buildEntityAt(const std::string& filename, int col, int
 	float cntrFactor = (tileScale - itemScale) * spriteWH * 0.5f;
 
 	ent->setPosition(x + cntrFactor, y + cntrFactor);
-	ent->setVelocity({ 0.0f, 0.0f });
-	ent->init(filename, itemScale);
+	ent->init(filename, itemScale, graphicsComponentPointer);
 	
 	return ent;
 }
@@ -100,7 +100,7 @@ void Game::init(std::vector<std::string> lines)
 				///       the file with the sprite ("img/log.png"), the column and the row where the log should be place.
 				///		  Then, uncomment the call to the funcion "addEntity" passing the pointer to the new entity as parameter.
 				/// 
-				auto logEntity = buildEntityAt<Log>("./img/log.png", col, row);
+				auto logEntity = buildEntityAt<Log>("./img/log.png", col, row, std::make_shared<SpriteGraphics>());
 				addEntity(logEntity);			/// uncomment this (you may have to change "ent" for the name of the pointer you've just created above).
 	
 				//By default, entities stand on corridors
@@ -114,9 +114,10 @@ void Game::init(std::vector<std::string> lines)
 				/// III.B Call the function "buildEntityAt" to create a Potion pointer. The parameters are the filename to 
 				///       the file with the sprite ("img/potion.png"), the column and the row where the potion should be place.
 				///		  Then, uncomment the call to the funcion "addEntity" passing the pointer to the new entity as parameter.
-				auto potionEntity = buildEntityAt<Potion>("./img/potion.png", col, row);
+				auto potionEntity = buildEntityAt<Potion>("./img/potion.png", col, row, std::make_shared<SpriteGraphics>());
 				addEntity(potionEntity);			/// uncomment this
-	
+				std::cout << row << " " << col << " " << spriteWH << " " << tileScale << std::endl;
+
 				//By default, entities stand on corridors
 				// II.C (4/5) Use the function addTile from Board to add a CORRIDOR tile to this position.
 				board->addTile(col, row, tileScale, TileType::CORRIDOR);
@@ -130,11 +131,13 @@ void Game::init(std::vector<std::string> lines)
 
 				// IV.B (2/4): Call the function that initializes the Sprite Sheet with a single parameter, a const std::string& filename.
 				//			   This string should be "img/DwarfSpriteSheet_data.txt"
+				player->setGraphicsPointer(std::make_shared<SpriteSheetGraphics>());
 				player->initSpriteSheet("./img/DwarfSpriteSheet_data.txt");
 
 				// IV.B (3/4): Call the function that positions the sprite of the player in the board (Player::positionSprite). 
 				//			   Parameters are the row and column where this object goes in the board, the sprite width and height (const int Game::spriteWH) 
 				//			   and the scale for the tiles (const float Game::tileScale)
+
 				player->positionSprite(row,col,spriteWH,tileScale); // custom location?
 
 				// IV.B (4/4): Call our function to add an entity to a game passing the player that has just been created.
@@ -167,17 +170,15 @@ void Game::handleInput()
 {
 	// V.C: Call the fucntion that handles the input for the game and retrieve the command returned in a variable.
 	//      Then, call the "execute" method of the returned object to run this command.
-	std::shared_ptr<Command> commandPointer = inputHandler->handleInput();
+	std::shared_ptr<Command> command = inputHandler->handleInput();
 
-	if (commandPointer) {
+	if (command) {
 		// handle non-null pointer case
-		commandPointer->execute(*this);
+		command->execute(*this);
 	}
 	
 	// V.D: Call the function handleInput on the player's object.
 	player->handleInput(*this);
-
-
 }
 
 
@@ -211,56 +212,53 @@ void Game::update(float elapsed)
 	// IX.C: Retrieve a reference to the player's bounding box and run through all entities (using an itereator)  
 	//      in the game with a while loop. You don't need to check the player's bounding box to itself, 
 	//      so include a check that skips the player entity while looping through the entities vector.
-		auto playerBbox = player->getBoundingBox();
+
 		it = entities.begin();
 		while (it != entities.end())
 		{
 			if ((*it) != player) {
 				// IX.D: (Inside the loop) Once you have a different entity to player, retrieve it's bounding box
 				// and check if they intersect.
-				// <FEEDBACK> This BBox is the same object for all iterations. Retrieve it before the loop to save computation.
-				// <Corrected> Moved playerBbox outside while loop
 
-				auto entBbox = (*it)->getBoundingBox();
-				if (playerBbox.intersects(entBbox))
+				if ((*it)->getEntityType() != EntityType::FIRE)
 				{
-					// IX.E (if there is an intesection) Write a switch statement that determines the type of the object (which you
-					// can retrieve with getEntityType()) we are colliding with. For each case, add a console print out that 
-					// says what are you colliding with.
+					/*auto playerBbox = player->getBoundingBox();
+					auto entBbox =*/
 
-					auto entType = (*it)->getEntityType();
+					if (player->intersects(**it))
+					{
+						// IX.E (if there is an intesection) Write a switch statement that determines the type of the object (which you
+						// can retrieve with getEntityType()) we are colliding with. For each case, add a console print out that 
+						// says what are you colliding with.
 
-					// <FEEDBACK> You don't need any of these 4 declarations & definitions here. Declare & Define only when you needed to (in the switch cases).	
-					// <Corrected> Moved variable declarations into switch statement
+						auto entType = (*it)->getEntityType();
 
-					switch (entType)
-					{
-					case EntityType::POTION:
-					{
-						// IX.F: This is a potion
-						Potion* potion = dynamic_cast<Potion*>((*it).get());
-						int healthRestore = potion->getHealth();
-						player->addHealth(healthRestore);
-						(*it)->markDeleted();
-						std::cout << "Collide with potion (health restored: " << healthRestore << ", player health: " << player->getHealth() << ")" << std::endl;
-					}
-					break;
-					case EntityType::LOG:
-					{
-						if (player->isAttacking() && player->getSpriteSheet()->getCurrentAnim()->isInAction()) // check this
+						switch (entType)
 						{
-							// IX.G: This is a log
-							Log* log = dynamic_cast<Log*>((*it).get());
-							int numWood = log->getWood();
-							player->addWood(numWood);
+						case EntityType::POTION:
+						{
+							// IX.F: This is a potion
+							Potion* potion = dynamic_cast<Potion*>((*it).get());
+							int	healthRestore = potion->getHealth();
+							player->getHealthComp()->changeHealth(healthRestore);
 							(*it)->markDeleted();
-							std::cout << "Collide with wood (Wood collected: " << numWood << ", Total Player Wood: " << player->getWood() << ")" << std::endl;
-
+							std::cout << "Collide with potion (health restored: " << healthRestore << ", player health: " << player->getHealthComp()->getHealth() << ")" << std::endl;
+							break;
 						}
-					}
-					break;
-					default:
-						break;
+						case EntityType::LOG:
+						{
+							if (player->getStateComp()->isAttacking() && player->graphics->getSpriteSheet()->getCurrentAnim()->isInAction()) // check this
+							{
+								// IX.G: This is a log
+								Log* log = dynamic_cast<Log*>((*it).get());
+								player->getStateComp()->addWood(log->getWood());
+								(*it)->markDeleted();
+								break;
+							}
+						default:
+							break;
+						}
+						}
 					}
 				}
 			}

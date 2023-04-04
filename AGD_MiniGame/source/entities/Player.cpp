@@ -4,190 +4,42 @@
 #include "../../include/core/Game.h"
 #include "../../include/core/InputHandler.h"
 #include "../../include/core/Command.h"
+#include "../../include/components/InputComponent.h"
+#include "../../include/components/PositionComponent.h"
+#include "../../include/components/GraphicsComponent.h"
+#include "../../include/components/LogicComponent.h"
 #include <iostream>
 
 
-
-
-Player::Player() : Entity(EntityType::PLAYER), attacking(false), shouting(false), health(60), wood(0), shootCooldown(0)
+Player::Player() : Entity(EntityType::PLAYER), attacking(false), shouting(false), wood(0), shootCooldown(0)
 {
-	speed = playerSpeed;
-
 	// VI.B: Create the unique pointer to the PlayerInputHandler object
-	playerInput = std::make_unique<PlayerInputHandler>();
-
+	playerInputPointer = std::make_unique<PlayerInputComponent>();
+	healthComponentPointer = std::make_shared<HealthComponent>(startingHealth, maxHealth);
+	velocity = std::make_shared<VelocityComponent>(playerSpeed);
+	state = std::make_shared<PlayerStateComponent>(attacking, shouting, maxWood, wood, fireSpeed);
 }
 
 Player::~Player() {}
 
 void Player::update(Game* game, float elapsed)
 {
-
-		// VI.G Modify the code below to add the functionality to play the appropriate animations 
-		//      and set the appropriate directions for movement depending on the  value of the
-		//      velocity vector for moving up, down and left.
-
-
-		// VI.F (1/2) If the X component of the velocity vector is positive, we're moving to the right.
-		//            Set the animation of the spritesheet to "Walk". Mind the parameters required for the
-		//			  animation: if it should start playing and if it should loop.
-		//			  Additionally, you must also set the sprite direction (to Direction::Right) of the spritesheet.
-	if (attacking)
-	{
-		spriteSheet.setAnimation("Attack", true, false);
-	}
-
-	else if (shouting)
-	{
-		spriteSheet.setAnimation("Shout", true, false);
-	}
-	
-	else 
-	{
-		if (velocity.x > 0)
-		{
-			spriteSheet.setAnimation("Walk", true, true);
-			spriteSheet.setSpriteDirection(Direction::Right);
-		}
-
-		else if (velocity.x < 0)
-		{
-			spriteSheet.setAnimation("Walk", true, true);
-			spriteSheet.setSpriteDirection(Direction::Left);
-		}
-
-		// VI.F (2/2) If the player is not moving, we must get back to playing the "Idle" animation.
-		else if (velocity.x == 0 && velocity.y == 0 && !attacking && !shouting)
-		{
-			spriteSheet.setAnimation("Idle", true, true);
-		}
-
-		else if (velocity.y != 0)
-		{
-			// <FEEDBACK> You can factorize this case with the y < 0 case (a single IF for when y != 0)
-			// <Corrected>
-			spriteSheet.setAnimation("Walk", true, true);
-		}
-	}
-	
-
-	
-
-	
-	
-	// IV.D (1/2) Call the function update in the base class to do the general update stuff that is common to all entities.
-	Entity::update(game, elapsed);
-
-	// XI.B (2/2):  Reduce the shoot cooldown counter by the elapsed time at every frame. 
-	//              Only do this if shoot cooldown is > 0 (can you guess why?)
-	if (shootCooldown > 0)
-	{
-		shootCooldown = shootCooldown - elapsed;
-	}
-
-	// XI.A: Create an Fire entity object (using Player::createFire()) and add it to the game (using Game::addEntity).
-	//       Then, remove the shooting cost (Player::shootingCost) from the wood member variable of this class
-	//       Finally, wrap the functionality below in an IF statement, so we only spawn fire when:
-	//            1) We are playing the shouting animation
-	//			  2) The animation is in one of the "in action" frames.
-	//			  3) We have enough wood "ammunition" (variable wood and shootingCost)
-	if (
-		shouting && spriteSheet.getCurrentAnim()->isInAction() 
-		&& 
-		wood >= shootingCost && shootCooldown <= 0
-	)
-	{
-		game->addEntity(createFire()); // <FEEDBACK> Correct this indentation.
-									   // <Corrected>
-
-		wood = wood - shootingCost; // <FEEDBACK> Access "wood" directly here, no need to call function.
-									// <Corrected>
-		
-		// XI.B (1/2): Set the variable shootCooldown to the cooldown time (defined in shootCooldownTime).
-		//        Add another condition to the shooting IF statement that only allows shoowing if shootCooldown <= 0.
-
-		shootCooldown = shootCooldownTime;
-	}
-
-	// VII.B: If we are attacking but the current animation is no longer playing, set the attacking flag to false.
-	//        The same needs to be done for "shouting".
-
-	// <FEEDBACK> This is not correct, the two cases should be treated separately.
-	//			  Check that we are "attacking" and animation is playing -> then set attacking to False.
-	//			  A separate IF is needd for shouting.
-	// <Corrected> Seperated Attack and Shout cases.
-	if (attacking && spriteSheet.getCurrentAnim()->isPlaying() == false)
-	{
-		setAttacking(false);
-	}
-	if (shouting && spriteSheet.getCurrentAnim()->isPlaying() == false)
-	{
-		setShouting(false);
-	}
+	// velocity update
+	velocity->update(*this, elapsed);
+	collider->update(getPosition()); // entitiy getPosition calls position-> getPosition
+	graphics->update(game, elapsed, getPosition()); // hasn't been implemented yet
+	state->update(*this, game, elapsed);
 }
-
 
 void Player::handleInput(Game& game)
 {
-	// VI.E Set the velocity of this player to (0, 0)
-	game.getPlayer()->setVelocity(Vector2f(0,0));
-
-	// VI.C: Call the fucntion that handles the input for the player and retrieve the command returned in a variable.
-	//       Then, call the "execute" method of the returned object to run this command.
-	//std::shared_ptr<Command> inputCommand = playerInputPointer->handleInput();
-	//
-	//if (inputCommand) {
-	//	// handle non-null pointer case
-	//	inputCommand->execute(game);
-	//}
-	
-
-	// VII.A Modify the code ABOVE so, instead of calling "execute" in a command pointer, iterates through
-	//       the vector of commands and executes them all.
-	
-	// <FEEDBACK> Avoid calling a variable pointer (or "pointerSomething"). It's not descriptive.
-	for (auto pointer : playerInput->handleInput())
-	{
-		// <FEEDBACK> Not really necessary, this vector should never have a nullptr in it.
-		// <Corrected>
-		pointer->execute(game);
-		
-	}
+	playerInputPointer->update(game);
 }
-
-std::shared_ptr<Fire> Player::createFire() const
-{
-	auto fireEntity = std::make_shared<Fire>();		
-
-	Vector2f pos { position.x + getTextureSize().x * 0.5f,  position.y + getTextureSize().y * 0.5f };
-	fireEntity->init("img/fire.png", 1.0f);
-	fireEntity->setPosition(pos.x, pos.y);
-	Vector2f vel(fireSpeed, 0.f);
-	if (spriteSheet.getSpriteDirection() == Direction::Left) vel.x = vel.x * -1.0f;
-	fireEntity->setVelocity(vel);
-
-	return fireEntity;
-}
-
-void Player::addHealth(int h)
-{
-	health += h;
-	if (health > maxHealth) health = maxHealth;
-	if (health < 0) health = 0;
-}
-
-void Player::addWood(int w)
-{
-	wood += w;
-	if (wood > maxWood) wood = maxWood;
-	if (wood < 0) wood = 0;
-}
-
 
 void Player::positionSprite(int row, int col, int spriteWH, float tileScale)
 {
-	sf::Vector2f scaleV2f = getSpriteScale();
-	sf::Vector2i textureSize = getTextureSize();
+	sf::Vector2f scaleV2f = graphics->getSpriteScale();
+	sf::Vector2i textureSize = graphics->getTextureSize();
 
 	float x = col * spriteWH * tileScale;
 	float y = (row)*spriteWH * tileScale;
@@ -195,6 +47,8 @@ void Player::positionSprite(int row, int col, int spriteWH, float tileScale)
 	float cntrFactorY = ((spriteWH * tileScale) - spriteSizeY);	// to align to lower side of the tile.
 	float cntrFactorX = cntrFactorY * 0.5f;						//to center horizontally
 
+	std::cout << x + cntrFactorX << y + cntrFactorY << std::endl;
+
 	setPosition(x + cntrFactorX, y + cntrFactorY);
-	setVelocity({ 0.0f, 0.0f });
+	velocity->setVelocityDirection(0.f, 0.f);
 }

@@ -3,6 +3,8 @@
 #include "../entities/Player.h"
 #include <memory>
 
+
+class GraphicsComponent;
 class InputHandler;
 
 class Game
@@ -39,7 +41,7 @@ public:
 	std::shared_ptr<Entity> getEntity(unsigned int idx);
 
 	template <typename T>
-	std::shared_ptr<T> buildEntityAt(const std::string& filename, int col, int row);
+	std::shared_ptr<T> buildEntityAt(const std::string& filename, int col, int row, std::shared_ptr<GraphicsComponent> graphicsComponentPointer);
 
 
 private:
