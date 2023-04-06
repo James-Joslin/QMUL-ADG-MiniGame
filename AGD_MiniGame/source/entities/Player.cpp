@@ -22,6 +22,7 @@ Player::Player() : Entity(EntityType::PLAYER), attacking(false), shouting(false)
 	addComponent(velocity);
 	state = std::make_shared<PlayerStateComponent>(attacking, shouting, maxWood, wood, fireSpeed, velocity);
 	addComponent(state);
+	
 }
 
 Player::~Player() {}
@@ -54,3 +55,14 @@ bool Player::intersects(Entity& other)
 	std::shared_ptr<ColliderComponent> otherCollider = std::dynamic_pointer_cast<ColliderComponent>(other.getComponent(ComponentID::COLLIDER));
 	return collider->intersects(otherCollider->getBoundingBox()); 
 }
+
+void Player::collectPotion()
+{
+	potionCollected.notify(*this, EventType::COLLECT_POTION);
+}
+
+void Player::shoutTrigger()
+{
+	shoutTriggered.notify(*this, EventType::SHOUT);
+}
+

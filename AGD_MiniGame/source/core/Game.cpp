@@ -6,6 +6,7 @@
 #include "../../include/components/GraphicsComponent.h"
 #include "../../include/components/LogicComponent.h"
 #include "../../include/systems/Systems.h"
+#include "../../include/systems/Observer.h"
 #include <iostream>
 
 // III.F Add the initialization (to 0) of the entity counter to the initalizers list of this constructor
@@ -21,7 +22,7 @@ Game::Game() : paused(false), drawDebug(false), id{ 0 }
 	logicSystems.push_back(std::make_shared<ColliderSystem>());
 
 	graphicsSystems.push_back(std::make_shared<GraphicsSystem>());
-	if (drawDebug) // set to false in initialiser list - change to true if you want to see debug
+	if (!drawDebug) // set to false in initialiser list - change to true if you want to see debug
 	{
 		graphicsSystems.push_back(std::make_shared<PrintDebugSystem>());
 	}
@@ -142,6 +143,7 @@ void Game::init(std::vector<std::string> lines)
 
 				// IV.B (1/4): Create the player shared pointer.
 				player = std::make_shared<Player>();
+				manager.init(player);
 				
 
 				// IV.B (2/4): Call the function that initializes the Sprite Sheet with a single parameter, a const std::string& filename.
@@ -164,7 +166,6 @@ void Game::init(std::vector<std::string> lines)
 				break;
 				}
 			}
-
 			col++; is++;
 		}
 		row++; it++;
@@ -254,6 +255,7 @@ void Game::update(float elapsed)
 							int	healthRestore = potion->getHealth();
 							player->getHealthComp()->changeHealth(healthRestore);
 							(*it)->markDeleted();
+							player->collectPotion();
 							std::cout << "Collide with potion (health restored: " << healthRestore << ", player health: " << player->getHealthComp()->getHealth() << ")" << std::endl;
 							break;
 						}

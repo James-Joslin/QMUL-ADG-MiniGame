@@ -45,8 +45,6 @@ public:
 	template <typename T>
 	std::shared_ptr<T> buildEntityAt(const std::string& filename, int col, int row, std::shared_ptr<GraphicsComponent> graphicsComponentPointer);
 
-
-
 private:
 
 	Window window;
@@ -75,5 +73,7 @@ private:
 	std::vector<std::shared_ptr<System>> graphicsSystems;
 
 	bool drawDebug;
+
+	AchievementManager manager;
 };
 
