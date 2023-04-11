@@ -8,7 +8,12 @@ class System
 {
 public:
 	virtual void update(Entity*, Game*, float) = 0;
-	bool validate(Entity* entity) { return entity->hasComponent(componentMask); }
+	bool validate(Entity* entity) 
+	{ 
+		// <FEEDBACK> This fixes the issue with the empty component masks in system. You can leave it like this or revert it, it
+		// won't affect the mark.
+		return (componentMask.getMask() != 0) && entity->hasComponent(componentMask); 
+	}
 
 protected:
 	Bitmask componentMask;
@@ -20,6 +25,8 @@ class TTLSystem : public System
 public:
 	TTLSystem()
 	{
+		// <FEEDBACK> You can check now that if the following line is commented out, with the fix above, fire entities won't be updated 
+		// by the TTL System.
 		componentMask.turnOnBit(static_cast<int>(ComponentID::TTL));
 	}
 	void update(Entity*, Game*, float) override;
