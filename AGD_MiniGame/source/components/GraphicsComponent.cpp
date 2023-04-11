@@ -29,6 +29,7 @@ void SpriteSheetGraphics::initSpriteSheet(const std::string& spriteSheetFile)
 	spriteSheet.setAnimation("Idle", true, true);
 }
 
+// <FEEDBACK> These draw() methods are never called (nor they should be). All is managed in the system. These can go.
 void SpriteGraphics::draw(Window* window)
 {
 	if (isSpriteSheet)
@@ -76,6 +77,7 @@ void SpriteSheetGraphics::setSpriteDirection(Direction direction)
 	spriteSheet.setSpriteDirection(direction);
 }
 
+// <FEEDBACK> Same here: these update functions are not needed - logic is in the system now.
 void SpriteSheetGraphics::update(Game* game, float elapsed, Vector2f position)
 {
 

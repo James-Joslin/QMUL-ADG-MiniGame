@@ -21,7 +21,7 @@ Game::Game() : paused(false), drawDebug(false), id{ 0 }
 	logicSystems.push_back(std::make_shared<ColliderSystem>());
 
 	graphicsSystems.push_back(std::make_shared<GraphicsSystem>());
-	if (drawDebug) // set to false in initialiser list - change to true if you want to see debug
+	if (drawDebug) // set to false in initialiser list - change to true if you want to see debug 
 	{
 		graphicsSystems.push_back(std::make_shared<PrintDebugSystem>());
 	}
@@ -313,6 +313,9 @@ void Game::render(float elapsed)
 
 	// III.J Draw all units. Write a loop that iterates over all entities in this class's vector
 	//       and calls the "draw" method in the entities.
+	
+	
+	// <FEEDBACK> This loop is no longer needed if you call bigArray above.
 	for (int i = 0; i < entities.size(); i++)
 	{
 		entities[i]->draw(&window);

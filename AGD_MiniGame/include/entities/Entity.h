@@ -69,6 +69,7 @@ public:
 	bool hasComponent(Bitmask mask) const { return componentSet.contains(mask); }
 	void markDeleted() { deleted = true; }
 
+	// <FEEDBACK> These pointers should be private, not public.
 	std::shared_ptr<PositionComponent> position;
 	std::shared_ptr<GraphicsComponent> graphics;
 	std::shared_ptr<ColliderComponent> collider;

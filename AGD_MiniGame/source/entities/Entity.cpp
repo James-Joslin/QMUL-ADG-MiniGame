@@ -60,6 +60,10 @@ void Entity::init(const std::string& textureFile, float scale, std::shared_ptr<G
 		graphics->getTextureSize().x * graphics->getScale().x,
 		graphics->getTextureSize().y * graphics->getScale().y);
 
+	// <FEEDBACK> Instead of doing this, put a collider (which is independent from this init() call) as a
+	// component of only the classes that have collisions (i.e. static entities and players). If the development
+	// of the game takes you to have many entities with no collider (quite likely), you'd end up with a long list of
+	// if clauses here.
 	if (type != EntityType::FIRE)
 	{
 		collider = std::make_shared<ColliderComponent>();

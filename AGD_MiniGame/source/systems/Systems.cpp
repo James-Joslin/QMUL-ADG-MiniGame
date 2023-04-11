@@ -21,7 +21,7 @@ void TTLSystem::update(Entity* entity, Game* game, float elapsedTime)
 	}
 	else
 	{
-		
+		// <FEEDBACK> Remove this.
 	}
 }
 
@@ -38,7 +38,7 @@ void InputSystem::update(Entity* entity, Game* game, float elapsedTime)
 		velocity->setVelocityDirection(0.f, 0.f);
 		for (auto pointer : input->getPlayerInputHander()->handleInput())
 		{
-			if (pointer)
+			if (pointer) // <FEEDBACK> Rename this variable.
 			{
 				pointer->execute(*game);
 			}
@@ -58,6 +58,7 @@ void MovementSystem::update(Entity* entity, Game* game, float elapsedTime)
 	// Code that was in the movement system update
 	if (velocity)
 	{
+		// <FEEDBACK> This IF is not necessary if validate properly checks this function is called when needed.
 		if (entity->getEntityType() == EntityType::PLAYER || entity->getEntityType() == EntityType::FIRE)
 		{
 			position->setPosition(
@@ -68,7 +69,7 @@ void MovementSystem::update(Entity* entity, Game* game, float elapsedTime)
 	}
 	else
 	{
-
+		// <FEEDBACK> Remove this.
 	}
 }
 
@@ -77,6 +78,10 @@ void GraphicsSystem::update(Entity* entity, Game* game, float elapsedTime)
 	std::shared_ptr<GraphicsComponent> graphics = std::dynamic_pointer_cast<GraphicsComponent>(entity->getComponent(ComponentID::GRAPHICS));
 	std::shared_ptr<PositionComponent> position = std::dynamic_pointer_cast<PositionComponent>(entity->getComponent(ComponentID::POSITION));
 	
+	// <FEEDBACK> No need to check for the type of graphics. They all inherit from a common base class, which means that you can call the 
+	// functions on the base class without worrying about the subtype.
+
+
 	// code that was in graphics pointer update
 	if (graphics->isSpriteSheetEntity())
 	{
@@ -101,7 +106,7 @@ void GraphicsSystem::update(Entity* entity, Game* game, float elapsedTime)
 void ColliderSystem::update(Entity* entity, Game* game, float elapsedTime)
 {
 	std::shared_ptr<ColliderComponent> collider = std::dynamic_pointer_cast<ColliderComponent>(entity->getComponent(ComponentID::COLLIDER));
-
+	// <FEEDBACK> Ok. An alternative, to alleviate logic from the component, is to make the calculations here and only set the two corners of the collider.
 	collider->update(entity->getPosition());
 
 }

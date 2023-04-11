@@ -19,7 +19,7 @@ public:
 	}
 	const Vector2f getVelocityDirection() { return velocityDirection; }
 
-	void update(Entity&, float);
+	void update(Entity&, float); // <FEEDBACK> This function can actually be removed.
 
 	ComponentID getID() { return ComponentID::VELOCITY; }
 
