@@ -21,24 +21,22 @@ class Observer
 {
 public:
 	virtual ~Observer() {}
-	virtual bool onNotify(const Entity& entity, EventType event) = 0;
+	virtual bool onNotify(Entity& entity, EventType event) = 0;
 };
 
 class AchievementManager : public Observer
 {
 public:
 
-	bool onNotify(const Entity& entitiy, EventType event) override;
+	bool onNotify(Entity& entity, EventType event) override;
 	void init(std::shared_ptr<Entity>);
 
 private:
-	void unlockAchievement(AchievementType achievement);
+	void unlockAchievement(Entity& entity, AchievementType achievement);
 
 	int potionCounter = 0;
 	int shoutCounter = 0;
 
-	const int potionGoal = 2;
+	const int potionGoal = 6;
 	const int shoutGoal = 5;
-	bool potionObtained = false;
-	bool shoutObtained = false;
 };

@@ -11,20 +11,20 @@ void AchievementManager::init(std::shared_ptr<Entity> entity)
 }
 
 
-bool AchievementManager::onNotify(const Entity& entitiy, EventType event)
+bool AchievementManager::onNotify(Entity& entity, EventType event)
 {
 	switch (event)
 	{
 	case EventType::COLLECT_POTION:
 	{
 		potionCounter++;
-		return (potionCounter >= potionGoal && !potionObtained) ? unlockAchievement(AchievementType::COLLECTED_ALL_POTIONS), potionObtained = true, true : false;
+		return (potionCounter >= potionGoal) ? unlockAchievement(entity, AchievementType::COLLECTED_ALL_POTIONS), true : false;
 		break;
 	}
 	case EventType::SHOUT:
 	{
 		shoutCounter++;
-		return (shoutCounter >= shoutGoal && !shoutObtained) ? unlockAchievement(AchievementType::SHOUT_5_TIMES), shoutObtained = true, true : false;
+		return (shoutCounter >= shoutGoal) ? unlockAchievement(entity, AchievementType::SHOUT_5_TIMES), true : false;
 		break;
 	}
 	default:
@@ -32,20 +32,26 @@ bool AchievementManager::onNotify(const Entity& entitiy, EventType event)
 	}
 }
 
-void AchievementManager::unlockAchievement(AchievementType achievement)
+void AchievementManager::unlockAchievement(Entity& entity, AchievementType achievement)
 {
 	switch (achievement)
 	{
 	case AchievementType::COLLECTED_ALL_POTIONS:
 	{
 		std::cout << "Achievement Unlocked: Collected All Potions" << std::endl;
+		Player* player = dynamic_cast<Player*>(&entity);
+		player->getPotionCollected().removeObserver(this);
 		break;
 	}
 	case AchievementType::SHOUT_5_TIMES:
 	{
 		std::cout << "Achievement Unlocked: Shouted 5 Times" << std::endl;
+		Player* player = dynamic_cast<Player*>(&entity);
+		player->getShoutTriggered().removeObserver(this);
 		break;
 	}
+	default:
+		break;
 	}
 }
 
