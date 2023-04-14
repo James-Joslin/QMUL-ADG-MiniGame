@@ -4,6 +4,4 @@
 #include <iostream>
 
 
-void VelocityComponent::update(Entity& entity, float elapsedTime)
-{
-}
+

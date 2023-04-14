@@ -20,14 +20,12 @@ public:
 	virtual sf::Vector2i getSpriteSize() = 0;
 	virtual sf::Vector2f getScale() = 0; // gets texture scale
 	virtual sf::Vector2f getSpriteScale() = 0; // gets sprite scale (out of sprite sheet)
-	virtual void draw(Window* window) = 0;
 	virtual void setPosition(Vector2f position) = 0;
 	virtual void setAnimation(const std::string& name, bool play, bool loop) = 0;
 	virtual Direction getSpriteDirection() = 0;
 	virtual void setSpriteDirection(Direction direction) = 0;
 	virtual SpriteSheet* getSpriteSheet() = 0;
 	virtual sf::Sprite* getSprite() = 0;
-	virtual void update(Game* game, float elapsed, Vector2f) = 0;
 	virtual bool isSpriteSheetEntity() = 0;
 	ComponentID getID() { return ComponentID::GRAPHICS; }
 };
@@ -50,14 +48,12 @@ public:
 		throw std::exception(
 			"You are calling a function that would get a sprite's scale from a sprite sheet, however this is a singular sprite and therefore doesn't have a sprite sheet\nYou should be calling getScale()");
 	}
-	virtual void draw(Window* window) override; // in Graphics Components cpp
 	virtual void setPosition(Vector2f position) override;
 	void setAnimation(const std::string& name, bool play, bool loop) override {}
 	void setSpriteDirection(Direction direction) override {}
 	sf::Sprite* getSprite() override { return &sprite; }
 	SpriteSheet* getSpriteSheet() { throw std::exception("No spritesheet available"); }
 	Direction getSpriteDirection() { throw std::exception("No spritesheet available"); }
-	virtual void update(Game* game, float elapsed, Vector2f) override;
 	bool isSpriteSheetEntity() override { return isSpriteSheet; }
 
 private:
@@ -80,14 +76,12 @@ public:
 			"You are calling a function that would get the scale from a sprite, however this is a sprite sheet and therefore you must first address the sheet to get the sprite and its scale\nYou should be calling getSpriteScale()");
 	}
 	sf::Vector2f getSpriteScale() override { return spriteSheet.getSpriteScale(); }
-	virtual void draw(Window* window) override; // in Graphics Components cpp
 	void setPosition(Vector2f position) override;
 	void setAnimation(const std::string& name, bool play, bool loop) override;
 	void setSpriteDirection(Direction direction) override;
 	Direction getSpriteDirection() { return spriteSheet.getSpriteDirection(); }
 	sf::Sprite* getSprite() override { throw std::exception("No sprite available"); }
 	SpriteSheet* getSpriteSheet() { return &spriteSheet; }
-	virtual void update(Game* game, float elapsed, Vector2f) override;
 	bool isSpriteSheetEntity() override { return isSpriteSheet; }
 
 private:

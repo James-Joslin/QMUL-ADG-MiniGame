@@ -28,10 +28,10 @@ public:
 
 	//virtual void update(Game* game, float elapsed = 1.0f) override;
 
-	/*std::shared_ptr<InputComponent> getPlayerInputComponent() override
+	std::shared_ptr<InputComponent> getInputComponent() 
 	{
 		return playerInput;
-	}*/
+	}
 
 	/*std::shared_ptr<VelocityComponent> getVelocityComponent() override
 	{
@@ -64,7 +64,7 @@ public:
 
 	void setGraphicsPointer(std::shared_ptr<GraphicsComponent> _graphics) { 
 		addComponent(_graphics);
-		graphics = _graphics; 
+		graphics = _graphics;
 	}
 
 	bool intersects(Entity& other);

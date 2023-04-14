@@ -19,10 +19,6 @@ void TTLSystem::update(Entity* entity, Game* game, float elapsedTime)
 			entity->markDeleted();
 		}
 	}
-	else
-	{
-		// <FEEDBACK> Remove this.
-	}
 }
 
 void InputSystem::update(Entity* entity, Game* game, float elapsedTime)
@@ -36,11 +32,12 @@ void InputSystem::update(Entity* entity, Game* game, float elapsedTime)
 
 		// Code that was in velocity update function
 		velocity->setVelocityDirection(0.f, 0.f);
-		for (auto pointer : input->getPlayerInputHander()->handleInput())
+		for (auto inputHandler : input->getPlayerInputHander()->handleInput())
 		{
-			if (pointer) // <FEEDBACK> Rename this variable.
+			if (inputHandler) // <FEEDBACK> Rename this variable.
+							 // <CORRECTED Pointer renamed to inputHandler
 			{
-				pointer->execute(*game);
+				inputHandler->execute(*game);
 			}
 		}
 	}
@@ -66,10 +63,6 @@ void MovementSystem::update(Entity* entity, Game* game, float elapsedTime)
 				position->getPosition().y + (velocity->getVelocityDirection().y * velocity->getSpeed() * elapsedTime)
 			);
 		}
-	}
-	else
-	{
-		// <FEEDBACK> Remove this.
 	}
 }
 

@@ -14,36 +14,36 @@ void PlayerStateComponent::update(Entity& entity, Game* game, float elapsed)
 		{
 			if (attacking)
 			{
-				player->graphics->setAnimation("Attack", true, false);
+				player->getGraphicsComponent()->setAnimation("Attack", true, false);
 			}
 
 			else if (shouting)
 			{
-				player->graphics->setAnimation("Shout", true, false);
+				player->getGraphicsComponent()->setAnimation("Shout", true, false);
 			}
 
 			else
 			{
 				if (velocity->getVelocityDirection().x > 0)
 				{
-					player->graphics->setAnimation("Walk", true, true);
-					player->graphics->setSpriteDirection(Direction::Right);
+					player->getGraphicsComponent()->setAnimation("Walk", true, true);
+					player->getGraphicsComponent()->setSpriteDirection(Direction::Right);
 				}
 
 				else if (velocity->getVelocityDirection().x < 0)
 				{
-					player->graphics->setAnimation("Walk", true, true);
-					player->graphics->setSpriteDirection(Direction::Left);
+					player->getGraphicsComponent()->setAnimation("Walk", true, true);
+					player->getGraphicsComponent()->setSpriteDirection(Direction::Left);
 				}
 
 				else if (velocity->getVelocityDirection().x == 0 && velocity->getVelocityDirection().y == 0 && !attacking && !shouting)
 				{
-					player->graphics->setAnimation("Idle", true, true);
+					player->getGraphicsComponent()->setAnimation("Idle", true, true);
 				}
 
 				else if (velocity->getVelocityDirection().y != 0)
 				{
-					player->graphics->setAnimation("Walk", true, true);
+					player->getGraphicsComponent()->setAnimation("Walk", true, true);
 				}
 			}
 
@@ -51,18 +51,18 @@ void PlayerStateComponent::update(Entity& entity, Game* game, float elapsed)
 			{
 				shootCooldown = shootCooldown - elapsed;
 			}
-			if (shouting && player->graphics->getSpriteSheet()->getCurrentAnim()->isInAction() && wood >= player->shootingCost && shootCooldown <= 0)
+			if (shouting && player->getGraphicsComponent()->getSpriteSheet()->getCurrentAnim()->isInAction() && wood >= player->shootingCost && shootCooldown <= 0)
 			{
 				game->addEntity(createFire(player));
 				wood = wood - player->shootingCost;
 				shootCooldown = player->shootCooldownTime;
 			}
 			
-			if (attacking && player->graphics->getSpriteSheet()->getCurrentAnim()->isPlaying() == false)
+			if (attacking && player->getGraphicsComponent()->getSpriteSheet()->getCurrentAnim()->isPlaying() == false)
 			{
 				setAttacking(false);
 			}
-			if (shouting && player->graphics->getSpriteSheet()->getCurrentAnim()->isPlaying() == false)
+			if (shouting && player->getGraphicsComponent()->getSpriteSheet()->getCurrentAnim()->isPlaying() == false)
 			{
 				setShouting(false);
 			}
@@ -82,7 +82,7 @@ std::shared_ptr<Fire> PlayerStateComponent:: createFire(Entity* player) const
 {
 	auto fireEntity = std::make_shared<Fire>();
 	
-	Vector2f pos{ player->getPosition().x + player->graphics->getTextureSize().x * 0.5f, player->getPosition().y + player->graphics->getTextureSize().y * 0.5f};
+	Vector2f pos{ player->getPosition().x + player->getGraphicsComponent()->getTextureSize().x * 0.5f, player->getPosition().y + player->getGraphicsComponent()->getTextureSize().y * 0.5f};
 	fireEntity->init("img/fire.png", 1.0f, std::make_shared<SpriteGraphics>());
 	fireEntity->setPosition(pos.x, pos.y);
 	Vector2f vel(fireSpeed, 0.f);

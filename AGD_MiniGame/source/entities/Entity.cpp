@@ -64,7 +64,7 @@ void Entity::init(const std::string& textureFile, float scale, std::shared_ptr<G
 	// component of only the classes that have collisions (i.e. static entities and players). If the development
 	// of the game takes you to have many entities with no collider (quite likely), you'd end up with a long list of
 	// if clauses here.
-	if (type != EntityType::FIRE)
+	if (type == EntityType::PLAYER || type == EntityType::POTION || type == EntityType::LOG)
 	{
 		collider = std::make_shared<ColliderComponent>();
 		addComponent(collider);
@@ -103,22 +103,3 @@ void Entity::addComponent(std::shared_ptr<Component> c)
 	componentSet.turnOnBit(static_cast<unsigned int>(c->getID()));
 }
 
-//std::shared_ptr<TTLComponent> Entity::getTTLComponent()
-//{
-//	return nullptr;
-//}
-
-//std::shared_ptr<InputComponent> Entity::getPlayerInputComponent()
-//{
-//	return nullptr;
-//}
-
-//std::shared_ptr<VelocityComponent> Entity::getVelocityComponent()
-//{
-//	return nullptr;
-//}
-//
-//std::shared_ptr<PlayerStateComponent> Entity::getStateComponent()
-//{
-//	return nullptr;
-//}

@@ -7,6 +7,7 @@
 #include "../../include/components/LogicComponent.h"
 #include "../../include/systems/Systems.h"
 #include <iostream>
+#include "../../include/components/InputComponent.h"
 
 // III.F Add the initialization (to 0) of the entity counter to the initalizers list of this constructor
 Game::Game() : paused(false), drawDebug(false), id{ 0 }
@@ -21,7 +22,7 @@ Game::Game() : paused(false), drawDebug(false), id{ 0 }
 	logicSystems.push_back(std::make_shared<ColliderSystem>());
 
 	graphicsSystems.push_back(std::make_shared<GraphicsSystem>());
-	if (drawDebug) // set to false in initialiser list - change to true if you want to see debug 
+	if (!drawDebug) // set to false in initialiser list - change to true if you want to see debug 
 	{
 		graphicsSystems.push_back(std::make_shared<PrintDebugSystem>());
 	}
@@ -185,14 +186,15 @@ void Game::handleInput()
 {
 	// V.C: Call the fucntion that handles the input for the game and retrieve the command returned in a variable.
 	//      Then, call the "execute" method of the returned object to run this command.
-	//std::shared_ptr<command> command = inputhandler->handleinput();
+	auto command = inputHandler->handleInput();
 
-	//if (command) {
-	//	// handle non-null pointer case
-	//	command->execute(*this);
-	//}
-	//
-	// //v.d: call the function handleinput on the player's object.
+	if (command) {
+		// handle non-null pointer case
+		command->execute(*this);
+	}
+	
+	 //v.d: call the function handleinput on the player's object.
+	player->getInputComponent()->getPlayerInputHander()->handleInput();
 	//player->handleinput(*this);
 }
 
@@ -316,10 +318,8 @@ void Game::render(float elapsed)
 	
 	
 	// <FEEDBACK> This loop is no longer needed if you call bigArray above.
-	for (int i = 0; i < entities.size(); i++)
-	{
-		entities[i]->draw(&window);
-	}
+	// <CORRECTED Loop removed
+
 
 	//Draw FPS
 	window.drawGUI(*this);

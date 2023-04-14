@@ -16,9 +16,9 @@ public:
 		// III.C (1/2) Call the init() function in Entity to initalize this object
 		Entity::init(textureFile, scale, _graphicsPointer);
 		// VIII.C (1/2) Set the top left and bottom right corners of the bounding box for this entity.
-		collider->setBoundingBoxLocation(getPosition());
+		getColliderComponent()->setBoundingBoxLocation(getPosition());
 	}
-
+	std::shared_ptr<ColliderComponent> collider;
 	// virtual void update(Game* game, float elapsed = 1.0f) override { }
 
 	int getHealth() const { return potionHealth; }
@@ -39,7 +39,7 @@ public:
 		// III.C (2/2) Call the init() function in Entity to initalize this object
 		Entity::init(textureFile, scale, _graphicsPointer);
 		// VIII.C (2/2) Set the top left and bottom right corners of the bounding box for this entity.
-		collider->setBoundingBoxLocation(getPosition());
+		getColliderComponent()->setBoundingBoxLocation(getPosition());
 	}
 
 	// virtual void update(Game* game, float elapsed = 1.0f) override {}

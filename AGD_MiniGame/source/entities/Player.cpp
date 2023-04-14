@@ -34,8 +34,8 @@ Player::~Player() {}
 
 void Player::positionSprite(int row, int col, int spriteWH, float tileScale)
 {
-	sf::Vector2f scaleV2f = graphics->getSpriteScale();
-	sf::Vector2i textureSize = graphics->getTextureSize();
+	sf::Vector2f scaleV2f = getGraphicsComponent()->getSpriteScale();
+	sf::Vector2i textureSize = getGraphicsComponent()->getTextureSize();
 
 	float x = col * spriteWH * tileScale;
 	float y = (row)*spriteWH * tileScale;
@@ -52,5 +52,5 @@ void Player::positionSprite(int row, int col, int spriteWH, float tileScale)
 bool Player::intersects(Entity& other)
 {
 	std::shared_ptr<ColliderComponent> otherCollider = std::dynamic_pointer_cast<ColliderComponent>(other.getComponent(ComponentID::COLLIDER));
-	return collider->intersects(otherCollider->getBoundingBox()); 
+	return getColliderComponent()->intersects(otherCollider->getBoundingBox());
 }
