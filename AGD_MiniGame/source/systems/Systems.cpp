@@ -80,8 +80,7 @@ void GraphicsSystem::update(Entity* entity, Game* game, float elapsedTime)
 	{
 		// updating graphic positioning
 		graphics->getSpriteSheet()->setSpritePosition(sf::Vector2f(position->getPosition().x, position->getPosition().y));
-		graphics->getSpriteSheet()->update(elapsedTime);
-
+		if (!game->isPaused()) { graphics->getSpriteSheet()->update(elapsedTime); }
 		// draw - being called in game::render()
 		// just calling draw in graphics component via pointer
 		game->getWindow()->draw(graphics->getSpriteSheet()->getSprite());
