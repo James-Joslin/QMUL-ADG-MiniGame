@@ -25,7 +25,6 @@ void SpriteGraphics::initSpriteSheet(const std::string& spriteSheetFile)
 void SpriteSheetGraphics::initSpriteSheet(const std::string& spriteSheetFile)
 {
 	spriteSheet.loadSheet(spriteSheetFile);
-	isSpriteSheet = true;
 	spriteSheet.setAnimation("Idle", true, true);
 }
 

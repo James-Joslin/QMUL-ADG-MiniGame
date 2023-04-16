@@ -34,11 +34,9 @@ void InputSystem::update(Entity* entity, Game* game, float elapsedTime)
 		velocity->setVelocityDirection(0.f, 0.f);
 		for (auto inputHandler : input->getPlayerInputHander()->handleInput())
 		{
-			if (inputHandler) // <FEEDBACK> Rename this variable.
-							 // <CORRECTED Pointer renamed to inputHandler
-			{
-				inputHandler->execute(*game);
-			}
+			// <FEEDBACK> Rename this variable.
+			// <CORRECTED Pointer renamed to inputHandler
+			inputHandler->execute(*game);
 		}
 	}
 	else

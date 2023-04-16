@@ -16,17 +16,16 @@ public:
 	~GraphicsComponent() {};
 	virtual void init(const std::string& textureFile, float scale) = 0;
 	virtual void initSpriteSheet(const std::string& spriteSheetFile) = 0;
-	virtual sf::Vector2i getTextureSize() = 0;
-	virtual sf::Vector2i getSpriteSize() = 0;
-	virtual sf::Vector2f getScale() = 0; // gets texture scale
-	virtual sf::Vector2f getSpriteScale() = 0; // gets sprite scale (out of sprite sheet)
+	virtual sf::Vector2i getTextureSize() const = 0;
+	virtual sf::Vector2i getSpriteSize() const = 0;
+	virtual sf::Vector2f getScale() const = 0; // gets texture scale
+	virtual sf::Vector2f getSpriteScale() const = 0; // gets sprite scale (out of sprite sheet)
 	virtual void setPosition(Vector2f position) = 0;
 	virtual void setAnimation(const std::string& name, bool play, bool loop) = 0;
-	virtual Direction getSpriteDirection() = 0;
+	virtual Direction getSpriteDirection() const = 0;
 	virtual void setSpriteDirection(Direction direction) = 0;
 	virtual SpriteSheet* getSpriteSheet() = 0;
-	virtual sf::Sprite* getSprite() = 0;
-	virtual bool isSpriteSheetEntity() = 0;
+	virtual sf::Sprite getSprite() const = 0;
 	ComponentID getID() { return ComponentID::GRAPHICS; }
 
 	virtual void update(Game* game, float elapsed, Vector2f) = 0;
@@ -40,14 +39,14 @@ class SpriteGraphics : public GraphicsComponent
 public:
 	void init(const std::string& textureFile, float scale) override; // in Graphics Components cpp
 	void initSpriteSheet(const std::string& spriteSheetFile) override; // in Graphics Components cpp // will return an exception
-	sf::Vector2i getTextureSize() override { return sf::Vector2i(static_cast<int>(texture.getSize().x), static_cast<int>(texture.getSize().y)); }
-	sf::Vector2i getSpriteSize() override 
+	sf::Vector2i getTextureSize() const override { return sf::Vector2i(static_cast<int>(texture.getSize().x), static_cast<int>(texture.getSize().y)); }
+	sf::Vector2i getSpriteSize() const override
 	{
 		throw std::exception(
 			"You are calling a function that would get a sprite's size from a sprite sheet, however this is a singular sprite and therefore doesn't have a sprite sheet\nYou should be calling getTextureSize()");
 	}
-	sf::Vector2f getScale() override { return sprite.getScale(); }
-	sf::Vector2f getSpriteScale() override 
+	sf::Vector2f getScale() const override { return sprite.getScale(); }
+	sf::Vector2f getSpriteScale() const override
 	{
 		throw std::exception(
 			"You are calling a function that would get a sprite's scale from a sprite sheet, however this is a singular sprite and therefore doesn't have a sprite sheet\nYou should be calling getScale()");
@@ -55,10 +54,9 @@ public:
 	virtual void setPosition(Vector2f position) override;
 	void setAnimation(const std::string& name, bool play, bool loop) override {}
 	void setSpriteDirection(Direction direction) override {}
-	sf::Sprite* getSprite() override { return &sprite; }
+	sf::Sprite getSprite() const override { return sprite; }
 	SpriteSheet* getSpriteSheet() { throw std::exception("No spritesheet available"); }
-	Direction getSpriteDirection() { throw std::exception("No spritesheet available"); }
-	bool isSpriteSheetEntity() override { return isSpriteSheet; }
+	Direction getSpriteDirection() const { throw std::exception("No spritesheet available"); }
 
 	void draw(Window* window) override;
 	virtual void update(Game* game, float elapsed, Vector2f) override;
@@ -66,7 +64,6 @@ public:
 private:
 	sf::Texture texture;
 	sf::Sprite sprite;
-	bool isSpriteSheet{ false };
 };
 
 // Subclasses - Sprite Sheet Graphics
@@ -75,26 +72,24 @@ class SpriteSheetGraphics : public GraphicsComponent
 public:
 	void init(const std::string& textureFile, float scale) override; // in Graphics Components cpp // will return an exception
 	void initSpriteSheet(const std::string& spriteSheetFile) override; // in Graphics Components cpp
-	sf::Vector2i getTextureSize() override { return spriteSheet.getSpriteSize(); }
-	sf::Vector2i getSpriteSize() override { return spriteSheet.getSpriteSize(); }
-	sf::Vector2f getScale() override 
+	sf::Vector2i getTextureSize() const override { return spriteSheet.getSpriteSize(); }
+	sf::Vector2i getSpriteSize() const override { return spriteSheet.getSpriteSize(); }
+	sf::Vector2f getScale() const override 
 	{
 		throw std::exception(
 			"You are calling a function that would get the scale from a sprite, however this is a sprite sheet and therefore you must first address the sheet to get the sprite and its scale\nYou should be calling getSpriteScale()");
 	}
-	sf::Vector2f getSpriteScale() override { return spriteSheet.getSpriteScale(); }
+	sf::Vector2f getSpriteScale() const override { return spriteSheet.getSpriteScale(); }
 	void setPosition(Vector2f position) override;
 	void setAnimation(const std::string& name, bool play, bool loop) override;
 	void setSpriteDirection(Direction direction) override;
-	Direction getSpriteDirection() { return spriteSheet.getSpriteDirection(); }
-	sf::Sprite* getSprite() override { throw std::exception("No sprite available"); }
+	Direction getSpriteDirection() const { return spriteSheet.getSpriteDirection(); }
+	sf::Sprite getSprite() const override { throw std::exception("No sprite available"); }
 	SpriteSheet* getSpriteSheet() { return &spriteSheet; }
-	bool isSpriteSheetEntity() override { return isSpriteSheet; }
 
 	void draw(Window* window) override;
 	virtual void update(Game* game, float elapsed, Vector2f) override;
 
 private:
 	SpriteSheet spriteSheet;
-	bool isSpriteSheet{ true };
 };

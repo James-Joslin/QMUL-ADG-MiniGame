@@ -222,7 +222,7 @@ void Game::update(float elapsed)
 						}
 						case EntityType::LOG:
 						{
-							if (state->isAttacking() && player->getSpriteSheet()->getCurrentAnim()->isInAction()) // check this
+							if (state->isAttacking() && player->getGraphicsComponent()->getSpriteSheet()->getCurrentAnim()->isInAction()) // check this
 							{
 								Log* log = dynamic_cast<Log*>((*it).get());
 								state->addWood(*player, log->getWood());
