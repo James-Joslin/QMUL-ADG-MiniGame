@@ -51,6 +51,7 @@ void Player::positionSprite(int row, int col, int spriteWH, float tileScale)
 
 bool Player::intersects(Entity& other)
 {
+	if (!getColliderComponent()) return false;
 	std::shared_ptr<ColliderComponent> otherCollider = std::dynamic_pointer_cast<ColliderComponent>(other.getComponent(ComponentID::COLLIDER));
 	return getColliderComponent()->intersects(otherCollider->getBoundingBox());
 }

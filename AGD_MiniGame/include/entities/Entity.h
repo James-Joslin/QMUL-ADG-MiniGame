@@ -56,7 +56,7 @@ public:
 	Bitmask getComponentSet() { return componentSet; }
 	std::shared_ptr<PositionComponent> getPositionComponent() { return position; }
 	std::shared_ptr<GraphicsComponent> getGraphicsComponent() { return graphics; }
-	std::shared_ptr<ColliderComponent> getColliderComponent() { return collider; }
+	
 	bool isSpriteSheetEntity() const { return isSpriteSheet; }
 	
 	// X.C  Add two helper functions. One that returns the value of the deleted flag, another one that 
@@ -64,6 +64,9 @@ public:
 	bool isDeleted() const { return deleted; }
 	bool hasComponent(Bitmask mask) const { return componentSet.contains(mask); }
 	void markDeleted() { deleted = true; }
+
+
+	virtual std::shared_ptr<ColliderComponent> getColliderComponent();
 
 protected:
 

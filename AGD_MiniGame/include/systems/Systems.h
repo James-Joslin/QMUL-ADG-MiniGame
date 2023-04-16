@@ -12,6 +12,7 @@ public:
 	{ 
 		// <FEEDBACK> This fixes the issue with the empty component masks in system. You can leave it like this or revert it, it
 		// won't affect the mark.
+		// <CORRECTED> Confirmed
 		return (componentMask.getMask() != 0) && entity->hasComponent(componentMask); 
 	}
 
@@ -27,6 +28,7 @@ public:
 	{
 		// <FEEDBACK> You can check now that if the following line is commented out, with the fix above, fire entities won't be updated 
 		// by the TTL System.
+		// <CORRECTED> Confirmed
 		componentMask.turnOnBit(static_cast<int>(ComponentID::TTL));
 	}
 	void update(Entity*, Game*, float) override;

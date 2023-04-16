@@ -43,12 +43,6 @@ void Entity::update(Game* game, float elapsed)
 
 void Entity::draw(Window* window)
 {
-	//graphics->draw(window); 
-	// VIII.B Draw the bounding box by retrieving a drawable rect from the bounding box Rectangle.
-	/*if (type != EntityType::FIRE)
-	{
-		collider->draw(window);
-	}*/
 }
 
 void Entity::init(const std::string& textureFile, float scale, std::shared_ptr<GraphicsComponent> _graphicsPointer)
@@ -64,12 +58,7 @@ void Entity::init(const std::string& textureFile, float scale, std::shared_ptr<G
 	// component of only the classes that have collisions (i.e. static entities and players). If the development
 	// of the game takes you to have many entities with no collider (quite likely), you'd end up with a long list of
 	// if clauses here.
-	if (type == EntityType::PLAYER || type == EntityType::POTION || type == EntityType::LOG)
-	{
-		collider = std::make_shared<ColliderComponent>();
-		addComponent(collider);
-		collider->setBboxSize(bboxSize);
-	}
+	// <CORRECTED> Implemented virtual getter in entity returns nullptr. Static Entities and Player have overrides for this
 }
 
 void Entity::initSpriteSheet(const std::string& spriteSheetFile)
@@ -101,5 +90,10 @@ void Entity::addComponent(std::shared_ptr<Component> c)
 {
 	mapComponent.insert({ c->getID(), c });
 	componentSet.turnOnBit(static_cast<unsigned int>(c->getID()));
+}
+
+std::shared_ptr<ColliderComponent> Entity::getColliderComponent()
+{
+	return nullptr;
 }
 

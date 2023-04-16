@@ -20,11 +20,6 @@ public:
 	{
 		return boundingBox.intersects(otherBbox);
 	}
-	void update(Vector2f position)
-	{
-		boundingBox.setTopLeft(position);
-		boundingBox.setBottomRight(Vector2f((position.x + bboxSize.x), (position.y + bboxSize.y)));
-	}
 
 	ComponentID getID() { return ComponentID::COLLIDER; }
 

@@ -56,13 +56,11 @@ void MovementSystem::update(Entity* entity, Game* game, float elapsedTime)
 	if (velocity)
 	{
 		// <FEEDBACK> This IF is not necessary if validate properly checks this function is called when needed.
-		if (entity->getEntityType() == EntityType::PLAYER || entity->getEntityType() == EntityType::FIRE)
-		{
-			position->setPosition(
-				position->getPosition().x + (velocity->getVelocityDirection().x * velocity->getSpeed() * elapsedTime),
-				position->getPosition().y + (velocity->getVelocityDirection().y * velocity->getSpeed() * elapsedTime)
-			);
-		}
+		// <CORRECTED> If statement removed
+		position->setPosition(
+			position->getPosition().x + (velocity->getVelocityDirection().x * velocity->getSpeed() * elapsedTime),
+			position->getPosition().y + (velocity->getVelocityDirection().y * velocity->getSpeed() * elapsedTime)
+		);
 	}
 }
 
@@ -76,31 +74,36 @@ void GraphicsSystem::update(Entity* entity, Game* game, float elapsedTime)
 
 
 	// code that was in graphics pointer update
-	if (graphics->isSpriteSheetEntity())
-	{
-		// updating graphic positioning
-		graphics->getSpriteSheet()->setSpritePosition(sf::Vector2f(position->getPosition().x, position->getPosition().y));
-		if (!game->isPaused()) { graphics->getSpriteSheet()->update(elapsedTime); }
-		// draw - being called in game::render()
-		// just calling draw in graphics component via pointer
-		game->getWindow()->draw(graphics->getSpriteSheet()->getSprite());
-	}
-	else
-	{
-		sf::Sprite* sprite = graphics->getSprite();
-		sprite->setPosition(sf::Vector2f(position->getPosition().x, position->getPosition().y));
+	if (!game->isPaused()) { graphics->update(game, elapsedTime, position->getPosition()); }
+	graphics->draw(game->getWindow());
+	
+	//if (graphics->isSpriteSheetEntity())
+	//{
+	//	// updating graphic positioning
+	//	graphics->getSpriteSheet()->setSpritePosition(sf::Vector2f(position->getPosition().x, position->getPosition().y));
+	//	if (!game->isPaused()) { graphics->getSpriteSheet()->update(elapsedTime); }
+	//	// draw - being called in game::render()
+	//	// just calling draw in graphics component via pointer
+	//	game->getWindow()->draw(graphics->getSpriteSheet()->getSprite());
+	//}
+	//else
+	//{
+	//	sf::Sprite* sprite = graphics->getSprite();
+	//	sprite->setPosition(sf::Vector2f(position->getPosition().x, position->getPosition().y));
 
-		// draw being handled in game::render()
-		game->getWindow()->draw(*sprite);
-	}	
+	//	// draw being handled in game::render()
+	//	game->getWindow()->draw(*sprite);
+	//}	
 }
 
 void ColliderSystem::update(Entity* entity, Game* game, float elapsedTime)
 {
 	std::shared_ptr<ColliderComponent> collider = std::dynamic_pointer_cast<ColliderComponent>(entity->getComponent(ComponentID::COLLIDER));
 	// <FEEDBACK> Ok. An alternative, to alleviate logic from the component, is to make the calculations here and only set the two corners of the collider.
-	collider->update(entity->getPosition());
+	// <CORRECTED> Moved logic from collider->update() to ColliderSystem::Update. Removed collider update.
 
+	collider->getBoundingBox().setTopLeft(entity->getPosition());
+	collider->getBoundingBox().setBottomRight(Vector2f((entity->getPosition().x + collider->getBboxSize().x), (entity->getPosition().y + collider->getBboxSize().y)));
 }
 
 void PrintDebugSystem::update(Entity* entity, Game* game, float elapsedTime)

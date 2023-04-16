@@ -72,6 +72,8 @@ public:
 
 	// std::shared_ptr<Fire> createFire() const;
 
+	std::shared_ptr<ColliderComponent> getColliderComponent() override { return collider; }
+
 private:
 
 

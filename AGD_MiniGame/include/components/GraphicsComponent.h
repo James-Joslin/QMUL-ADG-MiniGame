@@ -28,6 +28,10 @@ public:
 	virtual sf::Sprite* getSprite() = 0;
 	virtual bool isSpriteSheetEntity() = 0;
 	ComponentID getID() { return ComponentID::GRAPHICS; }
+
+	virtual void update(Game* game, float elapsed, Vector2f) = 0;
+
+	virtual void draw(Window* window) = 0;
 };
 
 // Subclasses - Sprite Graphics
@@ -56,6 +60,9 @@ public:
 	Direction getSpriteDirection() { throw std::exception("No spritesheet available"); }
 	bool isSpriteSheetEntity() override { return isSpriteSheet; }
 
+	void draw(Window* window) override;
+	virtual void update(Game* game, float elapsed, Vector2f) override;
+
 private:
 	sf::Texture texture;
 	sf::Sprite sprite;
@@ -83,6 +90,9 @@ public:
 	sf::Sprite* getSprite() override { throw std::exception("No sprite available"); }
 	SpriteSheet* getSpriteSheet() { return &spriteSheet; }
 	bool isSpriteSheetEntity() override { return isSpriteSheet; }
+
+	void draw(Window* window) override;
+	virtual void update(Game* game, float elapsed, Vector2f) override;
 
 private:
 	SpriteSheet spriteSheet;
