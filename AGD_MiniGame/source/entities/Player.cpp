@@ -20,17 +20,11 @@ Player::Player() : Entity(EntityType::PLAYER), attacking(false), shouting(false)
 	addComponent(healthComponent);
 	velocity = std::make_shared<VelocityComponent>(playerSpeed);
 	addComponent(velocity);
-	state = std::make_shared<PlayerStateComponent>(attacking, shouting, maxWood, wood, fireSpeed, velocity);
+	state = std::make_shared<PlayerStateComponent>(attacking, shouting, maxWood, wood, shootingCost, shootCooldown, shootCooldownTime, fireSpeed, velocity);
 	addComponent(state);
 }
 
 Player::~Player() {}
-
-//void Player::update(Game* game, float elapsed)
-//{
-//	// velocity->update(*this, elapsed);
-//	// graphics->update(game, elapsed, getPosition()); // hasn't been implemented yet
-//}
 
 void Player::positionSprite(int row, int col, int spriteWH, float tileScale)
 {

@@ -30,6 +30,4 @@ private:
 	Vector2f velocityDirection;
 	float speed;
 
-	
-
 };

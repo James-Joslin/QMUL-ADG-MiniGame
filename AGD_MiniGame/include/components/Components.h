@@ -18,9 +18,4 @@ class Component
 public:
 	~Component() {};
 	virtual ComponentID getID() = 0;
-	
-
-private:
-
-
 };

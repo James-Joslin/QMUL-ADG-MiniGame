@@ -22,6 +22,9 @@ public:
 		bool _shouting,
 		int _maxWood,
 		int _wood,
+		int _shootingCost,
+		float _shootCooldown,
+		float _shootCooldownTime,
 		float _fireSpeed,
 		std::shared_ptr<VelocityComponent> _velocity) : 
 		attacking{ _attacking }, 
@@ -29,11 +32,14 @@ public:
 		maxWood { _maxWood }, 
 		wood{ _wood }, 
 		fireSpeed{ _fireSpeed }, 
+		shootingCost{ _shootingCost },
+		shootCooldown{ _shootCooldown },
+		shootCooldownTime{ _shootCooldownTime },
 		velocity{ _velocity } {};
 
 	void update(Entity& entity, Game* game, float elapsed) override;
 
-	void addWood(Entity& entity, int w);
+	void addWood(int w);
 
 	std::shared_ptr<Fire> createFire(Entity*) const;
 	ComponentID getID() { return ComponentID::STATE; }
@@ -52,6 +58,8 @@ private:
 	bool shouting;
 	int wood;
 	int maxWood;
-	float shootCooldown{ 0 };
+	int shootingCost;
+	float shootCooldown;
+	float shootCooldownTime;
 	float fireSpeed;
 };

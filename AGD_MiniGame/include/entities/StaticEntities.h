@@ -59,8 +59,6 @@ public:
 		getColliderComponent()->setBoundingBoxLocation(getPosition());
 	}
 
-	// virtual void update(Game* game, float elapsed = 1.0f) override {}
-
 	int getWood() const { return woodAdded; }
 
 

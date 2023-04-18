@@ -11,11 +11,11 @@ public:
 	Rectangle& getBoundingBox() { return boundingBox; }
 	Vector2f getBboxSize() { return bboxSize; }
 	void setBboxSize(Vector2f _bboxSize) { bboxSize = _bboxSize; }
+	void setBoundingBoxLocation(Vector2f position);
 	void draw(Window* window) { window->draw(boundingBox.getDrawableRect()); }
 	bool intersects(Rectangle& otherBbox) { return boundingBox.intersects(otherBbox); }
 
 	ComponentID getID() { return ComponentID::COLLIDER; }
-	void setBoundingBoxLocation(Vector2f position);
 
 private:
 	Rectangle boundingBox;

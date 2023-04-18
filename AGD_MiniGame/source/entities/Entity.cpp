@@ -12,7 +12,6 @@ Entity::Entity() :
 	isSpriteSheet(true),
 	id(0),
 	type(EntityType::UNDEFINED),
-	// X.B (1/2) Add the initialization the deleted flag to false
 	deleted(false),
 	componentSet(0)
 {
@@ -26,22 +25,12 @@ Entity::Entity(EntityType et) :
 	id(0),
 	type (et),
 	componentSet(0),
-	// X.B (2/2) Add the initialization the deleted flag to false
 	deleted(false)
-
 {
 	addComponent(position);
 }
 
 Entity::~Entity()
-{
-}
-
-void Entity::update(Game* game, float elapsed)
-{
-}	
-
-void Entity::draw(Window* window)
 {
 }
 
@@ -73,7 +62,7 @@ void Entity::initSpriteSheet(const std::string& spriteSheetFile)
 	collider->setBboxSize(bboxSize);
 }
 
-Vector2f Entity::getPosition() // still being used by bounding box
+Vector2f Entity::getPosition()
 {
 	return position->getPosition();
 }
@@ -82,7 +71,6 @@ void Entity::setPosition(float x, float y)
 {
 	position->setPosition(x, y);
 	Vector2f pos = getPosition();
-	//std::cout << pos.x << pos.y << std::endl;
 	graphics->setPosition(pos); // <- this just returns a null pointer, so we're setting location via update - tabbed out update functions for objects in staticEntities.h
 }	
 

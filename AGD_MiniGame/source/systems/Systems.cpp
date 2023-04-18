@@ -19,18 +19,17 @@ void TTLSystem::update(Entity* entity, Game* game, float elapsedTime)
 			entity->markDeleted();
 		}
 	}
+	// <FEEDBACK> Remove this.
+	// <CORRECTED> Removed
 }
 
 void InputSystem::update(Entity* entity, Game* game, float elapsedTime)
 {	
 	if (entity->getComponent(ComponentID::INPUT))
 	{	
-		// code that was in the input component update -> should update code be put back and all we do in the system is call the update
-		// code of the component via a pointer?
 		std::shared_ptr<VelocityComponent> velocity = std::dynamic_pointer_cast<VelocityComponent>(entity->getComponent(ComponentID::VELOCITY));
 		std::shared_ptr<InputComponent> input = std::dynamic_pointer_cast<InputComponent>(entity->getComponent(ComponentID::INPUT));
 
-		// Code that was in velocity update function
 		velocity->setVelocityDirection(0.f, 0.f);
 		for (auto inputHandler : input->getPlayerInputHander()->handleInput())
 		{
@@ -46,7 +45,6 @@ void MovementSystem::update(Entity* entity, Game* game, float elapsedTime)
 	std::shared_ptr<VelocityComponent> velocity = std::dynamic_pointer_cast<VelocityComponent>(entity->getComponent(ComponentID::VELOCITY));
 	std::shared_ptr<PositionComponent> position = std::dynamic_pointer_cast<PositionComponent>(entity->getComponent(ComponentID::POSITION));
 
-	// Code that was in the movement system update
 	if (velocity)
 	{
 		// <FEEDBACK> This IF is not necessary if validate properly checks this function is called when needed.
@@ -56,6 +54,8 @@ void MovementSystem::update(Entity* entity, Game* game, float elapsedTime)
 			position->getPosition().y + (velocity->getVelocityDirection().y * velocity->getSpeed() * elapsedTime)
 		);
 	}
+	// <FEEDBACK> Remove this.
+	// <CORRECTED> Removed
 }
 
 void GraphicsSystem::update(Entity* entity, Game* game, float elapsedTime)

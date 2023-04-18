@@ -10,7 +10,3 @@ PlayerInputComponent::PlayerInputComponent()
 {
 	playerInput = std::make_shared<PlayerInputHandler>();
 }
-
-void PlayerInputComponent::update(Game* game) 
-{
-}

@@ -35,30 +35,17 @@ public:
 
 	//Init and update functions
 	virtual void init(const std::string& textureFile, float scale, std::shared_ptr<GraphicsComponent> _graphics);
-	void initSpriteSheet(const std::string& spriteSheetFile);
-	virtual void update(Game* game, float elapsed = 1.0f);
-	void draw(Window* window);
-
-	
+	void initSpriteSheet(const std::string& spriteSheetFile);	
 	void addComponent(std::shared_ptr<Component> c);
-	std::shared_ptr<Component> getComponent(ComponentID id)
-	{
-		return mapComponent[id];
-	}
-
-	//Getters and Setters
+	std::shared_ptr<Component> getComponent(ComponentID id) { return mapComponent[id]; }
 	void setID(EntityID entId) { id = entId; }
 	EntityID getID() const { return id; }
 	void setPosition(float x, float y) ;
 	Vector2f getPosition();
 	EntityType getEntityType() const { return type; }
-	//SpriteSheet* getSpriteSheet() { return graphics->getSpriteSheet(); }
 	Bitmask getComponentSet() { return componentSet; }
 	std::shared_ptr<PositionComponent> getPositionComponent() { return position; }
 	std::shared_ptr<GraphicsComponent> getGraphicsComponent() { return graphics; }
-	
-	// X.C  Add two helper functions. One that returns the value of the deleted flag, another one that 
-	//      "deletes" the entity by setting this flag to true. (Q: one of this functions should be "const", which one?).
 	bool isDeleted() const { return deleted; }
 	bool hasComponent(Bitmask mask) const { return componentSet.contains(mask); }
 	void markDeleted() { deleted = true; }

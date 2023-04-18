@@ -22,7 +22,7 @@ Game::Game() : paused(false), drawDebug(false), id{ 0 }
 	logicSystems.push_back(std::make_shared<ColliderSystem>());
 
 	graphicsSystems.push_back(std::make_shared<GraphicsSystem>());
-	if (!drawDebug) // set to false in initialiser list - change to true if you want to see debug 
+	if (drawDebug) // set to false in initialiser list - change to true if you want to see debug 
 	{
 		graphicsSystems.push_back(std::make_shared<PrintDebugSystem>());
 	}
@@ -130,8 +130,7 @@ void Game::init(std::vector<std::string> lines)
 				///       the file with the sprite ("img/potion.png"), the column and the row where the potion should be place.
 				///		  Then, uncomment the call to the funcion "addEntity" passing the pointer to the new entity as parameter.
 				auto potionEntity = buildEntityAt<Potion>("./img/potion.png", col, row, std::make_shared<SpriteGraphics>());
-				addEntity(potionEntity);			/// uncomment this
-				//std::cout << row << " " << col << " " << spriteWH << " " << tileScale << std::endl;
+				addEntity(potionEntity);			
 
 				//By default, entities stand on corridors
 				// II.C (4/5) Use the function addTile from Board to add a CORRIDOR tile to this position.
@@ -188,7 +187,6 @@ void Game::handleInput()
 	//      Then, call the "execute" method of the returned object to run this command.
 	auto command = inputHandler->handleInput();
 	if (command) {
-		// handle non-null pointer case
 		command->execute(*this);
 	}
 }
@@ -225,7 +223,7 @@ void Game::update(float elapsed)
 							if (state->isAttacking() && player->getGraphicsComponent()->getSpriteSheet()->getCurrentAnim()->isInAction()) // check this
 							{
 								Log* log = dynamic_cast<Log*>((*it).get());
-								state->addWood(*player, log->getWood());
+								state->addWood(log->getWood());
 								(*it)->markDeleted();
 								break;
 							}
