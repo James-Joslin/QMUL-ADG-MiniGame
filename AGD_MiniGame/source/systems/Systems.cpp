@@ -39,10 +39,6 @@ void InputSystem::update(Entity* entity, Game* game, float elapsedTime)
 			inputHandler->execute(*game);
 		}
 	}
-	else
-	{
-
-	}
 }
 
 void MovementSystem::update(Entity* entity, Game* game, float elapsedTime)
@@ -69,29 +65,10 @@ void GraphicsSystem::update(Entity* entity, Game* game, float elapsedTime)
 	
 	// <FEEDBACK> No need to check for the type of graphics. They all inherit from a common base class, which means that you can call the 
 	// functions on the base class without worrying about the subtype.
+	// <CORRECTED> Removed this type of graphics check. However, implemented methods back into GraphicsComponent (See CORRECTED_2 in GraphicsComponent). 
 
-
-	// code that was in graphics pointer update
 	if (!game->isPaused()) { graphics->update(game, elapsedTime, position->getPosition()); }
 	graphics->draw(game->getWindow());
-	
-	//if (graphics->isSpriteSheetEntity())
-	//{
-	//	// updating graphic positioning
-	//	graphics->getSpriteSheet()->setSpritePosition(sf::Vector2f(position->getPosition().x, position->getPosition().y));
-	//	if (!game->isPaused()) { graphics->getSpriteSheet()->update(elapsedTime); }
-	//	// draw - being called in game::render()
-	//	// just calling draw in graphics component via pointer
-	//	game->getWindow()->draw(graphics->getSpriteSheet()->getSprite());
-	//}
-	//else
-	//{
-	//	sf::Sprite* sprite = graphics->getSprite();
-	//	sprite->setPosition(sf::Vector2f(position->getPosition().x, position->getPosition().y));
-
-	//	// draw being handled in game::render()
-	//	game->getWindow()->draw(*sprite);
-	//}	
 }
 
 void ColliderSystem::update(Entity* entity, Game* game, float elapsedTime)

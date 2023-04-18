@@ -75,6 +75,9 @@
     <ClCompile Include="source\systems\Systems.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\components\ColliderComponent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\core\Board.h">

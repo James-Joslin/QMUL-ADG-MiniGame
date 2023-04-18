@@ -134,6 +134,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="source\components\ColliderComponent.cpp" />
     <ClCompile Include="source\components\GraphicsComponent.cpp" />
     <ClCompile Include="source\components\InputComponent.cpp" />
     <ClCompile Include="source\components\LogicComponent.cpp" />
