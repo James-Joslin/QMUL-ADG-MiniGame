@@ -27,23 +27,10 @@ public:
 	Player();
 	~Player();
 
-	//virtual void update(Game* game, float elapsed = 1.0f) override;
-
-	/*std::shared_ptr<InputComponent> getPlayerInputComponent() override
+	std::shared_ptr<InputComponent> getInputComponent() 
 	{
 		return playerInput;
-	}*/
-
-	/*std::shared_ptr<VelocityComponent> getVelocityComponent() override
-	{
-		return velocity; 
-	}*/
-	//std::shared_ptr<PlayerStateComponent> getStateComponent() override
-	//{
-	//	return state;
-	//}
-
-//	void handleInput(Game& game);
+	}
 
 	bool isAttacking() const { return attacking; }
 	void setAttacking(bool at) { attacking = at; }
@@ -52,12 +39,8 @@ public:
 	void setShouting(bool sh) { shouting = sh; }
 
 	std::shared_ptr<HealthComponent> getHealthComp() { return healthComponent; }
-	//std::shared_ptr<VelocityComponent> getVelocityComp() { return velocity; }
-
-//	std::shared_ptr<InputComponent> getPlayerInput() { return playerInput; }
 
 	int getWood() const { return wood; }
-	//void addWood(int w);
 
 	bool hasSpriteSheet() const { return isSpriteSheet; }
 
@@ -65,13 +48,12 @@ public:
 
 	void setGraphicsPointer(std::shared_ptr<GraphicsComponent> _graphics) { 
 		addComponent(_graphics);
-		graphics = _graphics; 
+		graphics = _graphics;
 	}
 
 	bool intersects(Entity& other);
 
-
-	// std::shared_ptr<Fire> createFire() const;
+	std::shared_ptr<ColliderComponent> getColliderComponent() override { return collider; }
 
 	Subject& getPotionCollected() { return potionCollected; }
 	Subject& getShoutTriggered() { return shoutTriggered; }

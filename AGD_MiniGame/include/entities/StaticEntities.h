@@ -13,18 +13,26 @@ public:
 
 	void init(const std::string& textureFile, float scale, std::shared_ptr<GraphicsComponent> _graphicsPointer) override
 	{
-		// III.C (1/2) Call the init() function in Entity to initalize this object
-		Entity::init(textureFile, scale, _graphicsPointer);
-		// VIII.C (1/2) Set the top left and bottom right corners of the bounding box for this entity.
-		collider->setBoundingBoxLocation(getPosition());
-	}
 
-	// virtual void update(Game* game, float elapsed = 1.0f) override { }
+		Entity::init(textureFile, scale, _graphicsPointer);
+		
+		Vector2f bboxSize = Vector2f(
+			graphics->getTextureSize().x * graphics->getScale().x,
+			graphics->getTextureSize().y * graphics->getScale().y);
+		collider = std::make_shared<ColliderComponent>();
+		addComponent(collider);
+		collider->setBboxSize(bboxSize);
+		
+		
+		if (!getColliderComponent()) return;
+		getColliderComponent()->setBoundingBoxLocation(getPosition());
+	}
 
 	int getHealth() const { return potionHealth; }
 
 protected:
 	const int potionHealth = 10;
+	std::shared_ptr<ColliderComponent> getColliderComponent() override { return collider; }
 };
 
 
@@ -36,16 +44,25 @@ public:
 
 	void init(const std::string& textureFile, float scale, std::shared_ptr<GraphicsComponent> _graphicsPointer) override
 	{
-		// III.C (2/2) Call the init() function in Entity to initalize this object
-		Entity::init(textureFile, scale, _graphicsPointer);
-		// VIII.C (2/2) Set the top left and bottom right corners of the bounding box for this entity.
-		collider->setBoundingBoxLocation(getPosition());
-	}
 
-	// virtual void update(Game* game, float elapsed = 1.0f) override {}
+		Entity::init(textureFile, scale, _graphicsPointer);
+
+		Vector2f bboxSize = Vector2f(
+			graphics->getTextureSize().x * graphics->getScale().x,
+			graphics->getTextureSize().y * graphics->getScale().y);
+		collider = std::make_shared<ColliderComponent>();
+		addComponent(collider);
+		collider->setBboxSize(bboxSize);
+
+
+		if (!getColliderComponent()) return;
+		getColliderComponent()->setBoundingBoxLocation(getPosition());
+	}
 
 	int getWood() const { return woodAdded; }
 
+
 protected:
 	const int woodAdded = 15;
+	std::shared_ptr<ColliderComponent> getColliderComponent() override { return collider; }
 };

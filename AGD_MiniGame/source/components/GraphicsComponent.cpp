@@ -25,35 +25,7 @@ void SpriteGraphics::initSpriteSheet(const std::string& spriteSheetFile)
 void SpriteSheetGraphics::initSpriteSheet(const std::string& spriteSheetFile)
 {
 	spriteSheet.loadSheet(spriteSheetFile);
-	isSpriteSheet = true;
 	spriteSheet.setAnimation("Idle", true, true);
-}
-
-void SpriteGraphics::draw(Window* window)
-{
-	if (isSpriteSheet)
-	{
-		throw std::exception("You are trying to draw an animated sprite sheet as if it were a still sprite");
-	}
-	else
-	{
-		window->draw(sprite);
-	}
-}
-
-void SpriteSheetGraphics::draw(Window* window)
-{
-	if (isSpriteSheet)
-	{
-		/*sf::Sprite* sp = &spriteSheet.getSprite();
-		const sf::Vector2f pos = sp->getPosition();*/
-		
-		window->draw(spriteSheet.getSprite());
-	}
-	else
-	{
-		throw std::exception("This is a spritesheet");
-	}
 }
 
 void SpriteGraphics::setPosition(Vector2f position)
@@ -76,15 +48,31 @@ void SpriteSheetGraphics::setSpriteDirection(Direction direction)
 	spriteSheet.setSpriteDirection(direction);
 }
 
+// <FEEDBACK> Same here: these update functions are not needed - logic is in the system now.
+// <CORRECTED> Update() methods removed from cpp and header files.
+// <CORRECTED_2> Had to reimplement methods
+
+// <FEEDBACK> These draw() methods are never called (nor they should be). All is managed in the system. These can go.
+// <CORRECTED> Draw() methods removed from cpp and header files.
+// <CORRECTED_2> Had to reimplement methods
+
+void SpriteGraphics::draw(Window* window)
+{
+	window->draw(sprite);
+}
+
+void SpriteSheetGraphics::draw(Window* window)
+{
+	window->draw(spriteSheet.getSprite());
+}
+
 void SpriteSheetGraphics::update(Game* game, float elapsed, Vector2f position)
 {
-
 	spriteSheet.setSpritePosition(sf::Vector2f(position.x, position.y));
 	spriteSheet.update(elapsed);
-	
 }
 
 void SpriteGraphics::update(Game* game, float elapsed, Vector2f position)
 {
-	sprite.setPosition(sf::Vector2f(position.x, position.y));	
+	sprite.setPosition(sf::Vector2f(position.x, position.y));
 }

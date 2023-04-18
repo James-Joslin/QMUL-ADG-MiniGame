@@ -64,6 +64,5 @@ std::vector <std::shared_ptr<Command>> PlayerInputHandler::handleInput()
     {
         arrayCommand.push_back(fire);
     }
-    //arrayCommand.push_back(nullptr);
     return arrayCommand;
 }

@@ -9,8 +9,9 @@
 #include "../../include/systems/Observer.h"
 #include <iostream>
 
+
 // III.F Add the initialization (to 0) of the entity counter to the initalizers list of this constructor
-Game::Game() : paused(false), drawDebug(false), id{ 0 }
+Game::Game() : paused(false), drawDebug(true), id{ 0 }
 {
 	// V.B: Create the unique pointer to the Input Handler object.
 	inputHandler = std::make_unique<InputHandler>();
@@ -22,7 +23,7 @@ Game::Game() : paused(false), drawDebug(false), id{ 0 }
 	logicSystems.push_back(std::make_shared<ColliderSystem>());
 
 	graphicsSystems.push_back(std::make_shared<GraphicsSystem>());
-	if (!drawDebug) // set to false in initialiser list - change to true if you want to see debug
+	if (drawDebug) // set to true in initialiser list - change to false if you want to hide the debug 
 	{
 		graphicsSystems.push_back(std::make_shared<PrintDebugSystem>());
 	}
@@ -130,8 +131,7 @@ void Game::init(std::vector<std::string> lines)
 				///       the file with the sprite ("img/potion.png"), the column and the row where the potion should be place.
 				///		  Then, uncomment the call to the funcion "addEntity" passing the pointer to the new entity as parameter.
 				auto potionEntity = buildEntityAt<Potion>("./img/potion.png", col, row, std::make_shared<SpriteGraphics>());
-				addEntity(potionEntity);			/// uncomment this
-				//std::cout << row << " " << col << " " << spriteWH << " " << tileScale << std::endl;
+				addEntity(potionEntity);			
 
 				//By default, entities stand on corridors
 				// II.C (4/5) Use the function addTile from Board to add a CORRIDOR tile to this position.
@@ -186,71 +186,32 @@ void Game::handleInput()
 {
 	// V.C: Call the fucntion that handles the input for the game and retrieve the command returned in a variable.
 	//      Then, call the "execute" method of the returned object to run this command.
-	//std::shared_ptr<command> command = inputhandler->handleinput();
-
-	//if (command) {
-	//	// handle non-null pointer case
-	//	command->execute(*this);
-	//}
-	//
-	// //v.d: call the function handleinput on the player's object.
-	//player->handleinput(*this);
+	auto command = inputHandler->handleInput();
+	if (command) {
+		command->execute(*this);
+	}
 }
 
 
 void Game::update(float elapsed)
 {
-	// V.E Only update the game entities if the game is not paused.
 	if (!isPaused())
 	{
-
-
-
-		// IV.C Use an STL iterator to run through all entities of the vector of entities of this class. Use a while loop. 
-		//      On each iteration, call the member function update from Entity, passing "this" game instance and the elapsed time.
-		//      Some useful functions for iterators: 
-		//        - begin(): returns an iterator pointing at the first element.
-		//        - end(): returns an iterator pointing at the last element.
-		//		  - (*it): returns the object pointed at by the iterator 'it'
-		//        - iterators override the operators ++ and -- for advancing them to their next and previous element, respectively.
-
-		bigArray(elapsed, logicSystems); // because logic systems now handle all updates, we can disable the update iterator loop below
-		//auto it = entities.begin();
-		//while (it != entities.end())
-		//{
-		//	// Call the update method on the current entity
-		//	(*it)->update(this, elapsed);
-		//	++it;
-		//}
-		// Collisions block:
-
-	// IX.C: Retrieve a reference to the player's bounding box and run through all entities (using an itereator)  
-	//      in the game with a while loop. You don't need to check the player's bounding box to itself, 
-	//      so include a check that skips the player entity while looping through the entities vector.
+		bigArray(elapsed, logicSystems); 
 		auto it = entities.begin();
 		while (it != entities.end())
 		{
 			if ((*it) != player) {
-				// IX.D: (Inside the loop) Once you have a different entity to player, retrieve it's bounding box
-				// and check if they intersect.
 				if ((*it)->getEntityType() != EntityType::FIRE)
 				{
-					/*auto playerBbox = player->getBoundingBox();
-					auto entBbox =*/
-
 					if (player->intersects(**it))
 					{
-						// IX.E (if there is an intesection) Write a switch statement that determines the type of the object (which you
-						// can retrieve with getEntityType()) we are colliding with. For each case, add a console print out that 
-						// says what are you colliding with.
-
 						auto entType = (*it)->getEntityType();
 						std::shared_ptr<PlayerStateComponent> state = std::dynamic_pointer_cast<PlayerStateComponent>(player->getComponent(ComponentID::STATE));
 						switch (entType)
 						{
 						case EntityType::POTION:
 						{
-							// IX.F: This is a potion
 							Potion* potion = dynamic_cast<Potion*>((*it).get());
 							int	healthRestore = potion->getHealth();
 							player->getHealthComp()->changeHealth(healthRestore);
@@ -261,11 +222,10 @@ void Game::update(float elapsed)
 						}
 						case EntityType::LOG:
 						{
-							if (state->isAttacking() && player->getSpriteSheet()->getCurrentAnim()->isInAction()) // check this
+							if (state->isAttacking() && player->getGraphicsComponent()->getSpriteSheet()->getCurrentAnim()->isInAction()) // check this
 							{
-								// IX.G: This is a log
 								Log* log = dynamic_cast<Log*>((*it).get());
-								state->addWood(*player, log->getWood());
+								state->addWood(log->getWood());
 								(*it)->markDeleted();
 								break;
 							}
@@ -278,14 +238,6 @@ void Game::update(float elapsed)
 			}
 			it++;
 		}
-
-		// X.D Write a loop that iterates through all entities and removes them from the vector of entities.
-		//     Use the function erase from std::vector, which receives an iterator. 
-		//     Q? Should you ALWAYS advance the iterator in this loop?
-
-		// Q: Yes, you should always advance the iterator in this loop when erasing elements from the vector, 
-		// to avoid invalidating the iterator and potentially causing undefined behavior. 
-
 		it = entities.begin();
 		while (it != entities.end())
 		{
@@ -298,7 +250,6 @@ void Game::update(float elapsed)
 				++it;
 			}
 		}
-		//Update the window for refreshing the graphics (leave this OUTSIDE the !paused block)
 	}
 	window.update();
 }
@@ -311,14 +262,15 @@ void Game::render(float elapsed)
 	// II.D Call the draw method of the board object passing a pointer to the window.
 	board->draw(&window);
 
-	bigArray(elapsed, graphicsSystems); // the graphical systems
+	bigArray(elapsed, graphicsSystems);  // the graphical systems
 
 	// III.J Draw all units. Write a loop that iterates over all entities in this class's vector
 	//       and calls the "draw" method in the entities.
-	for (int i = 0; i < entities.size(); i++)
-	{
-		entities[i]->draw(&window);
-	}
+	
+	
+	// <FEEDBACK> This loop is no longer needed if you call bigArray above.
+	// <CORRECTED Loop removed
+
 
 	//Draw FPS
 	window.drawGUI(*this);

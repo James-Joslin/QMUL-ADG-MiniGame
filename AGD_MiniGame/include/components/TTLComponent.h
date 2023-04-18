@@ -11,7 +11,10 @@ public:
 	int getTTL() { return ttl; }
 	ComponentID getID() { return ComponentID::TTL; }
 
-	void decrementTTL() { --ttl; }
+	void decrementTTL() 
+	{ 
+		--ttl; 
+	}
 
 private:
 

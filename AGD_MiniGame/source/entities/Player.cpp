@@ -20,23 +20,17 @@ Player::Player() : Entity(EntityType::PLAYER), attacking(false), shouting(false)
 	addComponent(healthComponent);
 	velocity = std::make_shared<VelocityComponent>(playerSpeed);
 	addComponent(velocity);
-	state = std::make_shared<PlayerStateComponent>(attacking, shouting, maxWood, wood, fireSpeed, velocity);
+	state = std::make_shared<PlayerStateComponent>(attacking, shouting, maxWood, wood, shootingCost, shootCooldown, shootCooldownTime, fireSpeed, velocity);
 	addComponent(state);
 	
 }
 
 Player::~Player() {}
 
-//void Player::update(Game* game, float elapsed)
-//{
-//	// velocity->update(*this, elapsed);
-//	// graphics->update(game, elapsed, getPosition()); // hasn't been implemented yet
-//}
-
 void Player::positionSprite(int row, int col, int spriteWH, float tileScale)
 {
-	sf::Vector2f scaleV2f = graphics->getSpriteScale();
-	sf::Vector2i textureSize = graphics->getTextureSize();
+	sf::Vector2f scaleV2f = getGraphicsComponent()->getSpriteScale();
+	sf::Vector2i textureSize = getGraphicsComponent()->getTextureSize();
 
 	float x = col * spriteWH * tileScale;
 	float y = (row)*spriteWH * tileScale;
@@ -52,8 +46,9 @@ void Player::positionSprite(int row, int col, int spriteWH, float tileScale)
 
 bool Player::intersects(Entity& other)
 {
+	if (!getColliderComponent()) return false;
 	std::shared_ptr<ColliderComponent> otherCollider = std::dynamic_pointer_cast<ColliderComponent>(other.getComponent(ComponentID::COLLIDER));
-	return collider->intersects(otherCollider->getBoundingBox()); 
+	return getColliderComponent()->intersects(otherCollider->getBoundingBox());
 }
 
 void Player::collectPotion()
