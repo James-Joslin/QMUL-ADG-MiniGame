@@ -42,9 +42,6 @@ void Player::positionSprite(int row, int col, int spriteWH, float tileScale)
 	float spriteSizeY = scaleV2f.y * textureSize.y;
 	float cntrFactorY = ((spriteWH * tileScale) - spriteSizeY);	// to align to lower side of the tile.
 	float cntrFactorX = cntrFactorY * 0.5f;						//to center horizontally
-
-	//std::cout << x + cntrFactorX << y + cntrFactorY << std::endl;
-
 	setPosition(x + cntrFactorX, y + cntrFactorY);
 	velocity->setVelocityDirection(0.f, 0.f);
 }

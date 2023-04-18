@@ -15,7 +15,7 @@ public:
 	{
 
 		Entity::init(textureFile, scale, _graphicsPointer);
-		
+	
 		Vector2f bboxSize = Vector2f(
 			graphics->getTextureSize().x * graphics->getScale().x,
 			graphics->getTextureSize().y * graphics->getScale().y);
@@ -26,6 +26,7 @@ public:
 		
 		if (!getColliderComponent()) return;
 		getColliderComponent()->setBoundingBoxLocation(getPosition());
+
 	}
 
 	int getHealth() const { return potionHealth; }
@@ -58,8 +59,6 @@ public:
 		if (!getColliderComponent()) return;
 		getColliderComponent()->setBoundingBoxLocation(getPosition());
 	}
-
-	// virtual void update(Game* game, float elapsed = 1.0f) override {}
 
 	int getWood() const { return woodAdded; }
 

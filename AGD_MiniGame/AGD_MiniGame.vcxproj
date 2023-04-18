@@ -129,7 +129,8 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>C:\SFML-2.5.1\lib</AdditionalLibraryDirectories>
-      <AdditionalDependencies>sfml-graphics-s.lib;sfml-window-s.lib;sfml-system-s.lib;opengl32.lib;winmm.lib;gdi32.lib;freetype.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>sfml-graphics-s.lib;sfml-window-s.lib;sfml-system-s.lib;opengl32.lib;winmm.lib;gdi32.lib;freetype.lib
+;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -168,7 +169,6 @@
     <ClInclude Include="include\components\HealthComponent.h" />
     <ClInclude Include="include\components\InputComponent.h" />
     <ClInclude Include="include\components\LogicComponent.h" />
-    <ClInclude Include="include\components\PlayerStateComponent.h" />
     <ClInclude Include="include\components\PositionComponent.h" />
     <ClInclude Include="include\components\TTLComponent.h" />
     <ClInclude Include="include\components\VelocityComponent.h" />

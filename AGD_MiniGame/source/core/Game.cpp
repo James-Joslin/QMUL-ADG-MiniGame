@@ -131,7 +131,6 @@ void Game::init(std::vector<std::string> lines)
 				///		  Then, uncomment the call to the funcion "addEntity" passing the pointer to the new entity as parameter.
 				auto potionEntity = buildEntityAt<Potion>("./img/potion.png", col, row, std::make_shared<SpriteGraphics>());
 				addEntity(potionEntity);			/// uncomment this
-				//std::cout << row << " " << col << " " << spriteWH << " " << tileScale << std::endl;
 
 				//By default, entities stand on corridors
 				// II.C (4/5) Use the function addTile from Board to add a CORRIDOR tile to this position.
@@ -225,7 +224,7 @@ void Game::update(float elapsed)
 							if (state->isAttacking() && player->getGraphicsComponent()->getSpriteSheet()->getCurrentAnim()->isInAction()) // check this
 							{
 								Log* log = dynamic_cast<Log*>((*it).get());
-								state->addWood(*player, log->getWood());
+								state->addWood(log->getWood());
 								(*it)->markDeleted();
 								break;
 							}

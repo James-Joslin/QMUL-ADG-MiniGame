@@ -52,10 +52,10 @@ public:
 	void setPosition(float x, float y) ;
 	Vector2f getPosition();
 	EntityType getEntityType() const { return type; }
-	//SpriteSheet* getSpriteSheet() { return graphics->getSpriteSheet(); }
 	Bitmask getComponentSet() { return componentSet; }
 	std::shared_ptr<PositionComponent> getPositionComponent() { return position; }
 	std::shared_ptr<GraphicsComponent> getGraphicsComponent() { return graphics; }
+
 	
 	// X.C  Add two helper functions. One that returns the value of the deleted flag, another one that 
 	//      "deletes" the entity by setting this flag to true. (Q: one of this functions should be "const", which one?).
@@ -70,9 +70,9 @@ protected:
 
 	EntityType type;
 	EntityID id;
-
 	Bitmask componentSet;
 	bool isSpriteSheet;
+
 
 	// X.A Add a bool member variable "deleted" to this class.
 	bool deleted;

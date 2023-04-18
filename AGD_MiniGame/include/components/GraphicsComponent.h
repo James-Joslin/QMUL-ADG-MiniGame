@@ -13,6 +13,10 @@ class Game;
 class GraphicsComponent : public Component
 {
 public:
+
+	//<FEEDBACK> Several of these functions (especially, the getters) should be const
+	//<CORRECTED> Added const to the getters of the base and inherited classes
+
 	~GraphicsComponent() {};
 	virtual void init(const std::string& textureFile, float scale) = 0;
 	virtual void initSpriteSheet(const std::string& spriteSheetFile) = 0;
@@ -57,8 +61,8 @@ public:
 	sf::Sprite getSprite() const override { return sprite; }
 	SpriteSheet* getSpriteSheet() { throw std::exception("No spritesheet available"); }
 	Direction getSpriteDirection() const { throw std::exception("No spritesheet available"); }
-
 	void draw(Window* window) override;
+
 	virtual void update(Game* game, float elapsed, Vector2f) override;
 
 private:
