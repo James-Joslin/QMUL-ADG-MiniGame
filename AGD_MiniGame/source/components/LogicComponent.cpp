@@ -53,7 +53,6 @@ void PlayerStateComponent::update(Entity& entity, Game* game, float elapsed)
 		wood = wood - shootingCost;
 		shootCooldown = shootCooldownTime;
 	}
-			
 	if (attacking && player->getGraphicsComponent()->getSpriteSheet()->getCurrentAnim()->isPlaying() == false)
 	{
 		setAttacking(false);

@@ -6,6 +6,7 @@
 #include "../../include/components/GraphicsComponent.h"
 #include "../../include/components/LogicComponent.h"
 #include "../../include/systems/Systems.h"
+#include "../../include/systems/Observer.h"
 #include <iostream>
 
 
@@ -142,6 +143,7 @@ void Game::init(std::vector<std::string> lines)
 
 				// IV.B (1/4): Create the player shared pointer.
 				player = std::make_shared<Player>();
+				manager.init(player);
 				
 
 				// IV.B (2/4): Call the function that initializes the Sprite Sheet with a single parameter, a const std::string& filename.
@@ -164,7 +166,6 @@ void Game::init(std::vector<std::string> lines)
 				break;
 				}
 			}
-
 			col++; is++;
 		}
 		row++; it++;
@@ -215,6 +216,7 @@ void Game::update(float elapsed)
 							int	healthRestore = potion->getHealth();
 							player->getHealthComp()->changeHealth(healthRestore);
 							(*it)->markDeleted();
+							player->collectPotion();
 							std::cout << "Collide with potion (health restored: " << healthRestore << ", player health: " << player->getHealthComp()->getHealth() << ")" << std::endl;
 							break;
 						}

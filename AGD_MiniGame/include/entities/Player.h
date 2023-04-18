@@ -3,6 +3,7 @@
 #include "../components/HealthComponent.h"
 #include "../components/VelocityComponent.h"
 #include "../components/LogicComponent.h"
+#include "../systems/Subject.h"
 
 class Fire;
 class InputComponent;
@@ -54,6 +55,11 @@ public:
 
 	std::shared_ptr<ColliderComponent> getColliderComponent() override { return collider; }
 
+	Subject& getPotionCollected() { return potionCollected; }
+	Subject& getShoutTriggered() { return shoutTriggered; }
+	void collectPotion();
+	void shoutTrigger();
+
 private:
 
 
@@ -69,5 +75,7 @@ private:
 	std::shared_ptr<VelocityComponent> velocity;
 	std::shared_ptr<PlayerStateComponent> state;
 
+	Subject potionCollected;
+	Subject shoutTriggered;
 };
 
