@@ -22,7 +22,7 @@ Game::Game() : paused(false), drawDebug(true), id{ 0 }
 	logicSystems.push_back(std::make_shared<ColliderSystem>());
 
 	graphicsSystems.push_back(std::make_shared<GraphicsSystem>());
-	if (drawDebug) // set to true in initialiser list - change to true if you want to see debug 
+	if (drawDebug) // set to true in initialiser list - change to false if you want to hide the debug 
 	{
 		graphicsSystems.push_back(std::make_shared<PrintDebugSystem>());
 	}
