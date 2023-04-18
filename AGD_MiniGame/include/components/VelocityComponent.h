@@ -1,10 +1,11 @@
 #pragma once
 #include "../utils/Vector2.h"
 #include "../entities/Entity.h"
+#include "Components.h"
 
 class PositionComponent;
 
-class VelocityComponent
+class VelocityComponent : public Component
 {
 
 public:
@@ -18,7 +19,12 @@ public:
 	}
 	const Vector2f getVelocityDirection() { return velocityDirection; }
 
-	void update(Entity&, float);
+	// <FEEDBACK> This function can actually be removed.
+	// <CORRECTED> update function removed.
+
+	ComponentID getID() { return ComponentID::VELOCITY; }
+
+	float getSpeed() { return speed; }
 
 private:
 	Vector2f velocityDirection;

@@ -1,12 +1,13 @@
 #pragma once
 #include <memory>
+#include "Components.h"
 
 class VelocityComponent;
 class Entity;
 class Game;
 class Fire;
 
-class LogicComponent
+class LogicComponent : public Component
 {
 public:
 	~LogicComponent() {};
@@ -39,6 +40,13 @@ public:
 	void addWood(int w);
 
 	std::shared_ptr<Fire> createFire(Entity*) const;
+	ComponentID getID() { return ComponentID::STATE; }
+
+	bool isAttacking() const { return attacking; }
+	void setAttacking(bool at) { attacking = at; }
+
+	bool isShouting() const { return shouting; }
+	void setShouting(bool sh) { shouting = sh; }
 
 	void setAttacking(bool at) { attacking = at; }
 
@@ -49,7 +57,6 @@ public:
 	bool isShouting() const { return shouting; }
 
 private:
-
 	bool attacking;
 	bool shouting;
 	int wood;

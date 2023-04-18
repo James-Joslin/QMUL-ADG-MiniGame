@@ -1,6 +1,7 @@
 #pragma once
+#include "Components.h"
 
-class HealthComponent
+class HealthComponent : public Component
 {
 public:
 	HealthComponent(int _currentHealth, int _maxHealth) : currentHealth{ _currentHealth }, maxHealth{ _maxHealth } {}
@@ -13,6 +14,8 @@ public:
 		if (currentHealth > maxHealth) currentHealth = maxHealth;
 		if (currentHealth < 0) currentHealth = 0;
 	}
+
+	ComponentID getID() { return ComponentID::HEALTH; }
 
 protected:
 

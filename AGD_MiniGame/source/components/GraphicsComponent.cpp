@@ -28,22 +28,7 @@ void SpriteSheetGraphics::initSpriteSheet(const std::string& spriteSheetFile)
 	spriteSheet.setAnimation("Idle", true, true);
 }
 
-void SpriteGraphics::draw(Window* window)
-{
-	window->draw(sprite);
-}
-
-void SpriteSheetGraphics::draw(Window* window)
-{
-	//<FEEDBACK> In which case isSpriteSheet is going to be false in this class?
-	// You don't need this variable
-	//<CORRECTED> Removed if statement
-	window->draw(spriteSheet.getSprite());
-	//<FEEDBACK> Be more descriptive in your error message
-	//<CORRECTED> Feedback noted, however error message was not neccessary and therefore removed
-}
-
-void SpriteGraphics::setPosition(Vector2f position) 
+void SpriteGraphics::setPosition(Vector2f position)
 {
 	sprite.setPosition(position.x, position.y);
 }
@@ -63,15 +48,31 @@ void SpriteSheetGraphics::setSpriteDirection(Direction direction)
 	spriteSheet.setSpriteDirection(direction);
 }
 
+// <FEEDBACK> Same here: these update functions are not needed - logic is in the system now.
+// <CORRECTED> Update() methods removed from cpp and header files.
+// <CORRECTED_2> Had to reimplement methods
+
+// <FEEDBACK> These draw() methods are never called (nor they should be). All is managed in the system. These can go.
+// <CORRECTED> Draw() methods removed from cpp and header files.
+// <CORRECTED_2> Had to reimplement methods
+
+void SpriteGraphics::draw(Window* window)
+{
+	window->draw(sprite);
+}
+
+void SpriteSheetGraphics::draw(Window* window)
+{
+	window->draw(spriteSheet.getSprite());
+}
+
 void SpriteSheetGraphics::update(Game* game, float elapsed, Vector2f position)
 {
-
 	spriteSheet.setSpritePosition(sf::Vector2f(position.x, position.y));
 	spriteSheet.update(elapsed);
-	
 }
 
 void SpriteGraphics::update(Game* game, float elapsed, Vector2f position)
 {
-	sprite.setPosition(sf::Vector2f(position.x, position.y));	
+	sprite.setPosition(sf::Vector2f(position.x, position.y));
 }

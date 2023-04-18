@@ -1,8 +1,9 @@
 #pragma once
 #include "../../include/utils/Vector2.h"
+#include "Components.h"
 
 
-class PositionComponent
+class PositionComponent : public Component
 {
 public:
 	//PositionComponent();
@@ -11,6 +12,8 @@ public:
 	{
 		position.x = x; position.y = y;
 	}
+
+	ComponentID getID() { return ComponentID::POSITION; }
 
 private:
 	Vector2f position;

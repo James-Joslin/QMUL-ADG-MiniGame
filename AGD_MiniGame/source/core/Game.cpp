@@ -4,13 +4,28 @@
 #include "../../include/core/InputHandler.h"
 #include "../../include/core/Command.h"
 #include "../../include/components/GraphicsComponent.h"
+#include "../../include/components/LogicComponent.h"
+#include "../../include/systems/Systems.h"
 #include <iostream>
 
+
 // III.F Add the initialization (to 0) of the entity counter to the initalizers list of this constructor
-Game::Game() : paused(false), id{ 0 }
+Game::Game() : paused(false), drawDebug(false), id{ 0 }
 {
 	// V.B: Create the unique pointer to the Input Handler object.
 	inputHandler = std::make_unique<InputHandler>();
+
+	logicSystems.push_back(std::make_shared<TTLSystem>());
+	logicSystems.push_back(std::make_shared<InputSystem>());
+	logicSystems.push_back(std::make_shared<MovementSystem>());
+	logicSystems.push_back(std::make_shared<GameplaySystem>());
+	logicSystems.push_back(std::make_shared<ColliderSystem>());
+
+	graphicsSystems.push_back(std::make_shared<GraphicsSystem>());
+	if (!drawDebug) // set to false in initialiser list - change to true if you want to see debug 
+	{
+		graphicsSystems.push_back(std::make_shared<PrintDebugSystem>());
+	}
 }
 
 Game::~Game()
@@ -25,8 +40,8 @@ std::shared_ptr<T> Game::buildEntityAt(const std::string& filename, int col, int
 	float y = row * spriteWH * tileScale;
 	float cntrFactor = (tileScale - itemScale) * spriteWH * 0.5f;
 
-	ent->setPosition(x + cntrFactor, y + cntrFactor);
 	ent->init(filename, itemScale, graphicsComponentPointer);
+	ent->setPosition(x + cntrFactor, y + cntrFactor);
 	
 	return ent;
 }
@@ -126,7 +141,8 @@ void Game::init(std::vector<std::string> lines)
 				{
 
 				// IV.B (1/4): Create the player shared pointer.
-				player = std::make_unique<Player>();
+				player = std::make_shared<Player>();
+				
 
 				// IV.B (2/4): Call the function that initializes the Sprite Sheet with a single parameter, a const std::string& filename.
 				//			   This string should be "img/DwarfSpriteSheet_data.txt"
@@ -169,15 +185,11 @@ void Game::handleInput()
 {
 	// V.C: Call the fucntion that handles the input for the game and retrieve the command returned in a variable.
 	//      Then, call the "execute" method of the returned object to run this command.
-	std::shared_ptr<Command> command = inputHandler->handleInput();
-
+	auto command = inputHandler->handleInput();
 	if (command) {
 		// handle non-null pointer case
 		command->execute(*this);
 	}
-	
-	// V.D: Call the function handleInput on the player's object.
-	player->handleInput(*this);
 }
 
 
@@ -185,37 +197,21 @@ void Game::update(float elapsed)
 {
 	if (!isPaused())
 	{
+		bigArray(elapsed, logicSystems); 
 		auto it = entities.begin();
 		while (it != entities.end())
 		{
-			// Call the update method on the current entity
-			(*it)->update(this, elapsed);
-			++it;
-		}
-		// Collisions block:
-
-	// IX.C: Retrieve a reference to the player's bounding box and run through all entities (using an itereator)  
-	//      in the game with a while loop. You don't need to check the player's bounding box to itself, 
-	//      so include a check that skips the player entity while looping through the entities vector.
-
-		it = entities.begin();
-		while (it != entities.end())
-		{
 			if ((*it) != player) {
-				// IX.D: (Inside the loop) Once you have a different entity to player, retrieve it's bounding box
-				// and check if they intersect.
-
 				if ((*it)->getEntityType() != EntityType::FIRE)
 				{
 					if (player->intersects(**it))
 					{
 						auto entType = (*it)->getEntityType();
-
+						std::shared_ptr<PlayerStateComponent> state = std::dynamic_pointer_cast<PlayerStateComponent>(player->getComponent(ComponentID::STATE));
 						switch (entType)
 						{
 						case EntityType::POTION:
 						{
-							// IX.F: This is a potion
 							Potion* potion = dynamic_cast<Potion*>((*it).get());
 							int	healthRestore = potion->getHealth();
 							player->getHealthComp()->changeHealth(healthRestore);
@@ -225,11 +221,10 @@ void Game::update(float elapsed)
 						}
 						case EntityType::LOG:
 						{
-							if (player->getStateComp()->isAttacking() && player->graphics->getSpriteSheet()->getCurrentAnim()->isInAction()) // check this
+							if (state->isAttacking() && player->getGraphicsComponent()->getSpriteSheet()->getCurrentAnim()->isInAction()) // check this
 							{
-								// IX.G: This is a log
 								Log* log = dynamic_cast<Log*>((*it).get());
-								player->getStateComp()->addWood(log->getWood());
+								state->addWood(log->getWood());
 								(*it)->markDeleted();
 								break;
 							}
@@ -242,7 +237,6 @@ void Game::update(float elapsed)
 			}
 			it++;
 		}
-
 		it = entities.begin();
 		while (it != entities.end())
 		{
@@ -255,7 +249,6 @@ void Game::update(float elapsed)
 				++it;
 			}
 		}
-		//Update the window for refreshing the graphics (leave this OUTSIDE the !paused block)
 	}
 	window.update();
 }
@@ -268,12 +261,15 @@ void Game::render(float elapsed)
 	// II.D Call the draw method of the board object passing a pointer to the window.
 	board->draw(&window);
 
+	bigArray(elapsed, graphicsSystems);  // the graphical systems
+
 	// III.J Draw all units. Write a loop that iterates over all entities in this class's vector
 	//       and calls the "draw" method in the entities.
-	for (int i = 0; i < entities.size(); i++)
-	{
-		entities[i]->draw(&window);
-	}
+	
+	
+	// <FEEDBACK> This loop is no longer needed if you call bigArray above.
+	// <CORRECTED Loop removed
+
 
 	//Draw FPS
 	window.drawGUI(*this);
@@ -308,4 +304,25 @@ std::shared_ptr<Entity> Game::getEntity(unsigned int idx)
 		throw std::out_of_range("Index is out of bounds.");
 	}
 	return entities[idx];
+}
+
+void Game::bigArray(float elapsedTime, std::vector<std::shared_ptr<System>> system)
+{
+	auto it = system.begin();
+	while (it != system.end())
+	{
+		auto it_2 = entities.begin();
+		while (it_2 != entities.end())
+		{
+			if (!(*it_2)->isDeleted())
+			{
+				if ((*it)->validate((*it_2).get()))
+				{
+					(*it)->update((*it_2).get(), this, elapsedTime);
+				}
+			}
+			it_2++;
+		}
+		it++;
+	}
 }

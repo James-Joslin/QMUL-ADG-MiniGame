@@ -2,11 +2,15 @@
 #include "../graphics/Window.h"
 #include "../utils/Rectangle.h"
 #include "../../include/components/GraphicsComponent.h"
-#include <memory>
 #include "../components/ColliderComponent.h"
-
+#include "../utils/Bitmask.h"
+#include "../components/TTLComponent.h"
+#include <memory>
 
 class PositionComponent;
+class InputComponent;
+class VelocityComponent;
+class PlayerStateComponent;
 
 using EntityID = unsigned int;
 enum class EntityType
@@ -35,54 +39,48 @@ public:
 	virtual void update(Game* game, float elapsed = 1.0f);
 	void draw(Window* window);
 
+	
+	void addComponent(std::shared_ptr<Component> c);
+	std::shared_ptr<Component> getComponent(ComponentID id)
+	{
+		return mapComponent[id];
+	}
+
 	//Getters and Setters
 	void setID(EntityID entId) { id = entId; }
 	EntityID getID() const { return id; }
 	void setPosition(float x, float y) ;
 	Vector2f getPosition();
-	//Rectangle& getBoundingBox() { 	return collider->getBoundingBox();	};
-	//const sf::Vector2f& getSpriteScale() const;
-	//sf::Vector2i getTextureSize() const;
 	EntityType getEntityType() const { return type; }
+	Bitmask getComponentSet() { return componentSet; }
+	std::shared_ptr<PositionComponent> getPositionComponent() { return position; }
+	std::shared_ptr<GraphicsComponent> getGraphicsComponent() { return graphics; }
 
-	//<FEEDBACK> These functions should not exist. We request components, not objects of those components. Same for the bounding box above.
-	// isSpriteSheet is not required, as noone should care how the graphics component does things internally.
-	//<CORRECTED> Removed isSpriteSheet functions
-//	SpriteSheet* getSpriteSheet() { return graphics->getSpriteSheet(); }
-//	bool isSpriteSheetEntity() const { return isSpriteSheet; }
 	
 	// X.C  Add two helper functions. One that returns the value of the deleted flag, another one that 
 	//      "deletes" the entity by setting this flag to true. (Q: one of this functions should be "const", which one?).
 	bool isDeleted() const { return deleted; }
+	bool hasComponent(Bitmask mask) const { return componentSet.contains(mask); }
 	void markDeleted() { deleted = true; }
 
-	std::unique_ptr<PositionComponent> position;
-	std::shared_ptr<GraphicsComponent> graphics;
-	std::shared_ptr<ColliderComponent> collider;
 
-	std::shared_ptr<ColliderComponent> getColliderComponent() { return collider; }
+	virtual std::shared_ptr<ColliderComponent> getColliderComponent();
 
 protected:
 
 	EntityType type;
 	EntityID id;
+	Bitmask componentSet;
+	bool isSpriteSheet;
 
-
-	//Collision
-	/*Rectangle boundingBox;
-	Vector2f bboxSize;*/
-
-	//Graphics-related variables.
-// <FEEDBACK> Not needed
-// <CORRECTION> isSpriteSheet bool removed
-
-//	bool isSpriteSheet;
-	//SpriteSheet spriteSheet;
-	//sf::Texture texture;
-	//sf::Sprite sprite;
 
 	// X.A Add a bool member variable "deleted" to this class.
 	bool deleted;
+	std::map<ComponentID, std::shared_ptr<Component>> mapComponent;
 
-	//Position and velocity
+	// <FEEDBACK> These pointers should be private, not public.
+	// <CORRECTED> Pointers moved to protected, created getters for all three pointers.
+	std::shared_ptr<PositionComponent> position;
+	std::shared_ptr<GraphicsComponent> graphics;
+	std::shared_ptr<ColliderComponent> collider;
 };

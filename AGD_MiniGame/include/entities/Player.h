@@ -26,9 +26,23 @@ public:
 	Player();
 	~Player();
 
-	virtual void update(Game* game, float elapsed = 1.0f) override;
+	//virtual void update(Game* game, float elapsed = 1.0f) override;
 
-	void handleInput(Game& game);
+	std::shared_ptr<InputComponent> getInputComponent() 
+	{
+		return playerInput;
+	}
+
+	/*std::shared_ptr<VelocityComponent> getVelocityComponent() override
+	{
+		return velocity; 
+	}*/
+	//std::shared_ptr<PlayerStateComponent> getStateComponent() override
+	//{
+	//	return state;
+	//}
+
+//	void handleInput(Game& game);
 
 	std::shared_ptr<HealthComponent> getHealthComp() { return healthComponent; }
 	std::shared_ptr<VelocityComponent> getVelocityComp() { return velocity; }
@@ -36,9 +50,14 @@ public:
 
 	void positionSprite(int row, int col, int spriteWH, float tileScale);
 
-	void setGraphicsPointer(std::shared_ptr<GraphicsComponent> _graphics) { graphics = _graphics; }
+	void setGraphicsPointer(std::shared_ptr<GraphicsComponent> _graphics) { 
+		addComponent(_graphics);
+		graphics = _graphics;
+	}
 
-	bool intersects(Entity& other) { return collider->intersects(other.getColliderComponent().get()->getBoundingBox()); }
+	bool intersects(Entity& other);
+
+	std::shared_ptr<ColliderComponent> getColliderComponent() override { return collider; }
 
 private:
 
@@ -48,7 +67,7 @@ private:
 	float shootCooldown;
 
 	// VI.A (1/2): Declare a unique pointer to a player input handler.
-	std::unique_ptr<InputComponent> playerInput;
+	std::shared_ptr<InputComponent> playerInput;
 	std::shared_ptr<HealthComponent> healthComponent;
 	std::shared_ptr<VelocityComponent> velocity;
 	std::shared_ptr<PlayerStateComponent> state;

@@ -129,7 +129,8 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>C:\SFML-2.5.1\lib</AdditionalLibraryDirectories>
-      <AdditionalDependencies>sfml-graphics-s.lib;sfml-window-s.lib;sfml-system-s.lib;opengl32.lib;winmm.lib;gdi32.lib;freetype.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>sfml-graphics-s.lib;sfml-window-s.lib;sfml-system-s.lib;opengl32.lib;winmm.lib;gdi32.lib;freetype.lib
+;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -152,6 +153,7 @@
     <ClCompile Include="source\graphics\AnimDirectional.cpp" />
     <ClCompile Include="source\graphics\SpriteSheet.cpp" />
     <ClCompile Include="source\graphics\Window.cpp" />
+    <ClCompile Include="source\systems\Systems.cpp" />
     <ClCompile Include="source\utils\Rectangle.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -162,6 +164,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\components\ColliderComponent.h" />
+    <ClInclude Include="include\components\Components.h" />
     <ClInclude Include="include\components\GraphicsComponent.h" />
     <ClInclude Include="include\components\HealthComponent.h" />
     <ClInclude Include="include\components\InputComponent.h" />
@@ -182,6 +185,8 @@
     <ClInclude Include="include\graphics\AnimDirectional.h" />
     <ClInclude Include="include\graphics\SpriteSheet.h" />
     <ClInclude Include="include\graphics\Window.h" />
+    <ClInclude Include="include\systems\Systems.h" />
+    <ClInclude Include="include\utils\Bitmask.h" />
     <ClInclude Include="include\utils\Rectangle.h" />
     <ClInclude Include="include\utils\Vector2.h" />
   </ItemGroup>

@@ -14,39 +14,41 @@
 Player::Player() : Entity(EntityType::PLAYER), attacking(false), shouting(false), wood(0), shootCooldown(0)
 {
 	// VI.B: Create the unique pointer to the PlayerInputHandler object
-	playerInput = std::make_unique<PlayerInputComponent>();
+	playerInput = std::make_shared<PlayerInputComponent>();
+	addComponent(playerInput);
 	healthComponent = std::make_shared<HealthComponent>(startingHealth, maxHealth);
+	addComponent(healthComponent);
 	velocity = std::make_shared<VelocityComponent>(playerSpeed);
-	state = std::make_shared<PlayerStateComponent>(attacking, shouting, maxWood, wood, fireSpeed, shootCooldown, shootingCost, shootCooldownTime);
+	addComponent(velocity);
+	state = std::make_shared<PlayerStateComponent>(attacking, shouting, maxWood, wood, fireSpeed, velocity);
+	addComponent(state);
 }
 
 Player::~Player() {}
 
-void Player::update(Game* game, float elapsed)
-{
-	// velocity update
-	velocity->update(*this, elapsed);
-	collider->update(getPosition()); // entitiy getPosition calls position-> getPosition
-	graphics->update(game, elapsed, getPosition()); // hasn't been implemented yet
-	state->update(*this, game, elapsed);
-}
-
-void Player::handleInput(Game& game)
-{
-	playerInput->update(game);
-}
+//void Player::update(Game* game, float elapsed)
+//{
+//	// velocity->update(*this, elapsed);
+//	// graphics->update(game, elapsed, getPosition()); // hasn't been implemented yet
+//}
 
 void Player::positionSprite(int row, int col, int spriteWH, float tileScale)
 {
-	sf::Vector2f scaleV2f = graphics->getSpriteScale();
-	sf::Vector2i textureSize = graphics->getTextureSize();
+	sf::Vector2f scaleV2f = getGraphicsComponent()->getSpriteScale();
+	sf::Vector2i textureSize = getGraphicsComponent()->getTextureSize();
 
 	float x = col * spriteWH * tileScale;
 	float y = (row)*spriteWH * tileScale;
 	float spriteSizeY = scaleV2f.y * textureSize.y;
 	float cntrFactorY = ((spriteWH * tileScale) - spriteSizeY);	// to align to lower side of the tile.
 	float cntrFactorX = cntrFactorY * 0.5f;						//to center horizontally
-
 	setPosition(x + cntrFactorX, y + cntrFactorY);
 	velocity->setVelocityDirection(0.f, 0.f);
+}
+
+bool Player::intersects(Entity& other)
+{
+	if (!getColliderComponent()) return false;
+	std::shared_ptr<ColliderComponent> otherCollider = std::dynamic_pointer_cast<ColliderComponent>(other.getComponent(ComponentID::COLLIDER));
+	return getColliderComponent()->intersects(otherCollider->getBoundingBox());
 }
