@@ -10,7 +10,7 @@
 
 
 // III.F Add the initialization (to 0) of the entity counter to the initalizers list of this constructor
-Game::Game() : paused(false), drawDebug(false), id{ 0 }
+Game::Game() : paused(false), drawDebug(true), id{ 0 }
 {
 	// V.B: Create the unique pointer to the Input Handler object.
 	inputHandler = std::make_unique<InputHandler>();
@@ -22,7 +22,7 @@ Game::Game() : paused(false), drawDebug(false), id{ 0 }
 	logicSystems.push_back(std::make_shared<ColliderSystem>());
 
 	graphicsSystems.push_back(std::make_shared<GraphicsSystem>());
-	if (drawDebug) // set to false in initialiser list - change to true if you want to see debug 
+	if (drawDebug) // set to true in initialiser list - change to true if you want to see debug 
 	{
 		graphicsSystems.push_back(std::make_shared<PrintDebugSystem>());
 	}
