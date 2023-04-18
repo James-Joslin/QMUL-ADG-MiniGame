@@ -49,6 +49,7 @@ void PlayerStateComponent::update(Entity& entity, Game* game, float elapsed)
 	}
 	if (shouting && player->getGraphicsComponent()->getSpriteSheet()->getCurrentAnim()->isInAction() && wood >= shootingCost && shootCooldown <= 0)
 	{
+		player->shoutTrigger();
 		game->addEntity(createFire(player));
 		wood = wood - shootingCost;
 		shootCooldown = shootCooldownTime;
