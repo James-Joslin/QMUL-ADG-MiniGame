@@ -1,6 +1,7 @@
 #pragma once
 #include "../utils/Vector2.h"
 #include "../graphics/Window.h"
+#include "TextureType.h"
 
 enum class TileType {
 	CORRIDOR,
@@ -14,15 +15,23 @@ private:
 
 	TileType type;
 	sf::Vector2i position; // Position in the grid (not in screen pixels, for that sprite.getPosition())
-	sf::Texture texture;
+	//sf::Texture texture;
 	sf::Sprite sprite;
 
-	void loadDefaultTexture();
-	void place(int x, int y, float sc);
+	std::shared_ptr<TextureType> texture;
+
+	
+	
 
 public:
+	void place(int x, int y, float sc);
 
-	Tile(TileType tt) : position(0, 0), type(tt) {}
+	Tile(TileType tt, TextureType textureType) : position(0, 0), type(tt) 
+	{
+		texture = std::make_shared<TextureType>(textureType);
+	}
+
+	void loadDefaultTexture();
 	void loadTile(int x, int yy, float sc, const std::string& textureFilename = "");
 
 	//void setPosition(int x, int y);
