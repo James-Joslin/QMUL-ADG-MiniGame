@@ -105,7 +105,6 @@ std::string Entity::typeToString(ArchetypeID _type) {
 		return "STATIC_ENTITY";
 	case ArchetypeID::Fireball:
 		return "FIRE";
-		// ... other archetypes
 	default:
 		return "UNKNOWN";
 	}
