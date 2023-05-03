@@ -11,7 +11,7 @@
 
 
 // III.F Add the initialization (to 0) of the entity counter to the initalizers list of this constructor
-Game::Game() : paused(false), drawDebug(true), id{ 0 }, useArchetypes(true)
+Game::Game() : paused(false), drawDebug(true), id{ 0 }, useArchetypes(false)
 {
 	if (!useArchetypes) // if not using archetypes use big array and add systems to logic and graphics system vectors
 	{

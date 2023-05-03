@@ -39,7 +39,6 @@ void Entity::init(const std::string& textureFile, float scale, std::shared_ptr<G
 {
 	graphics = _graphicsPointer;
 	setArchetypeID(_archetypeID);
-	std::cout << typeToString(archetypeID) << std::endl;
 	addComponent(graphics);
 	graphics->init(textureFile, scale);
 	Vector2f bboxSize = Vector2f(
@@ -59,7 +58,6 @@ void Entity::initSpriteSheet(const std::string& spriteSheetFile, ArchetypeID _ar
 		graphics->getSpriteSize().x * graphics->getSpriteScale().x,
 		graphics->getSpriteSize().y * graphics->getSpriteScale().y);
 	setArchetypeID(_archetypeID);
-	std::cout << typeToString(archetypeID) << std::endl;
 	collider = std::make_shared<ColliderComponent>();
 	addComponent(collider);
 	collider->setBboxSize(bboxSize);

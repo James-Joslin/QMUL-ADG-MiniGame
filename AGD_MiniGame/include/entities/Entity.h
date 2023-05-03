@@ -59,7 +59,7 @@ public:
 	ArchetypeID getArchetypeID() const;
 
 
-	std::string typeToString(ArchetypeID _type);
+	std::string typeToString(ArchetypeID _type); // was used to debug whether the archetypes were being assigned correctly
 
 
 protected:
