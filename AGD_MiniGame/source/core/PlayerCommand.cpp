@@ -53,7 +53,7 @@ void ClickCommand::execute(Game& game)
 		std::shared_ptr<VelocityComponent> velocity = std::dynamic_pointer_cast<VelocityComponent>(game.getPlayer()->getComponent(ComponentID::VELOCITY));
 
 		float target_x = sf::Mouse().getPosition(game.getWindow()->getWindow()).x - 50.f;
-		float target_y = sf::Mouse().getPosition(game.getWindow()->getWindow()).y - 90.f;
+		float target_y = sf::Mouse().getPosition(game.getWindow()->getWindow()).y - 80.f;
 
 		float player_x = position->getPosition().x;
 		float player_y = position->getPosition().y;
