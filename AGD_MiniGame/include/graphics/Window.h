@@ -21,6 +21,8 @@ public:
 	const sf::Font& getGUIFont() const;
 	sf::Text& getFPSText();
 
+	const sf::RenderWindow& getWindow() { return window; }
+
 	void toggleFullscreen();
 	void draw(sf::Drawable& drawable);
 	void redraw();

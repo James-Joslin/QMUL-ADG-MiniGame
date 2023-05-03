@@ -13,17 +13,20 @@ public:
 
 private:
 	std::shared_ptr<Command> pause;
+	std::shared_ptr<Command> enter;
+	
 };
 
 class PlayerInputHandler
 {
 public:
 	PlayerInputHandler();
-
 	std::vector<std::shared_ptr<Command>> handleInput();
+	std::vector<std::shared_ptr<Command>> arrayCommand;
 
 private:
-	std::vector<std::shared_ptr<Command>> arrayCommand;
+
+	std::shared_ptr<Command> click;
 	std::shared_ptr<Command> right;
 	std::shared_ptr<Command> left;
 	std::shared_ptr<Command> up;

@@ -13,6 +13,7 @@
 // III.F Add the initialization (to 0) of the entity counter to the initalizers list of this constructor
 Game::Game() : paused(false), drawDebug(true), id{ 0 }
 {
+	std::cout << "Keyboard Control" << std::endl;
 	// V.B: Create the unique pointer to the Input Handler object.
 	inputHandler = std::make_unique<InputHandler>();
 
@@ -21,6 +22,8 @@ Game::Game() : paused(false), drawDebug(true), id{ 0 }
 	logicSystems.push_back(std::make_shared<MovementSystem>());
 	logicSystems.push_back(std::make_shared<GameplaySystem>());
 	logicSystems.push_back(std::make_shared<ColliderSystem>());
+
+	system = std::dynamic_pointer_cast<InputSystem>(logicSystems[1]);
 
 	graphicsSystems.push_back(std::make_shared<GraphicsSystem>());
 	if (drawDebug) // set to true in initialiser list - change to false if you want to hide the debug 

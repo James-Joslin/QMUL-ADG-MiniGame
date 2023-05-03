@@ -6,6 +6,7 @@
 #include "../../include/core/Command.h"
 #include <stdexcept>
 #include <iostream>
+#include <cmath>
 
 void TTLSystem::update(Entity* entity, Game* game, float elapsedTime)
 {
@@ -31,12 +32,13 @@ void InputSystem::update(Entity* entity, Game* game, float elapsedTime)
 		std::shared_ptr<InputComponent> input = std::dynamic_pointer_cast<InputComponent>(entity->getComponent(ComponentID::INPUT));
 
 		velocity->setVelocityDirection(0.f, 0.f);
-		for (auto inputHandler : input->getPlayerInputHander()->handleInput())
-		{
-			// <FEEDBACK> Rename this variable.
-			// <CORRECTED Pointer renamed to inputHandler
-			inputHandler->execute(*game);
-		}
+
+		
+			for (auto inputHandler : input->getPlayerInputHander()->handleInput())
+			{
+				inputHandler->execute(*game);
+			}
+		
 	}
 }
 
@@ -44,28 +46,47 @@ void MovementSystem::update(Entity* entity, Game* game, float elapsedTime)
 {
 	std::shared_ptr<VelocityComponent> velocity = std::dynamic_pointer_cast<VelocityComponent>(entity->getComponent(ComponentID::VELOCITY));
 	std::shared_ptr<PositionComponent> position = std::dynamic_pointer_cast<PositionComponent>(entity->getComponent(ComponentID::POSITION));
-
-	if (velocity)
+	
+	if (game->isMouse())
 	{
-		// <FEEDBACK> This IF is not necessary if validate properly checks this function is called when needed.
-		// <CORRECTED> If statement removed
-		position->setPosition(
-			position->getPosition().x + (velocity->getVelocityDirection().x * velocity->getSpeed() * elapsedTime),
-			position->getPosition().y + (velocity->getVelocityDirection().y * velocity->getSpeed() * elapsedTime)
-		);
+		if ((movement_x != 0 || movement_y != 0))
+		{
+			int positionIntX = static_cast<int>(position->getPosition().x);
+			int positionIntY = static_cast<int>(position->getPosition().y);
+			if (positionIntX == (int)target_x || positionIntY == (int)target_y)
+			{
+				movement_x = 0;
+				movement_y = 0;
+				return;
+			}
+
+			float magnitude = sqrt(pow(movement_x, 2) + pow(movement_y, 2));
+			float normalised_x = movement_x / magnitude;
+			float normalised_y = movement_y / magnitude;
+
+			velocity->setVelocityDirection(normalised_x, normalised_y);
+			position->setPosition(
+				position->getPosition().x + (velocity->getVelocityDirection().x * velocity->getSpeed() * elapsedTime),
+				position->getPosition().y + (velocity->getVelocityDirection().y * velocity->getSpeed() * elapsedTime)
+			);
+		}
 	}
-	// <FEEDBACK> Remove this.
-	// <CORRECTED> Removed
+	else 
+	{
+		if (velocity)
+		{
+			position->setPosition(
+				position->getPosition().x + (velocity->getVelocityDirection().x * velocity->getSpeed() * elapsedTime),
+				position->getPosition().y + (velocity->getVelocityDirection().y * velocity->getSpeed() * elapsedTime)
+			);
+		}
+	}
 }
 
 void GraphicsSystem::update(Entity* entity, Game* game, float elapsedTime)
 {
 	std::shared_ptr<GraphicsComponent> graphics = std::dynamic_pointer_cast<GraphicsComponent>(entity->getComponent(ComponentID::GRAPHICS));
 	std::shared_ptr<PositionComponent> position = std::dynamic_pointer_cast<PositionComponent>(entity->getComponent(ComponentID::POSITION));
-	
-	// <FEEDBACK> No need to check for the type of graphics. They all inherit from a common base class, which means that you can call the 
-	// functions on the base class without worrying about the subtype.
-	// <CORRECTED> Removed this type of graphics check. However, implemented methods back into GraphicsComponent (See CORRECTED_2 in GraphicsComponent). 
 
 	if (!game->isPaused()) { graphics->update(game, elapsedTime, position->getPosition()); }
 	graphics->draw(game->getWindow());
@@ -74,8 +95,6 @@ void GraphicsSystem::update(Entity* entity, Game* game, float elapsedTime)
 void ColliderSystem::update(Entity* entity, Game* game, float elapsedTime)
 {
 	std::shared_ptr<ColliderComponent> collider = std::dynamic_pointer_cast<ColliderComponent>(entity->getComponent(ComponentID::COLLIDER));
-	// <FEEDBACK> Ok. An alternative, to alleviate logic from the component, is to make the calculations here and only set the two corners of the collider.
-	// <CORRECTED> Moved logic from collider->update() to ColliderSystem::Update. Removed collider update.
 
 	collider->getBoundingBox().setTopLeft(entity->getPosition());
 	collider->getBoundingBox().setBottomRight(Vector2f((entity->getPosition().x + collider->getBboxSize().x), (entity->getPosition().y + collider->getBboxSize().y)));

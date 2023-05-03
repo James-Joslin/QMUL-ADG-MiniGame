@@ -2,6 +2,8 @@
 #include "../core/Board.h"
 #include "../entities/Player.h"
 #include <memory>
+#include "../systems/Systems.h"
+
 
 class GraphicsComponent;
 class InputHandler;
@@ -28,11 +30,31 @@ public:
 	void update(float elapsed);
 	void render(float elapsed);
 	Window* getWindow() { return &window; }
+	
 
 	sf::Time getElapsed() const;
 	void setFPS(int FPS);
-	void togglePause() { paused = !paused; }
+	void togglePause() 
+	{ 
+		paused = !paused; 
+	}
+	void toggleControl() 
+	{
+		cursorInput = !cursorInput;
+		if (cursorInput)
+		{
+			std::cout << "Mouse Control" << std::endl;
+		}
+		else
+		{
+			std::cout << "Keyboard Control" << std::endl;
+		}
+	}
+
+	std::shared_ptr<InputSystem> system;
+
 	bool isPaused() const { return paused; }
+	bool isMouse() const { return cursorInput; }
 
 	void bigArray(float, std::vector<std::shared_ptr<System>>);
 
@@ -45,10 +67,12 @@ public:
 	template <typename T>
 	std::shared_ptr<T> buildEntityAt(const std::string& filename, int col, int row, std::shared_ptr<GraphicsComponent> graphicsComponentPointer);
 
+	std::vector<std::shared_ptr<System>>& getLogicSystem(){ return logicSystems; }
 private:
 
 	Window window;
 	bool paused;
+	bool cursorInput;
 	sf::Clock gameClock;
 	sf::Time elapsed;
 

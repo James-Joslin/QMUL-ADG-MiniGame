@@ -9,6 +9,12 @@ public:
 	virtual void execute(Game& game) = 0;
 };
 
+class SwitchCommand : public Command
+{
+public:
+	virtual void execute(Game& game) override;
+};
+
 class PauseCommand : public Command
 {
 public:
@@ -46,6 +52,12 @@ public:
 };
 
 class FireCommand : public Command
+{
+public:
+	virtual void execute(Game& game) override;
+};
+
+class ClickCommand : public Command
 {
 public:
 	virtual void execute(Game& game) override;
