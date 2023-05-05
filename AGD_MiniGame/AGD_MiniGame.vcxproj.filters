@@ -63,9 +63,6 @@
     <ClCompile Include="source\components\InputComponent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="source\components\VelocityComponent.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="source\components\GraphicsComponent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -76,6 +73,15 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="source\components\ColliderComponent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\systems\Observer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\systems\Subject.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\core\TextureType.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -143,9 +149,6 @@
     <ClInclude Include="include\components\PositionComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\components\PlayerStateComponent.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="include\components\ColliderComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -159,6 +162,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\components\LogicComponent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\systems\Observer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\systems\Subject.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

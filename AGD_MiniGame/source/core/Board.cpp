@@ -57,14 +57,14 @@ void Board::addTile(int x, int y, float scale, TileType tt)
 
 	if (tt == TileType::CORRIDOR)
 	{
-		Tile* newTile = new Tile(tt, corridor);
+		Tile* newTile = new Tile(tt, &corridor);
 		newTile->loadDefaultTexture();
 		newTile->place(x, y, scale);
 		grid.emplace_back(newTile);
 	}
 	if (tt == TileType::WALL)
 	{
-		Tile* newTile = new Tile(tt, wall);
+		Tile* newTile = new Tile(tt, &wall);
 		newTile->loadDefaultTexture();
 		newTile->place(x, y, scale);
 		grid.emplace_back(newTile);
