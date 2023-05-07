@@ -1,13 +1,13 @@
 #include "../../include/core/Tile.h"
 #include <sstream>
-
+#include <iostream>
 
 void Tile::loadTile(int x, int y, float sc, const std::string& textureFilename)
 {
 	//load texture (default or by string).
 	if (textureFilename.size() > 0)
 	{
-		if (!texture.loadFromFile(textureFilename))
+		if (!texture->texture.loadFromFile(textureFilename))
 		{
 			std::stringstream sss;
 			sss << "Texture file not found: " << textureFilename;
@@ -33,24 +33,25 @@ void Tile::place(int x, int y, float sc)
 	sprite.setScale(sc, sc);
 
 	//Position on screen:
-	sf::Vector2u textSize = texture.getSize();
+	sf::Vector2u textSize = texture->texture.getSize();
 	float pixels_x = static_cast<float>(x * (textSize.x * sc));
 	float pixels_y = static_cast<float>(y * (textSize.y * sc));
+
 	sprite.setPosition(pixels_x, pixels_y);
 }
 
 
 void Tile::loadDefaultTexture()
 {
-	switch (type)
+	/*switch (type)
 	{
 	case TileType::CORRIDOR:
-		if (!texture.loadFromFile("img/floor.png"))
+		if (!texture->texture.loadFromFile("img/floor.png"))
 			throw std::exception("floor.png image not found");
 		break;
 
 	case TileType::WALL:
-		if (!texture.loadFromFile("img/wall.png"))
+		if (!texture->texture.loadFromFile("img/wall.png"))
 			throw std::exception("wall.png image not found");
 		break;
 
@@ -58,9 +59,9 @@ void Tile::loadDefaultTexture()
 		if (!texture.loadFromFile("img/mushroom50-50.png"))
 			throw std::exception("mushroom50-50.png image not found");
 		break;
-	}
+	}*/
 
-	sprite.setTexture(texture);
+	sprite.setTexture(texture->texture);
 }
 
 

@@ -2,6 +2,7 @@
 #include <vector>
 #include "Tile.h"
 #include "../graphics/Window.h"
+#include "TextureType.h"
 
 class Board
 {
@@ -20,6 +21,9 @@ public:
 
 	~Board();
 
+	TextureType corridor, wall;
+
+
 	reference operator[] (const sf::Vector2i& pos) { return grid[static_cast<size_t>(pos.y * static_cast<int>(width) + pos.x)]; }
 	const_reference operator[] (const sf::Vector2i& pos) const { return grid[static_cast<size_t>(pos.y * static_cast<int>(width) + pos.x)]; }
 
@@ -33,9 +37,11 @@ public:
 	bool inBounds(int x, int y) const { return x >= 0 && x < static_cast<int>(width) && y >= 0 && y < static_cast<int>(height); };
 	bool inBounds(const sf::Vector2i& pos) const { return inBounds(pos.x, pos.y); };
 
-	void addTile(int x, int y, float scale, TileType tt, const std::string& filename = "");
+	void addTile(int x, int y, float scale, TileType tt);
 
 	void draw(Window* window);
 	void print();
+
+	
 };
 
