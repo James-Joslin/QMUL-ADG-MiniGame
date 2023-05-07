@@ -2,10 +2,19 @@
 #include "../core/Board.h"
 #include "../entities/Player.h"
 #include <memory>
+#include "../systems/Systems.h"
 
 class GraphicsComponent;
 class InputHandler;
 class System;
+
+enum ControlType
+{
+	UNDEFINED = -1,
+	WASD = 0,
+	ARROWS = 1,
+	MOUSE = 2
+};
 
 class Game
 {
@@ -28,11 +37,21 @@ public:
 	void update(float elapsed);
 	void render(float elapsed);
 	Window* getWindow() { return &window; }
+	
 
 	sf::Time getElapsed() const;
 	void setFPS(int FPS);
-	void togglePause() { paused = !paused; }
+	void togglePause() 
+	{ 
+		paused = !paused; 
+	}
+	void toggleControl();
+	
+
+	std::shared_ptr<InputSystem> system;
+
 	bool isPaused() const { return paused; }
+	int getCurrentControl() { return currentControl; }
 
 	void bigArray(float, std::vector<std::shared_ptr<System>>);
 
@@ -45,12 +64,15 @@ public:
 	template <typename T>
 	std::shared_ptr<T> buildEntityAt(const std::string& filename, int col, int row, std::shared_ptr<GraphicsComponent> graphicsComponentPointer);
 
+	std::vector<std::shared_ptr<System>>& getLogicSystem(){ return logicSystems; }
 private:
 
 	Window window;
 	bool paused;
 	sf::Clock gameClock;
 	sf::Time elapsed;
+
+	ControlType currentControl;
 
 	// II.A Declare a unique pointer of type Board 
 	std::unique_ptr<Board> board;
