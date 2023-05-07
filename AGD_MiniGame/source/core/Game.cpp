@@ -15,7 +15,7 @@
 Game::Game() : paused(false), drawDebug(true), id{ 0 }, useArchetypes(true)
 {
 	inputHandler = std::make_unique<InputHandler>();
-  std::cout << "WASD Control" << std::endl;
+	std::cout << "WASD Control" << std::endl;
 	if (!useArchetypes) // if not using archetypes use big array and add systems to logic and graphics system vectors
 	{
 		// V.B: Create the unique pointer to the Input Handler object.

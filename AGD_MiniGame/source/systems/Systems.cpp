@@ -57,7 +57,7 @@ void MovementSystem::update(Entity* entity, Game* game, float elapsedTime)
 				return;
 			}
 
-			float magnitude = sqrt(pow(movement_x, 2) + pow(movement_y, 2));
+			float magnitude = (float)sqrt(pow(movement_x, 2) + pow(movement_y, 2));
 			float normalised_x = movement_x / magnitude;
 			float normalised_y = movement_y / magnitude;
 
