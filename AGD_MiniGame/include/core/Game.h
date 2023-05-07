@@ -53,7 +53,9 @@ public:
 	std::shared_ptr<InputSystem> system;
 
 	bool isPaused() const { return paused; }
+	bool isArchetype() { return useArchetypes; }
 	int getCurrentControl() { return currentControl; }
+	ArchetypeManager getArchetypeMananger() { return archetypeManager; }
 
 	void bigArray(float, std::vector<std::shared_ptr<System>>);
 	void updateArchetypes(float _elapsedTime, std::string _systemType);

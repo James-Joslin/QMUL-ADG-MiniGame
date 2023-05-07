@@ -1,5 +1,6 @@
 #include "../../include/core/Command.h"
 #include "../../include/core/Game.h"
+#include "../../include/utils/ArchetypeManager.h"
 #include <iostream>
 #include <cmath>
 
@@ -61,10 +62,19 @@ void ClickCommand::execute(Game& game)
 		float movement_x = target_x - player_x;
 		float movement_y = target_y - player_y;
 
-		auto movementSystem = std::dynamic_pointer_cast<MovementSystem>(game.getLogicSystem()[2]);
-		movementSystem->setTargetX(target_x);
-		movementSystem->setTargetY(target_y);
-		movementSystem->setMovementX(movement_x);
-		movementSystem->setMovementY(movement_y);
+		std::shared_ptr<MovementSystem> movement = nullptr;
+		
+		if (game.isArchetype())
+		{
+			movement = std::dynamic_pointer_cast<MovementSystem>(game.getArchetypeMananger().getSystems(ArchetypeID::DwarfPlayer, "logic")[1]);
+		}
+		else
+		{
+			movement = std::dynamic_pointer_cast<MovementSystem>(game.getLogicSystem()[2]);
+		}
+		movement->setTargetX(target_x);
+		movement->setTargetY(target_y);
+		movement->setMovementX(movement_x);
+		movement->setMovementY(movement_y);
 	}
 }
