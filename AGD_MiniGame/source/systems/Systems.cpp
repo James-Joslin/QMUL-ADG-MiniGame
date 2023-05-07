@@ -20,8 +20,6 @@ void TTLSystem::update(Entity* entity, Game* game, float elapsedTime)
 			entity->markDeleted();
 		}
 	}
-	// <FEEDBACK> Remove this.
-	// <CORRECTED> Removed
 }
 
 void InputSystem::update(Entity* entity, Game* game, float elapsedTime)
@@ -32,13 +30,11 @@ void InputSystem::update(Entity* entity, Game* game, float elapsedTime)
 		std::shared_ptr<InputComponent> input = std::dynamic_pointer_cast<InputComponent>(entity->getComponent(ComponentID::INPUT));
 
 		velocity->setVelocityDirection(0.f, 0.f);
-
 		
-			for (auto inputHandler : input->getPlayerInputHander()->handleInput())
-			{
-				inputHandler->execute(*game);
-			}
-		
+		for (auto inputHandler : input->getPlayerInputHander()->handleInput())
+		{
+			inputHandler->execute(*game);
+		}
 	}
 }
 
@@ -47,7 +43,8 @@ void MovementSystem::update(Entity* entity, Game* game, float elapsedTime)
 	std::shared_ptr<VelocityComponent> velocity = std::dynamic_pointer_cast<VelocityComponent>(entity->getComponent(ComponentID::VELOCITY));
 	std::shared_ptr<PositionComponent> position = std::dynamic_pointer_cast<PositionComponent>(entity->getComponent(ComponentID::POSITION));
 	
-	if (game->isMouse())
+
+	if (game->getCurrentControl() == MOUSE)
 	{
 		if ((movement_x != 0 || movement_y != 0))
 		{
@@ -71,7 +68,7 @@ void MovementSystem::update(Entity* entity, Game* game, float elapsedTime)
 			);
 		}
 	}
-	else 
+	else
 	{
 		if (velocity)
 		{

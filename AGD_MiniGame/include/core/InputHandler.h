@@ -1,8 +1,11 @@
 #include <memory>
 #include <vector>
+#include <map>
+#include <SFML/Graphics.hpp>
 
 // forward declaration of Command
 class Command;
+class Game;
 
 class InputHandler
 {
@@ -23,9 +26,14 @@ public:
 	PlayerInputHandler();
 	std::vector<std::shared_ptr<Command>> handleInput();
 	std::vector<std::shared_ptr<Command>> arrayCommand;
+	
+	std::map<sf::Keyboard::Key, std::shared_ptr<Command>> activeCommands;
+
+	void updateKeys(int);
+	
 
 private:
-
+	
 	std::shared_ptr<Command> click;
 	std::shared_ptr<Command> right;
 	std::shared_ptr<Command> left;
@@ -33,4 +41,6 @@ private:
 	std::shared_ptr<Command> down;
 	std::shared_ptr<Command> attack;
 	std::shared_ptr<Command> fire;
+
+	bool mouse;
 };

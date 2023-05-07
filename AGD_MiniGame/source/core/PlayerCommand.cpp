@@ -7,28 +7,28 @@
 
 void MoveRightCommand::execute(Game& game)
 {
-	if (game.isMouse()) return;
+	//if (game.isMouse()) return;
 	std::shared_ptr<VelocityComponent> velocity = std::dynamic_pointer_cast<VelocityComponent>(game.getPlayer()->getComponent(ComponentID::VELOCITY));
 	velocity->setVelocityDirection(1.f, velocity->getVelocityDirection().y);
 }
 
 void MoveLeftCommand::execute(Game& game)
 {
-	if (game.isMouse()) return;
+	//if (game.isMouse()) return;
 	std::shared_ptr<VelocityComponent> velocity = std::dynamic_pointer_cast<VelocityComponent>(game.getPlayer()->getComponent(ComponentID::VELOCITY));
 	velocity->setVelocityDirection(-1.f, velocity->getVelocityDirection().y);
 }
 
 void MoveUpCommand::execute(Game& game)
 {
-	if (game.isMouse()) return;
+	//if (game.isMouse()) return;
 	std::shared_ptr<VelocityComponent> velocity = std::dynamic_pointer_cast<VelocityComponent>(game.getPlayer()->getComponent(ComponentID::VELOCITY));
 	velocity->setVelocityDirection(velocity->getVelocityDirection().x, -1.f);
 }
 
 void MoveDownCommand::execute(Game& game)
 {
-	if (game.isMouse()) return;
+	//if (game.isMouse()) return;
 	std::shared_ptr<VelocityComponent> velocity = std::dynamic_pointer_cast<VelocityComponent>(game.getPlayer()->getComponent(ComponentID::VELOCITY));
 	velocity->setVelocityDirection(velocity->getVelocityDirection().x, 1.f);
 }
@@ -47,7 +47,7 @@ void FireCommand::execute(Game& game)
 
 void ClickCommand::execute(Game& game)
 {
-	if (game.isMouse())
+	if (game.getCurrentControl() == 2)
 	{
 		std::shared_ptr<PositionComponent> position = std::dynamic_pointer_cast<PositionComponent>(game.getPlayer()->getComponent(ComponentID::POSITION));
 		std::shared_ptr<VelocityComponent> velocity = std::dynamic_pointer_cast<VelocityComponent>(game.getPlayer()->getComponent(ComponentID::VELOCITY));

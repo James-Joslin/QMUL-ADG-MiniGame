@@ -7,13 +7,14 @@
 #include "../../include/components/LogicComponent.h"
 #include "../../include/systems/Systems.h"
 #include "../../include/systems/Observer.h"
+#include "../../include/components/InputComponent.h"
 #include <iostream>
 
 
 // III.F Add the initialization (to 0) of the entity counter to the initalizers list of this constructor
 Game::Game() : paused(false), drawDebug(true), id{ 0 }
 {
-	std::cout << "Keyboard Control" << std::endl;
+	std::cout << "WASD Control" << std::endl;
 	// V.B: Create the unique pointer to the Input Handler object.
 	inputHandler = std::make_unique<InputHandler>();
 
@@ -34,6 +35,33 @@ Game::Game() : paused(false), drawDebug(true), id{ 0 }
 
 Game::~Game()
 {
+	
+}
+
+void Game::toggleControl()
+{
+	switch (currentControl)
+	{
+		case WASD:
+		{
+			currentControl = ARROWS;
+			std::cout << "Arrows Control" << std::endl;
+			break;
+		}
+		case ARROWS:
+		{
+			currentControl = MOUSE;
+			std::cout << "Mouse Control" << std::endl;
+			break;
+		}
+		case MOUSE:
+		{
+			std::cout << "WASD Control" << std::endl;
+			currentControl = WASD;
+			break;
+		}
+	}
+	getPlayer()->getInputComponent()->getPlayerInputHander()->updateKeys(currentControl);
 }
 
 template <typename T>

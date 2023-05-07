@@ -4,10 +4,17 @@
 #include <memory>
 #include "../systems/Systems.h"
 
-
 class GraphicsComponent;
 class InputHandler;
 class System;
+
+enum ControlType
+{
+	UNDEFINED = -1,
+	WASD = 0,
+	ARROWS = 1,
+	MOUSE = 2
+};
 
 class Game
 {
@@ -38,23 +45,13 @@ public:
 	{ 
 		paused = !paused; 
 	}
-	void toggleControl() 
-	{
-		cursorInput = !cursorInput;
-		if (cursorInput)
-		{
-			std::cout << "Mouse Control" << std::endl;
-		}
-		else
-		{
-			std::cout << "Keyboard Control" << std::endl;
-		}
-	}
+	void toggleControl();
+	
 
 	std::shared_ptr<InputSystem> system;
 
 	bool isPaused() const { return paused; }
-	bool isMouse() const { return cursorInput; }
+	int getCurrentControl() { return currentControl; }
 
 	void bigArray(float, std::vector<std::shared_ptr<System>>);
 
@@ -72,9 +69,10 @@ private:
 
 	Window window;
 	bool paused;
-	bool cursorInput;
 	sf::Clock gameClock;
 	sf::Time elapsed;
+
+	ControlType currentControl;
 
 	// II.A Declare a unique pointer of type Board 
 	std::unique_ptr<Board> board;
