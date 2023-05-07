@@ -10,9 +10,6 @@ public:
 	virtual void update(Entity*, Game*, float) = 0;
 	bool validate(Entity* entity) 
 	{ 
-		// <FEEDBACK> This fixes the issue with the empty component masks in system. You can leave it like this or revert it, it
-		// won't affect the mark.
-		// <CORRECTED> Confirmed
 		return (componentMask.getMask() != 0) && entity->hasComponent(componentMask); 
 	}
 
@@ -26,9 +23,6 @@ class TTLSystem : public System
 public:
 	TTLSystem()
 	{
-		// <FEEDBACK> You can check now that if the following line is commented out, with the fix above, fire entities won't be updated 
-		// by the TTL System.
-		// <CORRECTED> Confirmed
 		componentMask.turnOnBit(static_cast<int>(ComponentID::TTL));
 	}
 	void update(Entity*, Game*, float) override;
@@ -54,6 +48,16 @@ public:
 		componentMask.turnOnBit(static_cast<int>(ComponentID::VELOCITY));
 	}
 	void update(Entity*, Game*, float) override;
+
+	void setTargetX(float _targetX) { target_x = _targetX; }
+	void setTargetY(float _targetY) { target_y = _targetY; }
+	void setMovementX(float _movementX) { movement_x = _movementX; }
+	void setMovementY(float _movementY) { movement_y = _movementY; }
+
+	float target_x = 0;
+	float target_y = 0;
+	float movement_x = 0;
+	float movement_y = 0;
 };
 
 class GraphicsSystem : public System

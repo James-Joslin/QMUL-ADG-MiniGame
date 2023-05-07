@@ -143,6 +143,7 @@
     <ClCompile Include="source\core\GameCommand.cpp" />
     <ClCompile Include="source\core\InputHandler.cpp" />
     <ClCompile Include="source\core\PlayerCommand.cpp" />
+    <ClCompile Include="source\core\TextureType.cpp" />
     <ClCompile Include="source\core\Tile.cpp" />
     <ClCompile Include="source\entities\Entity.cpp" />
     <ClCompile Include="source\entities\Fire.cpp" />

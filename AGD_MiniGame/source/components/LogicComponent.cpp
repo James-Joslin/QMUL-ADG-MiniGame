@@ -9,6 +9,7 @@
 void PlayerStateComponent::update(Entity& entity, Game* game, float elapsed)
 {	
 	Player* player = dynamic_cast<Player*>(&entity);
+
 	if (attacking)
 	{
 		player->getGraphicsComponent()->setAnimation("Attack", true, false);

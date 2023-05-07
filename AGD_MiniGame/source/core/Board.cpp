@@ -9,6 +9,12 @@ Board::Board(size_t newWidth, size_t newHeight) :
 	width(newWidth), 
 	height(newHeight)
 {
+	corridor = TextureType();
+	wall = TextureType();
+
+	corridor.loadTextures(0);
+	wall.loadTextures(1);
+	//mushroom = TextureType(-1);
 }
 
 Board::~Board()
@@ -44,14 +50,25 @@ const_reference Board::get(int x, int y) const
 }
 
 
-void Board::addTile(int x, int y, float scale, TileType tt, const std::string& filename)
+void Board::addTile(int x, int y, float scale, TileType tt)
 {
 	if(!inBounds(x, y))
 		throw std::runtime_error("Out of bounds of the board.");
 
-	Tile* newTile = new Tile(tt);
-	newTile->loadTile(x, y, scale, filename);
-	grid.emplace_back(newTile);
+	if (tt == TileType::CORRIDOR)
+	{
+		Tile* newTile = new Tile(tt, &corridor);
+		newTile->loadDefaultTexture();
+		newTile->place(x, y, scale);
+		grid.emplace_back(newTile);
+	}
+	if (tt == TileType::WALL)
+	{
+		Tile* newTile = new Tile(tt, &wall);
+		newTile->loadDefaultTexture();
+		newTile->place(x, y, scale);
+		grid.emplace_back(newTile);
+	}
 }
 
 

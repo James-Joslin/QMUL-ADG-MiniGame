@@ -5,3 +5,8 @@ void PauseCommand::execute(Game& game)
 {
 	game.togglePause();
 }
+
+void SwitchCommand::execute(Game& game)
+{
+	game.toggleControl();
+}
