@@ -12,6 +12,8 @@ class InputComponent;
 class VelocityComponent;
 class PlayerStateComponent;
 
+enum class ArchetypeID;
+
 using EntityID = unsigned int;
 enum class EntityType
 {
@@ -34,8 +36,8 @@ public:
 	~Entity();
 
 	//Init and update functions
-	virtual void init(const std::string& textureFile, float scale, std::shared_ptr<GraphicsComponent> _graphics);
-	void initSpriteSheet(const std::string& spriteSheetFile);	
+	virtual void init(const std::string& textureFile, float scale, std::shared_ptr<GraphicsComponent> _graphics, ArchetypeID _archetypeID);
+	void initSpriteSheet(const std::string& spriteSheetFile, ArchetypeID _archetypeID);
 	void addComponent(std::shared_ptr<Component> c);
 	std::shared_ptr<Component> getComponent(ComponentID id) { return mapComponent[id]; }
 	void setID(EntityID entId) { id = entId; }
@@ -52,6 +54,13 @@ public:
 
 
 	virtual std::shared_ptr<ColliderComponent> getColliderComponent();
+
+	void setArchetypeID(ArchetypeID _archetypeID);
+	ArchetypeID getArchetypeID() const;
+
+
+	std::string typeToString(ArchetypeID _type); // was used to debug whether the archetypes were being assigned correctly
+
 
 protected:
 
@@ -70,4 +79,6 @@ protected:
 	std::shared_ptr<PositionComponent> position;
 	std::shared_ptr<GraphicsComponent> graphics;
 	std::shared_ptr<ColliderComponent> collider;
+
+	ArchetypeID archetypeID;
 };

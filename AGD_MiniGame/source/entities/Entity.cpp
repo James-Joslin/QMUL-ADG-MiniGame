@@ -3,6 +3,7 @@
 #include "../../include/core/Game.h"
 #include "../../include/components/PositionComponent.h"
 #include "../../include/components/GraphicsComponent.h"
+#include "../../include/utils/ArchetypeManager.h"
 #include <iostream>
 
 
@@ -34,15 +35,15 @@ Entity::~Entity()
 {
 }
 
-void Entity::init(const std::string& textureFile, float scale, std::shared_ptr<GraphicsComponent> _graphicsPointer)
+void Entity::init(const std::string& textureFile, float scale, std::shared_ptr<GraphicsComponent> _graphicsPointer, ArchetypeID _archetypeID)
 {
 	graphics = _graphicsPointer;
+	setArchetypeID(_archetypeID);
 	addComponent(graphics);
 	graphics->init(textureFile, scale);
 	Vector2f bboxSize = Vector2f(
 		graphics->getTextureSize().x * graphics->getScale().x,
 		graphics->getTextureSize().y * graphics->getScale().y);
-
 	// <FEEDBACK> Instead of doing this, put a collider (which is independent from this init() call) as a
 	// component of only the classes that have collisions (i.e. static entities and players). If the development
 	// of the game takes you to have many entities with no collider (quite likely), you'd end up with a long list of
@@ -50,13 +51,13 @@ void Entity::init(const std::string& textureFile, float scale, std::shared_ptr<G
 	// <CORRECTED> Implemented virtual getter in entity returns nullptr. Static Entities and Player have overrides for this
 }
 
-void Entity::initSpriteSheet(const std::string& spriteSheetFile)
+void Entity::initSpriteSheet(const std::string& spriteSheetFile, ArchetypeID _archetypeID)
 {
 	graphics->initSpriteSheet(spriteSheetFile);
 	Vector2f bboxSize = Vector2f(
 		graphics->getSpriteSize().x * graphics->getSpriteScale().x,
 		graphics->getSpriteSize().y * graphics->getSpriteScale().y);
-
+	setArchetypeID(_archetypeID);
 	collider = std::make_shared<ColliderComponent>();
 	addComponent(collider);
 	collider->setBboxSize(bboxSize);
@@ -85,3 +86,26 @@ std::shared_ptr<ColliderComponent> Entity::getColliderComponent()
 	return nullptr;
 }
 
+void Entity::setArchetypeID(ArchetypeID _archetypeID)
+{
+	archetypeID = _archetypeID;
+}
+
+ArchetypeID Entity::getArchetypeID() const
+{
+	return archetypeID;
+}
+
+// Debuging ArchetypeID assignments
+std::string Entity::typeToString(ArchetypeID _type) {
+	switch (_type) {
+	case ArchetypeID::DwarfPlayer:
+		return "PLAYER";
+	case ArchetypeID::StaticEntity:
+		return "STATIC_ENTITY";
+	case ArchetypeID::Fireball:
+		return "FIRE";
+	default:
+		return "UNKNOWN";
+	}
+}

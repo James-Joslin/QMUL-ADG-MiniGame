@@ -1,6 +1,7 @@
 #include "../graphics/Window.h"
 #include "../core/Board.h"
 #include "../entities/Player.h"
+#include "../../include/utils/ArchetypeManager.h"
 #include <memory>
 #include "../systems/Systems.h"
 
@@ -8,6 +9,7 @@ class GraphicsComponent;
 class InputHandler;
 class System;
 
+enum class ArchetypeID;
 enum ControlType
 {
 	UNDEFINED = -1,
@@ -54,6 +56,7 @@ public:
 	int getCurrentControl() { return currentControl; }
 
 	void bigArray(float, std::vector<std::shared_ptr<System>>);
+	void updateArchetypes(float _elapsedTime, std::string _systemType);
 
 	//  IV.A (2/2) Write a function that returns the shared pointer of the player of the game.
 	std::shared_ptr<Player> getPlayer() { return player; }
@@ -62,7 +65,7 @@ public:
 	std::shared_ptr<Entity> getEntity(unsigned int idx);
 
 	template <typename T>
-	std::shared_ptr<T> buildEntityAt(const std::string& filename, int col, int row, std::shared_ptr<GraphicsComponent> graphicsComponentPointer);
+	std::shared_ptr<T> buildEntityAt(const std::string& filename, int col, int row, std::shared_ptr<GraphicsComponent> graphicsComponentPointer, ArchetypeID _archetypeID);
 
 	std::vector<std::shared_ptr<System>>& getLogicSystem(){ return logicSystems; }
 private:
@@ -95,7 +98,9 @@ private:
 	std::vector<std::shared_ptr<System>> graphicsSystems;
 
 	bool drawDebug;
+	bool useArchetypes;
 
+	ArchetypeManager archetypeManager;
 	AchievementManager manager;
 };
 

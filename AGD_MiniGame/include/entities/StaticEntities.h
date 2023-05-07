@@ -11,10 +11,10 @@ public:
 	Potion() : Entity(EntityType::POTION) {}
 	~Potion() {}
 
-	void init(const std::string& textureFile, float scale, std::shared_ptr<GraphicsComponent> _graphicsPointer) override
+	void init(const std::string& textureFile, float scale, std::shared_ptr<GraphicsComponent> _graphicsPointer, ArchetypeID _archetypeID) override
 	{
 
-		Entity::init(textureFile, scale, _graphicsPointer);
+		Entity::init(textureFile, scale, _graphicsPointer, _archetypeID);
 		
 		Vector2f bboxSize = Vector2f(
 			graphics->getTextureSize().x * graphics->getScale().x,
@@ -42,10 +42,10 @@ public:
 	Log() : Entity(EntityType::LOG) {}
 	~Log() {}
 
-	void init(const std::string& textureFile, float scale, std::shared_ptr<GraphicsComponent> _graphicsPointer) override
+	void init(const std::string& textureFile, float scale, std::shared_ptr<GraphicsComponent> _graphicsPointer, ArchetypeID _archetypeID) override
 	{
 
-		Entity::init(textureFile, scale, _graphicsPointer);
+		Entity::init(textureFile, scale, _graphicsPointer, _archetypeID);
 
 		Vector2f bboxSize = Vector2f(
 			graphics->getTextureSize().x * graphics->getScale().x,

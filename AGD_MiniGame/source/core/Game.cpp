@@ -12,24 +12,55 @@
 
 
 // III.F Add the initialization (to 0) of the entity counter to the initalizers list of this constructor
-Game::Game() : paused(false), drawDebug(true), id{ 0 }
+Game::Game() : paused(false), drawDebug(true), id{ 0 }, useArchetypes(true)
 {
-	std::cout << "WASD Control" << std::endl;
-	// V.B: Create the unique pointer to the Input Handler object.
 	inputHandler = std::make_unique<InputHandler>();
-
-	logicSystems.push_back(std::make_shared<TTLSystem>());
-	logicSystems.push_back(std::make_shared<InputSystem>());
-	logicSystems.push_back(std::make_shared<MovementSystem>());
-	logicSystems.push_back(std::make_shared<GameplaySystem>());
-	logicSystems.push_back(std::make_shared<ColliderSystem>());
-
-	system = std::dynamic_pointer_cast<InputSystem>(logicSystems[1]);
-
-	graphicsSystems.push_back(std::make_shared<GraphicsSystem>());
-	if (drawDebug) // set to true in initialiser list - change to false if you want to hide the debug 
+  std::cout << "WASD Control" << std::endl;
+	if (!useArchetypes) // if not using archetypes use big array and add systems to logic and graphics system vectors
 	{
-		graphicsSystems.push_back(std::make_shared<PrintDebugSystem>());
+		// V.B: Create the unique pointer to the Input Handler object.
+		logicSystems.push_back(std::make_shared<TTLSystem>());
+		logicSystems.push_back(std::make_shared<InputSystem>());
+		logicSystems.push_back(std::make_shared<MovementSystem>());
+		logicSystems.push_back(std::make_shared<GameplaySystem>());
+		logicSystems.push_back(std::make_shared<ColliderSystem>());
+
+		graphicsSystems.push_back(std::make_shared<GraphicsSystem>());
+		if (drawDebug) // set to true in initialiser list - change to false if you want to hide the debug 
+		{
+			graphicsSystems.push_back(std::make_shared<PrintDebugSystem>());
+		}
+	}
+	else
+	{
+		auto ttl = std::make_shared<TTLSystem>();
+		auto input =  std::make_shared<InputSystem>();
+		auto movement = std::make_shared<MovementSystem>();
+		auto gameplay =  std::make_shared<GameplaySystem>();
+		auto collider = std::make_shared<ColliderSystem>();
+		auto graphics = std::make_shared<GraphicsSystem>();
+		auto debug = std::make_shared<PrintDebugSystem>();
+
+		logicSystems.push_back(collider);
+		archetypeManager.addArchetypeSystems(ArchetypeID::StaticEntity, logicSystems, graphics);
+		
+		logicSystems.clear();
+		logicSystems.push_back(input);
+		logicSystems.push_back(movement);
+		logicSystems.push_back(gameplay);
+		logicSystems.push_back(collider);
+		archetypeManager.addArchetypeSystems(ArchetypeID::DwarfPlayer, logicSystems, graphics);
+		
+		logicSystems.clear();
+		logicSystems.push_back(ttl);
+		logicSystems.push_back(movement);
+		archetypeManager.addArchetypeSystems(ArchetypeID::Fireball, logicSystems, graphics);
+
+		if (drawDebug) // add debug system to player and static entities
+		{
+			archetypeManager.addDebug(ArchetypeID::DwarfPlayer, debug);
+			archetypeManager.addDebug(ArchetypeID::StaticEntity, debug);
+		}
 	}
 }
 
@@ -65,14 +96,14 @@ void Game::toggleControl()
 }
 
 template <typename T>
-std::shared_ptr<T> Game::buildEntityAt(const std::string& filename, int col, int row, std::shared_ptr<GraphicsComponent> graphicsComponentPointer)
+std::shared_ptr<T> Game::buildEntityAt(const std::string& filename, int col, int row, std::shared_ptr<GraphicsComponent> graphicsComponentPointer, ArchetypeID _archetypeID)
 {
 	auto ent = std::make_shared<T>();
 	float x = col * spriteWH * tileScale;
 	float y = row * spriteWH * tileScale;
 	float cntrFactor = (tileScale - itemScale) * spriteWH * 0.5f;
 
-	ent->init(filename, itemScale, graphicsComponentPointer);
+	ent->init(filename, itemScale, graphicsComponentPointer, _archetypeID);
 	ent->setPosition(x + cntrFactor, y + cntrFactor);
 	
 	return ent;
@@ -147,7 +178,7 @@ void Game::init(std::vector<std::string> lines)
 				///       the file with the sprite ("img/log.png"), the column and the row where the log should be place.
 				///		  Then, uncomment the call to the funcion "addEntity" passing the pointer to the new entity as parameter.
 				/// 
-				auto logEntity = buildEntityAt<Log>("./img/log.png", col, row, std::make_shared<SpriteGraphics>());
+				auto logEntity = buildEntityAt<Log>("./img/log.png", col, row, std::make_shared<SpriteGraphics>(), ArchetypeID::StaticEntity);
 				addEntity(logEntity);			/// uncomment this (you may have to change "ent" for the name of the pointer you've just created above).
 	
 				//By default, entities stand on corridors
@@ -161,7 +192,7 @@ void Game::init(std::vector<std::string> lines)
 				/// III.B Call the function "buildEntityAt" to create a Potion pointer. The parameters are the filename to 
 				///       the file with the sprite ("img/potion.png"), the column and the row where the potion should be place.
 				///		  Then, uncomment the call to the funcion "addEntity" passing the pointer to the new entity as parameter.
-				auto potionEntity = buildEntityAt<Potion>("./img/potion.png", col, row, std::make_shared<SpriteGraphics>());
+				auto potionEntity = buildEntityAt<Potion>("./img/potion.png", col, row, std::make_shared<SpriteGraphics>(), ArchetypeID::StaticEntity);
 				addEntity(potionEntity);			
 
 				//By default, entities stand on corridors
@@ -180,14 +211,14 @@ void Game::init(std::vector<std::string> lines)
 				// IV.B (2/4): Call the function that initializes the Sprite Sheet with a single parameter, a const std::string& filename.
 				//			   This string should be "img/DwarfSpriteSheet_data.txt"
 				player->setGraphicsPointer(std::make_shared<SpriteSheetGraphics>());
-				player->initSpriteSheet("./img/DwarfSpriteSheet_data.txt");
+				player->initSpriteSheet("./img/DwarfSpriteSheet_data.txt", ArchetypeID::DwarfPlayer);
 
 				// IV.B (3/4): Call the function that positions the sprite of the player in the board (Player::positionSprite). 
 				//			   Parameters are the row and column where this object goes in the board, the sprite width and height (const int Game::spriteWH) 
 				//			   and the scale for the tiles (const float Game::tileScale)
 
 				player->positionSprite(row,col,spriteWH,tileScale); // custom location?
-
+				
 				// IV.B (4/4): Call our function to add an entity to a game passing the player that has just been created.
 				addEntity(player);
 
@@ -228,7 +259,14 @@ void Game::update(float elapsed)
 {
 	if (!isPaused())
 	{
-		bigArray(elapsed, logicSystems); 
+		if (!useArchetypes)
+		{
+			bigArray(elapsed, logicSystems); 
+		}
+		else
+		{
+			updateArchetypes(elapsed, "logic");
+		}
 		auto it = entities.begin();
 		while (it != entities.end())
 		{
@@ -293,8 +331,14 @@ void Game::render(float elapsed)
 	// II.D Call the draw method of the board object passing a pointer to the window.
 	board->draw(&window);
 
-	bigArray(elapsed, graphicsSystems);  // the graphical systems
-
+	if (!useArchetypes)
+	{
+		bigArray(elapsed, graphicsSystems);  // the graphical systems
+	}
+	else
+	{
+		updateArchetypes(elapsed, "graphics");
+	}
 	// III.J Draw all units. Write a loop that iterates over all entities in this class's vector
 	//       and calls the "draw" method in the entities.
 	
@@ -354,6 +398,25 @@ void Game::bigArray(float elapsedTime, std::vector<std::shared_ptr<System>> syst
 				}
 			}
 			it_2++;
+		}
+		it++;
+	}
+}
+
+void Game::updateArchetypes(float _elapsedTime, std::string _systemType)
+{
+	auto it = entities.begin();
+	while (it != entities.end())
+	{
+		if (!(*it)->isDeleted())
+		{
+			auto archetypeSystems = archetypeManager.getSystems((*it)->getArchetypeID(), _systemType); // return appropriate systems vector
+			auto it_2 = archetypeSystems.begin();
+			while (it_2 != archetypeSystems.end())
+			{
+				(*it_2)->update((*it).get(), this, _elapsedTime);
+				it_2++;
+			}
 		}
 		it++;
 	}
