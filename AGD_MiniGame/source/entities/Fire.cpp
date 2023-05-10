@@ -1,4 +1,5 @@
 #include "../../include/entities/Fire.h"
+#include "../../include/utils/ArchetypeManager.h"
 #include <iostream>
 #include <memory>
 
@@ -9,6 +10,8 @@ Fire::Fire() : Entity(EntityType::FIRE)
 
 	velocityPtr = std::make_shared<VelocityComponent>();
 	addComponent(velocityPtr);
+
+	archetypeID = ArchetypeID::Fireball;
 }
 
 Fire::~Fire()

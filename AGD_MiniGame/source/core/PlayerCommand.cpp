@@ -64,7 +64,7 @@ void ClickCommand::execute(Game& game)
 		
 		if (game.isArchetype())
 		{
-			movement = std::dynamic_pointer_cast<MovementSystem>(game.getArchetypeMananger().getSystems(ArchetypeID::DwarfPlayer, "logic")[1]);
+			movement = std::dynamic_pointer_cast<MovementSystem>(game.getArchetypeMananger().getSystems(ArchetypeID::DwarfPlayer, SystemType::Logic)[1]);
 		}
 		else
 		{

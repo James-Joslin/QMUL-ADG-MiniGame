@@ -22,7 +22,7 @@ Player::Player() : Entity(EntityType::PLAYER), attacking(false), shouting(false)
 	addComponent(velocity);
 	state = std::make_shared<PlayerStateComponent>(attacking, shouting, maxWood, wood, shootingCost, shootCooldown, shootCooldownTime, fireSpeed, velocity);
 	addComponent(state);
-	
+	archetypeID = ArchetypeID::DwarfPlayer;
 }
 
 Player::~Player() {}

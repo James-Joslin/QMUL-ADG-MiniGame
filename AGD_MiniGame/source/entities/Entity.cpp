@@ -35,29 +35,22 @@ Entity::~Entity()
 {
 }
 
-void Entity::init(const std::string& textureFile, float scale, std::shared_ptr<GraphicsComponent> _graphicsPointer, ArchetypeID _archetypeID)
+void Entity::init(const std::string& textureFile, float scale, std::shared_ptr<GraphicsComponent> _graphicsPointer)
 {
 	graphics = _graphicsPointer;
-	setArchetypeID(_archetypeID);
 	addComponent(graphics);
 	graphics->init(textureFile, scale);
 	Vector2f bboxSize = Vector2f(
 		graphics->getTextureSize().x * graphics->getScale().x,
 		graphics->getTextureSize().y * graphics->getScale().y);
-	// <FEEDBACK> Instead of doing this, put a collider (which is independent from this init() call) as a
-	// component of only the classes that have collisions (i.e. static entities and players). If the development
-	// of the game takes you to have many entities with no collider (quite likely), you'd end up with a long list of
-	// if clauses here.
-	// <CORRECTED> Implemented virtual getter in entity returns nullptr. Static Entities and Player have overrides for this
 }
 
-void Entity::initSpriteSheet(const std::string& spriteSheetFile, ArchetypeID _archetypeID)
+void Entity::initSpriteSheet(const std::string& spriteSheetFile)
 {
 	graphics->initSpriteSheet(spriteSheetFile);
 	Vector2f bboxSize = Vector2f(
 		graphics->getSpriteSize().x * graphics->getSpriteScale().x,
 		graphics->getSpriteSize().y * graphics->getSpriteScale().y);
-	setArchetypeID(_archetypeID);
 	collider = std::make_shared<ColliderComponent>();
 	addComponent(collider);
 	collider->setBboxSize(bboxSize);

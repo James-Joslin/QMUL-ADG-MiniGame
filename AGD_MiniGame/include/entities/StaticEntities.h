@@ -11,11 +11,11 @@ public:
 	Potion() : Entity(EntityType::POTION) {}
 	~Potion() {}
 
-	void init(const std::string& textureFile, float scale, std::shared_ptr<GraphicsComponent> _graphicsPointer, ArchetypeID _archetypeID) override
+	void init(const std::string& textureFile, float scale, std::shared_ptr<GraphicsComponent> _graphicsPointer) override
 	{
 
-		Entity::init(textureFile, scale, _graphicsPointer, _archetypeID);
-		
+		Entity::init(textureFile, scale, _graphicsPointer);
+		archetypeID = ArchetypeID::StaticEntity;
 		Vector2f bboxSize = Vector2f(
 			graphics->getTextureSize().x * graphics->getScale().x,
 			graphics->getTextureSize().y * graphics->getScale().y);
@@ -42,11 +42,11 @@ public:
 	Log() : Entity(EntityType::LOG) {}
 	~Log() {}
 
-	void init(const std::string& textureFile, float scale, std::shared_ptr<GraphicsComponent> _graphicsPointer, ArchetypeID _archetypeID) override
+	void init(const std::string& textureFile, float scale, std::shared_ptr<GraphicsComponent> _graphicsPointer) override
 	{
 
-		Entity::init(textureFile, scale, _graphicsPointer, _archetypeID);
-
+		Entity::init(textureFile, scale, _graphicsPointer);
+		archetypeID = ArchetypeID::StaticEntity;
 		Vector2f bboxSize = Vector2f(
 			graphics->getTextureSize().x * graphics->getScale().x,
 			graphics->getTextureSize().y * graphics->getScale().y);

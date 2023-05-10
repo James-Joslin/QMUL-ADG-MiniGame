@@ -96,14 +96,14 @@ void Game::toggleControl()
 }
 
 template <typename T>
-std::shared_ptr<T> Game::buildEntityAt(const std::string& filename, int col, int row, std::shared_ptr<GraphicsComponent> graphicsComponentPointer, ArchetypeID _archetypeID)
+std::shared_ptr<T> Game::buildEntityAt(const std::string& filename, int col, int row, std::shared_ptr<GraphicsComponent> graphicsComponentPointer)
 {
 	auto ent = std::make_shared<T>();
 	float x = col * spriteWH * tileScale;
 	float y = row * spriteWH * tileScale;
 	float cntrFactor = (tileScale - itemScale) * spriteWH * 0.5f;
 
-	ent->init(filename, itemScale, graphicsComponentPointer, _archetypeID);
+	ent->init(filename, itemScale, graphicsComponentPointer);
 	ent->setPosition(x + cntrFactor, y + cntrFactor);
 	
 	return ent;
@@ -178,7 +178,7 @@ void Game::init(std::vector<std::string> lines)
 				///       the file with the sprite ("img/log.png"), the column and the row where the log should be place.
 				///		  Then, uncomment the call to the funcion "addEntity" passing the pointer to the new entity as parameter.
 				/// 
-				auto logEntity = buildEntityAt<Log>("./img/log.png", col, row, std::make_shared<SpriteGraphics>(), ArchetypeID::StaticEntity);
+				auto logEntity = buildEntityAt<Log>("./img/log.png", col, row, std::make_shared<SpriteGraphics>());
 				addEntity(logEntity);			/// uncomment this (you may have to change "ent" for the name of the pointer you've just created above).
 	
 				//By default, entities stand on corridors
@@ -192,7 +192,7 @@ void Game::init(std::vector<std::string> lines)
 				/// III.B Call the function "buildEntityAt" to create a Potion pointer. The parameters are the filename to 
 				///       the file with the sprite ("img/potion.png"), the column and the row where the potion should be place.
 				///		  Then, uncomment the call to the funcion "addEntity" passing the pointer to the new entity as parameter.
-				auto potionEntity = buildEntityAt<Potion>("./img/potion.png", col, row, std::make_shared<SpriteGraphics>(), ArchetypeID::StaticEntity);
+				auto potionEntity = buildEntityAt<Potion>("./img/potion.png", col, row, std::make_shared<SpriteGraphics>());
 				addEntity(potionEntity);			
 
 				//By default, entities stand on corridors
@@ -211,7 +211,7 @@ void Game::init(std::vector<std::string> lines)
 				// IV.B (2/4): Call the function that initializes the Sprite Sheet with a single parameter, a const std::string& filename.
 				//			   This string should be "img/DwarfSpriteSheet_data.txt"
 				player->setGraphicsPointer(std::make_shared<SpriteSheetGraphics>());
-				player->initSpriteSheet("./img/DwarfSpriteSheet_data.txt", ArchetypeID::DwarfPlayer);
+				player->initSpriteSheet("./img/DwarfSpriteSheet_data.txt");
 
 				// IV.B (3/4): Call the function that positions the sprite of the player in the board (Player::positionSprite). 
 				//			   Parameters are the row and column where this object goes in the board, the sprite width and height (const int Game::spriteWH) 
@@ -265,7 +265,7 @@ void Game::update(float elapsed)
 		}
 		else
 		{
-			updateArchetypes(elapsed, "logic");
+			updateArchetypes(elapsed, SystemType::Logic);
 		}
 		auto it = entities.begin();
 		while (it != entities.end())
@@ -337,7 +337,7 @@ void Game::render(float elapsed)
 	}
 	else
 	{
-		updateArchetypes(elapsed, "graphics");
+		updateArchetypes(elapsed, SystemType::Graphics);
 	}
 	// III.J Draw all units. Write a loop that iterates over all entities in this class's vector
 	//       and calls the "draw" method in the entities.
@@ -403,7 +403,7 @@ void Game::bigArray(float elapsedTime, std::vector<std::shared_ptr<System>> syst
 	}
 }
 
-void Game::updateArchetypes(float _elapsedTime, std::string _systemType)
+void Game::updateArchetypes(float _elapsedTime, SystemType _systemType)
 {
 	auto it = entities.begin();
 	while (it != entities.end())
