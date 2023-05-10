@@ -8,6 +8,7 @@
 #include "../../include/components/PositionComponent.h"
 #include "../../include/components/GraphicsComponent.h"
 #include "../../include/components/LogicComponent.h"
+#include "../../include/entities/StaticEntities.h"
 #include <iostream>
 
 
@@ -61,3 +62,22 @@ void Player::shoutTrigger()
 	shoutTriggered.notify(*this, EventType::SHOUT);
 }
 
+void Player::handlePotionCollision(std::shared_ptr<Entity> _entity)
+{
+	std::shared_ptr<Potion> potion = std::dynamic_pointer_cast<Potion>(_entity);
+	int	healthRestore = potion->getHealth();
+	getHealthComp()->changeHealth(healthRestore);
+	_entity->markDeleted();
+	collectPotion();
+	std::cout << "Collide with potion (health restored: " << healthRestore << ", player health: " << getHealthComp()->getHealth() << ")" << std::endl;
+}
+
+void Player::handleLogCollision(std::shared_ptr<Entity> _entity)
+{
+	if (state->isAttacking() && getGraphicsComponent()->getSpriteSheet()->getCurrentAnim()->isInAction()) // check this
+	{
+		std::shared_ptr<Log> log = std::dynamic_pointer_cast<Log>(_entity);
+		state->addWood(log->getWood());
+		_entity->markDeleted();
+	}
+}

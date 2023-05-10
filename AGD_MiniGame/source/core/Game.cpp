@@ -221,6 +221,9 @@ void Game::init(std::vector<std::string> lines)
 				
 				// IV.B (4/4): Call our function to add an entity to a game passing the player that has just been created.
 				addEntity(player);
+				
+				collisionCallbacks[EntityType::POTION] = std::bind(&Player::handlePotionCollision, player.get(), std::placeholders::_1);
+				collisionCallbacks[EntityType::LOG] = std::bind(&Player::handleLogCollision, player.get(), std::placeholders::_1);
 
 				//By default, entities stand on corridors:
 				// II.C (5/5) Use the function addTile from Board to add a CORRIDOR tile to this position.
@@ -271,36 +274,14 @@ void Game::update(float elapsed)
 		while (it != entities.end())
 		{
 			if ((*it) != player) {
-				if ((*it)->getEntityType() != EntityType::FIRE)
+				auto entType = (*it)->getEntityType();
+				if (entType != EntityType::FIRE)
 				{
 					if (player->intersects(**it))
 					{
-						auto entType = (*it)->getEntityType();
-						std::shared_ptr<PlayerStateComponent> state = std::dynamic_pointer_cast<PlayerStateComponent>(player->getComponent(ComponentID::STATE));
-						switch (entType)
+						if (collisionCallbacks.count(entType) > 0)
 						{
-						case EntityType::POTION:
-						{
-							Potion* potion = dynamic_cast<Potion*>((*it).get());
-							int	healthRestore = potion->getHealth();
-							player->getHealthComp()->changeHealth(healthRestore);
-							(*it)->markDeleted();
-							player->collectPotion();
-							std::cout << "Collide with potion (health restored: " << healthRestore << ", player health: " << player->getHealthComp()->getHealth() << ")" << std::endl;
-							break;
-						}
-						case EntityType::LOG:
-						{
-							if (state->isAttacking() && player->getGraphicsComponent()->getSpriteSheet()->getCurrentAnim()->isInAction()) // check this
-							{
-								Log* log = dynamic_cast<Log*>((*it).get());
-								state->addWood(log->getWood());
-								(*it)->markDeleted();
-								break;
-							}
-						default:
-							break;
-						}
+							collisionCallbacks[entType](*it);
 						}
 					}
 				}

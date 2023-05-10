@@ -60,6 +60,9 @@ public:
 	void collectPotion();
 	void shoutTrigger();
 
+	void handlePotionCollision(std::shared_ptr<Entity> _entity);
+	void handleLogCollision(std::shared_ptr<Entity> _entity);
+
 private:
 
 
