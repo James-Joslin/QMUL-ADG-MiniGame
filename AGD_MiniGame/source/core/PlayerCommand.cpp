@@ -4,8 +4,6 @@
 #include <iostream>
 #include <cmath>
 
-#define PI 3.14159265358979323846
-
 void MoveRightCommand::execute(Game& game)
 {
 	//if (game.isMouse()) return;

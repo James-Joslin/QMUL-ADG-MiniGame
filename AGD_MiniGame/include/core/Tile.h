@@ -18,14 +18,14 @@ private:
 	//sf::Texture texture;
 	sf::Sprite sprite;
 
-	TextureType* texture;
+	std::shared_ptr<TextureType> texture;
 
 public:
 	void place(int x, int y, float sc);
 
-	Tile(TileType tt, TextureType* textureType) : position(0, 0), type(tt) 
+	Tile(TileType tt, TextureType& textureType) : position(0, 0), type(tt) 
 	{
-		texture = textureType;
+		texture = std::make_shared<TextureType>(textureType);
 	}
 
 	void loadDefaultTexture();
