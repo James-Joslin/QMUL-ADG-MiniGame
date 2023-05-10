@@ -9,11 +9,11 @@ Board::Board(size_t newWidth, size_t newHeight) :
 	width(newWidth), 
 	height(newHeight)
 {
-	corridor = TextureType();
-	wall = TextureType();
+	corridor = std::make_shared<TextureType>();
+	wall = std::make_shared<TextureType>();
 
-	corridor.loadTextures(0);
-	wall.loadTextures(1);
+	corridor->loadTextures(0);
+	wall->loadTextures(1);
 	//mushroom = TextureType(-1);
 }
 

@@ -20,7 +20,7 @@ public:
 	const int startingHealth = 60;
 	const int maxHealth = 100;
 	const int maxWood = 100;
-	const int shootingCost = 20;
+	const int shootingCost = 0;
 	const float fireSpeed = 200.f;
 	const float shootCooldownTime = 3.f; //in seconds
 

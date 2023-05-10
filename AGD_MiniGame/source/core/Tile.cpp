@@ -43,24 +43,6 @@ void Tile::place(int x, int y, float sc)
 
 void Tile::loadDefaultTexture()
 {
-	/*switch (type)
-	{
-	case TileType::CORRIDOR:
-		if (!texture->texture.loadFromFile("img/floor.png"))
-			throw std::exception("floor.png image not found");
-		break;
-
-	case TileType::WALL:
-		if (!texture->texture.loadFromFile("img/wall.png"))
-			throw std::exception("wall.png image not found");
-		break;
-
-	default:
-		if (!texture.loadFromFile("img/mushroom50-50.png"))
-			throw std::exception("mushroom50-50.png image not found");
-		break;
-	}*/
-
 	sprite.setTexture(texture->texture);
 }
 

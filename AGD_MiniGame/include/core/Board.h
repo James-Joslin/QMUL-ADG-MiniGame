@@ -21,8 +21,7 @@ public:
 
 	~Board();
 
-	TextureType corridor, wall;
-
+	std::shared_ptr<TextureType> corridor, wall;
 
 	reference operator[] (const sf::Vector2i& pos) { return grid[static_cast<size_t>(pos.y * static_cast<int>(width) + pos.x)]; }
 	const_reference operator[] (const sf::Vector2i& pos) const { return grid[static_cast<size_t>(pos.y * static_cast<int>(width) + pos.x)]; }
@@ -44,4 +43,3 @@ public:
 
 	
 };
-
