@@ -5,11 +5,15 @@
 #include <memory>
 #include "../systems/Systems.h"
 
+#include <functional>
+#include <map>
+
 class GraphicsComponent;
 class InputHandler;
 class System;
 
 enum class ArchetypeID;
+//enum class EntityType;
 enum ControlType
 {
 	UNDEFINED = -1,
@@ -104,5 +108,6 @@ private:
 
 	ArchetypeManager archetypeManager;
 	AchievementManager manager;
+	std::map<EntityType, std::function<void(std::shared_ptr<Entity>)>> collisionCallbacks;
 };
 
