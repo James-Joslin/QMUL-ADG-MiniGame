@@ -110,7 +110,7 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>C:\SFML-2.5.1\lib</AdditionalLibraryDirectories>
-      <AdditionalDependencies>sfml-graphics-s-d.lib;sfml-window-s-d.lib;sfml-system-s-d.lib;opengl32.lib;winmm.lib;gdi32.lib;freetype.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>sfml-graphics-s-d.lib;sfml-window-s-d.lib;sfml-system-s-d.lib;opengl32.lib;winmm.lib;gdi32.lib;freetype.lib;sfml-audio-s-d.lib;openal32.lib;vorbisenc.lib;vorbisfile.lib;vorbis.lib;ogg.lib;flac.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -129,7 +129,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>C:\SFML-2.5.1\lib</AdditionalLibraryDirectories>
-      <AdditionalDependencies>sfml-graphics-s.lib;sfml-window-s.lib;sfml-system-s.lib;opengl32.lib;winmm.lib;gdi32.lib;freetype.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>sfml-graphics-s.lib;sfml-window-s.lib;sfml-system-s.lib;opengl32.lib;winmm.lib;gdi32.lib;freetype.lib;sfml-audio-s.lib;openal32.lib;vorbisenc.lib;vorbisfile.lib;vorbis.lib;ogg.lib;flac.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -152,6 +152,7 @@
     <ClCompile Include="source\graphics\AnimDirectional.cpp" />
     <ClCompile Include="source\graphics\SpriteSheet.cpp" />
     <ClCompile Include="source\graphics\Window.cpp" />
+    <ClCompile Include="source\systems\Locator.cpp" />
     <ClCompile Include="source\systems\Observer.cpp" />
     <ClCompile Include="source\systems\Subject.cpp" />
     <ClCompile Include="source\systems\Systems.cpp" />
@@ -188,7 +189,9 @@
     <ClInclude Include="include\graphics\AnimDirectional.h" />
     <ClInclude Include="include\graphics\SpriteSheet.h" />
     <ClInclude Include="include\graphics\Window.h" />
+    <ClInclude Include="include\systems\Locator.h" />
     <ClInclude Include="include\systems\Observer.h" />
+    <ClInclude Include="include\systems\SoundEffects.h" />
     <ClInclude Include="include\systems\Subject.h" />
     <ClInclude Include="include\systems\Systems.h" />
     <ClInclude Include="include\utils\ArchetypeManager.h" />
