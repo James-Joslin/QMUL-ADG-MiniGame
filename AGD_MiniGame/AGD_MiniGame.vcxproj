@@ -157,6 +157,7 @@
     <ClCompile Include="source\systems\Subject.cpp" />
     <ClCompile Include="source\systems\Systems.cpp" />
     <ClCompile Include="source\utils\ArchetypeManager.cpp" />
+    <ClCompile Include="source\utils\AudioManager.cpp" />
     <ClCompile Include="source\utils\Rectangle.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -195,6 +196,7 @@
     <ClInclude Include="include\systems\Subject.h" />
     <ClInclude Include="include\systems\Systems.h" />
     <ClInclude Include="include\utils\ArchetypeManager.h" />
+    <ClInclude Include="include\utils\AudioManager.h" />
     <ClInclude Include="include\utils\Bitmask.h" />
     <ClInclude Include="include\utils\Rectangle.h" />
     <ClInclude Include="include\utils\Vector2.h" />

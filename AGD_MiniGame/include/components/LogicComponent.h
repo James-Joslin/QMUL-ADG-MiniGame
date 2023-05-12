@@ -7,6 +7,8 @@ class Entity;
 class Game;
 class Fire;
 
+class ServiceLocator;
+
 class LogicComponent : public Component
 {
 public:
@@ -26,7 +28,8 @@ public:
 		float _shootCooldown,
 		float _shootCooldownTime,
 		float _fireSpeed,
-		std::shared_ptr<VelocityComponent> _velocity) : 
+		std::shared_ptr<VelocityComponent> _velocity,
+		std::shared_ptr<ServiceLocator> _services) : 
 		attacking{ _attacking }, 
 		shouting{ _shouting },  
 		maxWood { _maxWood }, 
@@ -35,7 +38,8 @@ public:
 		shootingCost{ _shootingCost },
 		shootCooldown{ _shootCooldown },
 		shootCooldownTime{ _shootCooldownTime },
-		velocity{ _velocity } {};
+		velocity{ _velocity },
+		services{ _services } {};
 
 	void update(Entity& entity, Game* game, float elapsed) override;
 
@@ -50,9 +54,12 @@ public:
 	bool isShouting() const { return shouting; }
 	void setShouting(bool sh) { shouting = sh; }
 
+	std::shared_ptr<ServiceLocator> getServices();
+
 private:
 
 	std::shared_ptr<VelocityComponent> velocity;
+	std::shared_ptr<ServiceLocator> services;
 
 	bool attacking;
 	bool shouting;
@@ -62,4 +69,6 @@ private:
 	float shootCooldown;
 	float shootCooldownTime;
 	float fireSpeed;
+
+	bool axeAudio = false;
 };

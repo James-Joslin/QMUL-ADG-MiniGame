@@ -90,6 +90,9 @@
     <ClCompile Include="source\systems\Locator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\utils\AudioManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\core\Board.h">
@@ -182,10 +185,13 @@
     <ClInclude Include="include\utils\ArchetypeManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\systems\SoundEffects.h">
+    <ClInclude Include="include\systems\Locator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\systems\Locator.h">
+    <ClInclude Include="include\utils\AudioManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\systems\SoundEffects.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

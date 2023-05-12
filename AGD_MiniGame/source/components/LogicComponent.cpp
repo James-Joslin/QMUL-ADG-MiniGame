@@ -5,6 +5,8 @@
 #include "../../include/entities/Player.h"
 #include "../../include/entities/Fire.h"
 #include "../../include/utils/ArchetypeManager.h"
+#include "../../include/utils/AudioManager.h"
+#include "../../include/utils/Locator.h"
 
 void PlayerStateComponent::update(Entity& entity, Game* game, float elapsed)
 {	
@@ -13,6 +15,11 @@ void PlayerStateComponent::update(Entity& entity, Game* game, float elapsed)
 	if (attacking)
 	{
 		player->getGraphicsComponent()->setAnimation("Attack", true, false);
+		if (player->getGraphicsComponent()->getSpriteSheet()->getCurrentAnim()->isInAction() && axeAudio == false)
+		{
+			services->getAudioManager()->playSound("AxeSwing.wav");
+			axeAudio = true;
+		}
 	}
 
 	else if (shouting)
@@ -59,6 +66,7 @@ void PlayerStateComponent::update(Entity& entity, Game* game, float elapsed)
 	if (attacking && player->getGraphicsComponent()->getSpriteSheet()->getCurrentAnim()->isPlaying() == false)
 	{
 		setAttacking(false);
+		axeAudio = false;
 	}
 	if (shouting && player->getGraphicsComponent()->getSpriteSheet()->getCurrentAnim()->isPlaying() == false)
 	{
@@ -88,6 +96,12 @@ std::shared_ptr<Fire> PlayerStateComponent:: createFire(Entity* player) const
 
 	std::shared_ptr<VelocityComponent> velocity = std::dynamic_pointer_cast<VelocityComponent>(fireEntity->getComponent(ComponentID::VELOCITY));
 	velocity->setVelocityDirection(vel.x, vel.y);
+	services->getAudioManager()->playSound("fireball.wav");
 
 	return fireEntity;
+}
+
+std::shared_ptr<ServiceLocator> PlayerStateComponent::getServices()
+{
+	return services;
 }

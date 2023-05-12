@@ -9,7 +9,10 @@
 #include "../../include/components/GraphicsComponent.h"
 #include "../../include/components/LogicComponent.h"
 #include "../../include/entities/StaticEntities.h"
+#include "../../include/utils/Locator.h"
+#include "../../include/utils/AudioManager.h"
 #include <iostream>
+
 
 
 Player::Player() : Entity(EntityType::PLAYER), attacking(false), shouting(false), wood(0), shootCooldown(0)
@@ -21,7 +24,7 @@ Player::Player() : Entity(EntityType::PLAYER), attacking(false), shouting(false)
 	addComponent(healthComponent);
 	velocity = std::make_shared<VelocityComponent>(playerSpeed);
 	addComponent(velocity);
-	state = std::make_shared<PlayerStateComponent>(attacking, shouting, maxWood, wood, shootingCost, shootCooldown, shootCooldownTime, fireSpeed, velocity);
+	state = std::make_shared<PlayerStateComponent>(attacking, shouting, maxWood, wood, shootingCost, shootCooldown, shootCooldownTime, fireSpeed, velocity, std::make_shared<ServiceLocator>());
 	addComponent(state);
 	archetypeID = ArchetypeID::DwarfPlayer;
 }
@@ -69,6 +72,7 @@ void Player::handlePotionCollision(std::shared_ptr<Entity> _entity)
 	getHealthComp()->changeHealth(healthRestore);
 	_entity->markDeleted();
 	collectPotion();
+	state->getServices()->getAudioManager()->playSound("CutCollectItemAudio.wav");
 	std::cout << "Collide with potion (health restored: " << healthRestore << ", player health: " << getHealthComp()->getHealth() << ")" << std::endl;
 }
 

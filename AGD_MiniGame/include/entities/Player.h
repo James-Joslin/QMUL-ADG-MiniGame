@@ -9,6 +9,7 @@ class Fire;
 class InputComponent;
 class LogicComponent;
 
+
 // VI.A (2/2): Add a forward declaration to the class PlayerInputHandler
 class PlayerInputHandler;
 
@@ -63,8 +64,9 @@ public:
 	void handlePotionCollision(std::shared_ptr<Entity> _entity);
 	void handleLogCollision(std::shared_ptr<Entity> _entity);
 
-private:
 
+
+private:
 
 	bool attacking;
 	bool shouting;
