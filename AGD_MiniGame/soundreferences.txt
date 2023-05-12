@@ -6,4 +6,9 @@ No editting
 Axe Swing:
 Swinging axe.mp3, ZHRØ
 https://freesound.org/people/ZHR%C3%98/sounds/514162/
-Editted to have .WAV format, and slightly reduced in length
+Editted to have .WAV format, and to reduce the intro time to the sound
+
+Potion:
+Item Collect 2.wav, cameronmusic
+https://freesound.org/people/cameronmusic/sounds/138410/
+Editted to reduce the intro time to the sound
