@@ -1,4 +1,4 @@
-#include "../../include/systems/Locator.h"
+#include "../../include/utils/Locator.h"
 #include "../../include/utils/AudioManager.h"
 
 ServiceLocator::ServiceLocator()

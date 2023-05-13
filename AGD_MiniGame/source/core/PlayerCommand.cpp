@@ -62,13 +62,16 @@ void ClickCommand::execute(Game& game)
 
 		std::shared_ptr<MovementSystem> movement = nullptr;
 		
-		if (game.isArchetype())
+		switch (game.getEcsMethod())
 		{
-			movement = std::dynamic_pointer_cast<MovementSystem>(game.getArchetypeMananger().getSystems(ArchetypeID::DwarfPlayer, SystemType::Logic)[1]);
-		}
-		else
-		{
-			movement = std::dynamic_pointer_cast<MovementSystem>(game.getLogicSystem()[2]);
+		case bigArray:
+			movement = std::dynamic_pointer_cast<MovementSystem>(game.getEcsManager().getLogicSystems()[2]);
+			break;
+		case archetypes:
+			movement = std::dynamic_pointer_cast<MovementSystem>(game.getEcsManager().getArchetypeManager()->getSystems(ArchetypeID::DwarfPlayer, SystemType::Logic)[1]);
+			break;
+		default:
+			break;
 		}
 		movement->setTargetX(target_x);
 		movement->setTargetY(target_y);

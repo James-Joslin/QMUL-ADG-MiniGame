@@ -24,18 +24,14 @@ enum class EntityType
 	FIRE = 3
 };
 
-class Game; //forward declaration
+class Game;
 
 class Entity
 {
 public:
-
-	//Constructors and Desctrutors
 	Entity();
 	Entity(EntityType et);
 	~Entity();
-
-	//Init and update functions
 	virtual void init(const std::string& textureFile, float scale, std::shared_ptr<GraphicsComponent> _graphics);
 	void initSpriteSheet(const std::string& spriteSheetFile);
 	void addComponent(std::shared_ptr<Component> c);
@@ -51,34 +47,19 @@ public:
 	bool isDeleted() const { return deleted; }
 	bool hasComponent(Bitmask mask) const { return componentSet.contains(mask); }
 	void markDeleted() { deleted = true; }
-
-
 	virtual std::shared_ptr<ColliderComponent> getColliderComponent();
-
 	void setArchetypeID(ArchetypeID _archetypeID);
 	ArchetypeID getArchetypeID() const;
 
-
-	std::string typeToString(ArchetypeID _type); // was used to debug whether the archetypes were being assigned correctly
-
-
 protected:
-
 	EntityType type;
 	EntityID id;
-
 	Bitmask componentSet;
 	bool isSpriteSheet;
-
-	// X.A Add a bool member variable "deleted" to this class.
 	bool deleted;
 	std::map<ComponentID, std::shared_ptr<Component>> mapComponent;
-
-	// <FEEDBACK> These pointers should be private, not public.
-	// <CORRECTED> Pointers moved to protected, created getters for all three pointers.
 	std::shared_ptr<PositionComponent> position;
 	std::shared_ptr<GraphicsComponent> graphics;
 	std::shared_ptr<ColliderComponent> collider;
-
 	ArchetypeID archetypeID;
 };

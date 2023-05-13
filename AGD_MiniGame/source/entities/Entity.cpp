@@ -88,17 +88,3 @@ ArchetypeID Entity::getArchetypeID() const
 {
 	return archetypeID;
 }
-
-// Debuging ArchetypeID assignments
-std::string Entity::typeToString(ArchetypeID _type) {
-	switch (_type) {
-	case ArchetypeID::DwarfPlayer:
-		return "PLAYER";
-	case ArchetypeID::StaticEntity:
-		return "STATIC_ENTITY";
-	case ArchetypeID::Fireball:
-		return "FIRE";
-	default:
-		return "UNKNOWN";
-	}
-}

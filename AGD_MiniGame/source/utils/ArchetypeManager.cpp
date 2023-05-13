@@ -3,11 +3,10 @@
 
 ArchetypeManager::ArchetypeManager()
 {
-
 }
+
 ArchetypeManager::~ArchetypeManager()
 {
-
 }
 
 void ArchetypeManager::addArchetypeSystems(ArchetypeID id, std::vector<std::shared_ptr<System>> _logicSystems, std::shared_ptr<System> _graphicsSystem)

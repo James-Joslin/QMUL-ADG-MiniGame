@@ -152,12 +152,13 @@
     <ClCompile Include="source\graphics\AnimDirectional.cpp" />
     <ClCompile Include="source\graphics\SpriteSheet.cpp" />
     <ClCompile Include="source\graphics\Window.cpp" />
-    <ClCompile Include="source\systems\Locator.cpp" />
     <ClCompile Include="source\systems\Observer.cpp" />
     <ClCompile Include="source\systems\Subject.cpp" />
     <ClCompile Include="source\systems\Systems.cpp" />
     <ClCompile Include="source\utils\ArchetypeManager.cpp" />
     <ClCompile Include="source\utils\AudioManager.cpp" />
+    <ClCompile Include="source\utils\EcsManager.cpp" />
+    <ClCompile Include="source\utils\Locator.cpp" />
     <ClCompile Include="source\utils\Rectangle.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -190,7 +191,6 @@
     <ClInclude Include="include\graphics\AnimDirectional.h" />
     <ClInclude Include="include\graphics\SpriteSheet.h" />
     <ClInclude Include="include\graphics\Window.h" />
-    <ClInclude Include="include\systems\Locator.h" />
     <ClInclude Include="include\systems\Observer.h" />
     <ClInclude Include="include\systems\SoundEffects.h" />
     <ClInclude Include="include\systems\Subject.h" />
@@ -198,6 +198,8 @@
     <ClInclude Include="include\utils\ArchetypeManager.h" />
     <ClInclude Include="include\utils\AudioManager.h" />
     <ClInclude Include="include\utils\Bitmask.h" />
+    <ClInclude Include="include\utils\EcsManager.h" />
+    <ClInclude Include="include\utils\Locator.h" />
     <ClInclude Include="include\utils\Rectangle.h" />
     <ClInclude Include="include\utils\Vector2.h" />
   </ItemGroup>

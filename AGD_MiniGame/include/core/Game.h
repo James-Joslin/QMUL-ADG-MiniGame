@@ -1,27 +1,29 @@
 #include "../graphics/Window.h"
 #include "../core/Board.h"
 #include "../entities/Player.h"
-#include "../../include/utils/ArchetypeManager.h"
-#include <memory>
 #include "../systems/Systems.h"
-
+#include "../../include/utils/EcsManager.h"
 #include <functional>
+#include <memory>
 #include <map>
-
-
 
 class GraphicsComponent;
 class InputHandler;
 class System;
-
 enum class ArchetypeID;
-//enum class EntityType;
+
 enum ControlType
 {
 	UNDEFINED = -1,
 	WASD = 0,
 	ARROWS = 1,
 	MOUSE = 2
+};
+
+enum EcsMethod
+{
+	bigArray = 0,
+	archetypes = 1
 };
 
 class Game
@@ -45,28 +47,23 @@ public:
 	void update(float elapsed);
 	void render(float elapsed);
 	Window* getWindow() { return &window; }
-	
 
-	sf::Time getElapsed() const;
+	sf::Time getElapsed() const { return gameClock.getElapsedTime(); };
 	void setFPS(int FPS);
-	void togglePause() 
-	{ 
-		paused = !paused; 
-	}
+	void togglePause() { paused = !paused; }
 	void toggleControl();
 	
-
 	std::shared_ptr<InputSystem> system;
 
 	bool isPaused() const { return paused; }
-	bool isArchetype() { return useArchetypes; }
+	EcsMethod getEcsMethod() { return ecsMethod; }
 	int getCurrentControl() { return currentControl; }
-	ArchetypeManager getArchetypeMananger() { return archetypeManager; }
 
-	void bigArray(float, std::vector<std::shared_ptr<System>>);
-	void updateArchetypes(float _elapsedTime, SystemType _systemType);
+	EcsManager getEcsManager() { return ecsManager; }
 
-	//  IV.A (2/2) Write a function that returns the shared pointer of the player of the game.
+	std::vector<std::shared_ptr<Entity>> getEntities() { return entities; }
+	bool getDrawDebug() { return drawDebug; }
+
 	std::shared_ptr<Player> getPlayer() { return player; }
 
 	EntityID getIDCounter();
@@ -75,7 +72,7 @@ public:
 	template <typename T>
 	std::shared_ptr<T> buildEntityAt(const std::string& filename, int col, int row, std::shared_ptr<GraphicsComponent> graphicsComponentPointer);
 
-	std::vector<std::shared_ptr<System>>& getLogicSystem(){ return logicSystems; }
+
 private:
 
 	Window window;
@@ -85,31 +82,22 @@ private:
 
 	ControlType currentControl;
 
-	// II.A Declare a unique pointer of type Board 
 	std::unique_ptr<Board> board;
 
-	// III.D Declare a vector from the standard template library that 
-	//       contains shared pointers to Entity classes. Recommended name: entities.
 	std::vector<std::shared_ptr<Entity>> entities;
 
-	// III.E Declare a variable of type EntityID (which is declared in Entity.h). This variable will
-	//       be incremented by one every time an entity is added to the game.
 	EntityID id;
 
-	// IV.A (1/2) Declare a pointer to a player object. The pointer must be shared pointer from the standard library.
 	std::shared_ptr<Player> player;
 
-	// V.A Declare a unique pointer to an Input Handler object for this class.
 	std::unique_ptr<InputHandler> inputHandler;
 
-	std::vector<std::shared_ptr<System>> logicSystems;
-	std::vector<std::shared_ptr<System>> graphicsSystems;
-
 	bool drawDebug;
-	bool useArchetypes;
 
-	ArchetypeManager archetypeManager;
-	AchievementManager manager;
+	EcsManager ecsManager;
+	AchievementManager achievementManager;
 	std::map<EntityType, std::function<void(std::shared_ptr<Entity>)>> collisionCallbacks;
+
+	EcsMethod ecsMethod;
 };
 
