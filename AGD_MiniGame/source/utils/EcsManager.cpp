@@ -1,6 +1,7 @@
 #include "../../include/utils/EcsManager.h"
 #include "../../include/systems/Systems.h"
 #include "../../include/core/Game.h"
+#include <iostream>
 
 EcsManager::EcsManager()
 {
@@ -35,6 +36,7 @@ void EcsManager::populateECS(Game& game)
 		{
 			graphicsSystems.push_back(debug);
 		}
+		std::cout << "Big Array ECS" << std::endl;
 		break;
 
 	case archetypes:
@@ -60,6 +62,7 @@ void EcsManager::populateECS(Game& game)
 			archetypeManager->addDebug(ArchetypeID::DwarfPlayer, debug);
 			archetypeManager->addDebug(ArchetypeID::StaticEntity, debug);
 		}
+		std::cout << "Archetypes ECS" << std::endl;
 		break;
 
 	default:

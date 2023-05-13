@@ -15,8 +15,8 @@
 Game::Game() : id{ 0 }, paused(false), drawDebug(true), ecsMethod(EcsMethod::archetypes)
 {
 	inputHandler = std::make_unique<InputHandler>();
-	std::cout << "WASD Control" << std::endl;
 	ecsManager.populateECS(*this);
+	std::cout << "WASD Control" << std::endl;
 }
 
 Game::~Game()
