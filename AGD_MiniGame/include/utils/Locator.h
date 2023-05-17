@@ -8,8 +8,5 @@ public:
     ServiceLocator();
     ~ServiceLocator();
 
-    std::shared_ptr<AudioManager> getAudioManager();
-
-private:
-    std::shared_ptr<AudioManager> audioManagerService;
+    static std::shared_ptr<AudioManager> getAudioManager();
 };

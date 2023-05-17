@@ -24,7 +24,7 @@ Player::Player() : Entity(EntityType::PLAYER), attacking(false), shouting(false)
 	addComponent(healthComponent);
 	velocity = std::make_shared<VelocityComponent>(playerSpeed);
 	addComponent(velocity);
-	state = std::make_shared<PlayerStateComponent>(attacking, shouting, maxWood, wood, shootingCost, shootCooldown, shootCooldownTime, fireSpeed, velocity, std::make_shared<ServiceLocator>());
+	state = std::make_shared<PlayerStateComponent>(attacking, shouting, maxWood, wood, shootingCost, shootCooldown, shootCooldownTime, fireSpeed, velocity);
 	addComponent(state);
 	archetypeID = ArchetypeID::DwarfPlayer;
 }
@@ -39,10 +39,8 @@ void Player::positionSprite(int row, int col, int spriteWH, float tileScale)
 	float x = col * spriteWH * tileScale;
 	float y = (row)*spriteWH * tileScale;
 	float spriteSizeY = scaleV2f.y * textureSize.y;
-	float cntrFactorY = ((spriteWH * tileScale) - spriteSizeY);	// to align to lower side of the tile.
-	float cntrFactorX = cntrFactorY * 0.5f;						//to center horizontally
-
-	//std::cout << x + cntrFactorX << y + cntrFactorY << std::endl;
+	float cntrFactorY = ((spriteWH * tileScale) - spriteSizeY);	
+	float cntrFactorX = cntrFactorY * 0.5f;						
 
 	setPosition(x + cntrFactorX, y + cntrFactorY);
 	velocity->setVelocityDirection(0.f, 0.f);
@@ -72,7 +70,7 @@ void Player::handlePotionCollision(std::shared_ptr<Entity> _entity)
 	getHealthComp()->changeHealth(healthRestore);
 	_entity->markDeleted();
 	collectPotion();
-	state->getServices()->getAudioManager()->playSound("CutCollectItemAudio.wav");
+	ServiceLocator::getAudioManager()->playSound("CutCollectItemAudio.wav");
 	std::cout << "Collide with potion (health restored: " << healthRestore << ", player health: " << getHealthComp()->getHealth() << ")" << std::endl;
 }
 

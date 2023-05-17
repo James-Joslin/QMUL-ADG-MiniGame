@@ -14,8 +14,9 @@ public:
 	std::vector<std::shared_ptr<System>> getLogicSystems() { return logicSystems; }
 	void populateECS(Game& game);
 	void updateECS(float elapsedTime, Game& game, SystemType _systemType);
-	void updateBigArray();
-	void updateArchetypes();
+	void setBigArraySystems(SystemType _systemType);
+	void updateBigArray(float elapsedTime, Game& game, std::vector<std::shared_ptr<Entity>> _entities);
+	void updateArchetypes(float elapsedTime, Game& game, std::vector<std::shared_ptr<Entity>> _entities, SystemType _systemType);
 
 private:
 	std::shared_ptr<ArchetypeManager> archetypeManager;

@@ -17,7 +17,7 @@ void PlayerStateComponent::update(Entity& entity, Game* game, float elapsed)
 		player->getGraphicsComponent()->setAnimation("Attack", true, false);
 		if (player->getGraphicsComponent()->getSpriteSheet()->getCurrentAnim()->isInAction() && axeAudio == false)
 		{
-			services->getAudioManager()->playSound("AxeSwing.wav");
+			ServiceLocator::getAudioManager()->playSound("AxeSwing.wav");
 			axeAudio = true;
 		}
 	}
@@ -96,12 +96,8 @@ std::shared_ptr<Fire> PlayerStateComponent:: createFire(Entity* player) const
 
 	std::shared_ptr<VelocityComponent> velocity = std::dynamic_pointer_cast<VelocityComponent>(fireEntity->getComponent(ComponentID::VELOCITY));
 	velocity->setVelocityDirection(vel.x, vel.y);
-	services->getAudioManager()->playSound("fireball.wav");
+	
+	ServiceLocator::getAudioManager()->playSound("fireball.wav");
 
 	return fireEntity;
-}
-
-std::shared_ptr<ServiceLocator> PlayerStateComponent::getServices()
-{
-	return services;
 }

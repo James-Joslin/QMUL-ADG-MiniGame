@@ -77,55 +77,70 @@ void EcsManager::updateECS(float elapsedTime, Game& game, SystemType _systemType
 	switch (game.getEcsMethod())
 	{
 	case bigArray:
-		switch (_systemType)
-		{
-		case SystemType::Logic:
-			systems = logicSystems;
-			break;
-		case SystemType::Graphics:
-			systems = graphicsSystems;
-			break;
-		default:
-			break;
-		}
-		systemIt = systems.begin();
-		while (systemIt != systems.end())
-		{
-			entityIt = entities.begin();
-			while (entityIt != entities.end())
-			{
-				if (!(*entityIt)->isDeleted())
-				{
-					if ((*systemIt)->validate((*entityIt).get()))
-					{
-						(*systemIt)->update((*entityIt).get(), &game, elapsedTime);
-					}
-				}
-				entityIt++;
-			}
-			systemIt++;
-		}
+		setBigArraySystems(_systemType);
+		updateBigArray(elapsedTime, game, entities);
 		break;
 
 	case archetypes:
-		entityIt = entities.begin();
-		while (entityIt != entities.end())
-		{
-			if (!(*entityIt)->isDeleted())
-			{
-				auto archetypeSystems = archetypeManager->getSystems((*entityIt)->getArchetypeID(), _systemType); // return appropriate systems vector
-				systemIt = archetypeSystems.begin();
-				while (systemIt != archetypeSystems.end())
-				{
-					(*systemIt)->update((*entityIt).get(), &game, elapsedTime);
-					systemIt++;
-				}
-			}
-			entityIt++;
-		}
+		updateArchetypes(elapsedTime, game, entities, _systemType);
 		break;
 
 	default:
 		break;
+	}
+}
+
+void EcsManager::setBigArraySystems(SystemType _systemType)
+{
+	switch (_systemType)
+	{
+	case SystemType::Logic:
+		systems = logicSystems;
+		break;
+	case SystemType::Graphics:
+		systems = graphicsSystems;
+		break;
+	default:
+		break;
+	}
+}
+
+void EcsManager::updateBigArray(float elapsedTime, Game& game, std::vector<std::shared_ptr<Entity>> _entities)
+{
+	systemIt = systems.begin();
+	while (systemIt != systems.end())
+	{
+		entityIt = _entities.begin();
+		while (entityIt != _entities.end())
+		{
+			if (!(*entityIt)->isDeleted())
+			{
+				if ((*systemIt)->validate((*entityIt).get()))
+				{
+					(*systemIt)->update((*entityIt).get(), &game, elapsedTime);
+				}
+			}
+			entityIt++;
+		}
+		systemIt++;
+	}
+}
+
+void EcsManager::updateArchetypes(float elapsedTime, Game& game, std::vector<std::shared_ptr<Entity>> _entities, SystemType _systemType)
+{
+	entityIt = _entities.begin();
+	while (entityIt != _entities.end())
+	{
+		if (!(*entityIt)->isDeleted())
+		{
+			auto archetypeSystems = archetypeManager->getSystems((*entityIt)->getArchetypeID(), _systemType); // return appropriate systems vector
+			systemIt = archetypeSystems.begin();
+			while (systemIt != archetypeSystems.end())
+			{
+				(*systemIt)->update((*entityIt).get(), &game, elapsedTime);
+				systemIt++;
+			}
+		}
+		entityIt++;
 	}
 }
