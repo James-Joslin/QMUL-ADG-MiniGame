@@ -4,21 +4,33 @@
 
 void Subject::notify(Entity& entity, EventType event)
 {
-	for (Observer* o : observers)
+	Observer* current = head;
+
+	while (current != nullptr)
 	{
-		o->onNotify(entity, event);
+		current->onNotify(entity, event);
+		current = current->next;
 	}
+
 }
 
 void Subject::addObserver(Observer* observer)
-{ 
-	observers.push_back(observer);
+{
+	observer->prev = nullptr;
+	observer->next = head;
+	head = observer;
+	if (observer->next)
+		observer->next->prev = observer;
 }
 
-void Subject::removeObserver(Observer* observer)
+void Subject::removeObserver(Observer*  observer)
 {
-	auto index = std::find(observers.begin(), observers.end(), observer);
-	if (index != observers.end()) {
-		observers.erase(index);
-	}
+	if (observer->prev)
+		observer->prev->next = observer->next;
+
+	if (observer->next)
+		observer->next->prev = observer->prev;
+
+	if (head == observer)
+		head = observer->next;
 }

@@ -20,8 +20,12 @@ enum class AchievementType
 class Observer
 {
 public:
+	Observer() : next(nullptr), prev(nullptr) {}
+
 	virtual ~Observer() {}
 	virtual bool onNotify(Entity& entity, EventType event) = 0;
+	Observer* next;
+	Observer* prev;
 };
 
 class AchievementManager : public Observer
