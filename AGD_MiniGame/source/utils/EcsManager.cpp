@@ -44,15 +44,15 @@ void EcsManager::populateECS(Game& game)
 
 		logicSystems.push_back(collider);
 		archetypeManager->addArchetypeSystems(ArchetypeID::StaticEntity, logicSystems, graphics);
-
 		logicSystems.clear();
+
 		logicSystems.push_back(input);
 		logicSystems.push_back(movement);
 		logicSystems.push_back(gameplay);
 		logicSystems.push_back(collider);
 		archetypeManager->addArchetypeSystems(ArchetypeID::DwarfPlayer, logicSystems, graphics);
-
 		logicSystems.clear();
+
 		logicSystems.push_back(ttl);
 		logicSystems.push_back(movement);
 		archetypeManager->addArchetypeSystems(ArchetypeID::Fireball, logicSystems, graphics);

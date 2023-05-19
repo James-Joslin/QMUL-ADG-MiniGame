@@ -3,7 +3,6 @@
 #include <map>
 #include <SFML/Graphics.hpp>
 
-// forward declaration of Command
 class Command;
 class Game;
 

@@ -17,10 +17,6 @@ bool Rectangle::inside(float x, float y) const
 
 bool Rectangle::intersects(const Rectangle& rect) const
 {
-    // IX.B Implement this function, that returns true if the rectangle "rect" overlaps with this rectangle.
-    // coords for this rectangle
-
-    // coords for the rectangle rect
     Vector2f l1 = rect.getTopLeft();
     Vector2f r1 = rect.getBottomRight();
 
@@ -29,6 +25,4 @@ bool Rectangle::intersects(const Rectangle& rect) const
         return true;
     }
     return false;
-
 }
-

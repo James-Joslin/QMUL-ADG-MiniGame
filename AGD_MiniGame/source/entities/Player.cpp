@@ -17,7 +17,6 @@
 
 Player::Player() : Entity(EntityType::PLAYER), attacking(false), shouting(false), wood(0), shootCooldown(0)
 {
-	// VI.B: Create the unique pointer to the PlayerInputHandler object
 	playerInput = std::make_shared<PlayerInputComponent>();
 	addComponent(playerInput);
 	healthComponent = std::make_shared<HealthComponent>(startingHealth, maxHealth);
@@ -70,7 +69,7 @@ void Player::handlePotionCollision(std::shared_ptr<Entity> _entity)
 	getHealthComp()->changeHealth(healthRestore);
 	_entity->markDeleted();
 	collectPotion();
-	ServiceLocator::getAudioManager()->playSound("CutCollectItemAudio.wav");
+	ServiceLocator::getAudioManager()->playSound("CollectItemAudio.wav");
 	std::cout << "Collide with potion (health restored: " << healthRestore << ", player health: " << getHealthComp()->getHealth() << ")" << std::endl;
 }
 

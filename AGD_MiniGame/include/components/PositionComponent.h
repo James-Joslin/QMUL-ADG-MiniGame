@@ -6,7 +6,6 @@
 class PositionComponent : public Component
 {
 public:
-	//PositionComponent();
 	const Vector2f& getPosition() const { return position; }
 	void setPosition(float x, float y)
 	{

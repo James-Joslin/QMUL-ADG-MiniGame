@@ -1,6 +1,8 @@
 #pragma once
+#include <memory>
 
 class Game;
+class MovementSystem;
 
 class Command
 {
@@ -61,4 +63,7 @@ class ClickCommand : public Command
 {
 public:
 	virtual void execute(Game& game) override;
+
+private:
+	std::shared_ptr<MovementSystem> movement = nullptr;
 };

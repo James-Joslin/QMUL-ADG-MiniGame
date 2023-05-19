@@ -96,8 +96,8 @@ private:
 
 	EcsManager ecsManager;
 	AchievementManager achievementManager;
-	std::map<EntityType, std::function<void(std::shared_ptr<Entity>)>> collisionCallbacks;
-
+	std::unordered_map<EntityType, std::function<void(std::shared_ptr<Entity>)>> collisionCallbacks;
+	
 	EcsMethod ecsMethod;
 };
 

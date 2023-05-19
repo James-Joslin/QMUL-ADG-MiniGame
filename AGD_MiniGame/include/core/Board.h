@@ -40,6 +40,4 @@ public:
 
 	void draw(Window* window);
 	void print();
-
-	
 };

@@ -60,19 +60,21 @@ void ClickCommand::execute(Game& game)
 		float movement_x = target_x - player_x;
 		float movement_y = target_y - player_y;
 
-		std::shared_ptr<MovementSystem> movement = nullptr;
-		
-		switch (game.getEcsMethod())
+		if (!movement)
 		{
-		case bigArray:
-			movement = std::dynamic_pointer_cast<MovementSystem>(game.getEcsManager().getLogicSystems()[2]);
-			break;
-		case archetypes:
-			movement = std::dynamic_pointer_cast<MovementSystem>(game.getEcsManager().getArchetypeManager()->getSystems(ArchetypeID::DwarfPlayer, SystemType::Logic)[1]);
-			break;
-		default:
-			break;
+			switch (game.getEcsMethod())
+			{
+			case bigArray:
+				movement = std::dynamic_pointer_cast<MovementSystem>(game.getEcsManager().getLogicSystems()[2]);
+				break;
+			case archetypes:
+				movement = std::dynamic_pointer_cast<MovementSystem>(game.getEcsManager().getArchetypeManager()->getSystems(ArchetypeID::DwarfPlayer, SystemType::Logic)[1]);
+				break;
+			default:
+				break;
+			}
 		}
+
 		movement->setTargetX(target_x);
 		movement->setTargetY(target_y);
 		movement->setMovementX(movement_x);

@@ -15,7 +15,6 @@ private:
 
 	TileType type;
 	sf::Vector2i position; // Position in the grid (not in screen pixels, for that sprite.getPosition())
-	//sf::Texture texture;
 	sf::Sprite sprite;
 
 	std::shared_ptr<TextureType> texture;

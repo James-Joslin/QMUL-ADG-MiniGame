@@ -8,9 +8,6 @@
 class Fire;
 class InputComponent;
 class LogicComponent;
-
-
-// VI.A (2/2): Add a forward declaration to the class PlayerInputHandler
 class PlayerInputHandler;
 
 class Player :  public Entity
@@ -21,7 +18,7 @@ public:
 	const int startingHealth = 60;
 	const int maxHealth = 100;
 	const int maxWood = 100;
-	const int shootingCost = 0;
+	const int shootingCost = 20;
 	const float fireSpeed = 200.f;
 	const float shootCooldownTime = 3.f; //in seconds
 
@@ -73,8 +70,6 @@ private:
 	int wood;
 	float shootCooldown;
 
-	// VI.A (1/2): Declare a unique pointer to a player input handler.
-	//std::unique_ptr<PlayerInputHandler> playerInputPointer;
 	std::shared_ptr<InputComponent> playerInput;
 	std::shared_ptr<HealthComponent> healthComponent;
 	std::shared_ptr<VelocityComponent> velocity;

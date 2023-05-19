@@ -7,9 +7,6 @@ class Entity;
 class Game;
 class Fire;
 
-class ServiceLocator;
-class AudioManager;
-
 class LogicComponent : public Component
 {
 public:
