@@ -5,7 +5,6 @@
 #include "../../include/entities/Player.h"
 #include "../../include/entities/Fire.h"
 #include "../../include/utils/ArchetypeManager.h"
-#include "../../include/utils/AudioManager.h"
 #include "../../include/utils/Locator.h"
 
 void PlayerStateComponent::update(Entity& entity, Game* game, float elapsed)

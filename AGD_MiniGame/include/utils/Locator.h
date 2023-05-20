@@ -1,6 +1,5 @@
 #include <memory>
-
-class AudioManager;
+#include "../../include/utils/AudioManager.h"
 
 class ServiceLocator {
 
