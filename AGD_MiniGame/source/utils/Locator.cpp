@@ -2,9 +2,10 @@
 #include "../../include/utils/AudioManager.h"
 #include <iostream>
 
+std::shared_ptr<AudioManager> ServiceLocator::audioManagerService = nullptr;
 ServiceLocator::ServiceLocator()
 {
-   
+    audioManagerService = std::make_shared<AudioManager>();
 }
 
 ServiceLocator::~ServiceLocator()
@@ -12,12 +13,7 @@ ServiceLocator::~ServiceLocator()
 
 }
 
-std::shared_ptr<AudioManager> ServiceLocator::audioManagerService = nullptr;
 std::shared_ptr<AudioManager> ServiceLocator::getAudioManager() 
 {
-    if (!audioManagerService) 
-    {
-        audioManagerService = std::make_shared<AudioManager>();
-    }
     return audioManagerService;
 }
