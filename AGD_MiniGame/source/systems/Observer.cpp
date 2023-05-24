@@ -45,7 +45,7 @@ void AchievementManager::unlockAchievement(Entity& entity, AchievementType achie
 	}
 	case AchievementType::SHOUT_5_TIMES:
 	{
-		std::cout << "Achievement Unlocked: Shouted 5 Times" << std::endl;
+		std::cout << "Achievement Unlocked: Successfully shot 5 fireballs" << std::endl;
 		Player* player = dynamic_cast<Player*>(&entity);
 		player->getShoutTriggered().removeObserver(this);
 		break;

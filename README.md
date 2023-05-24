@@ -9,7 +9,8 @@ Methods include:
 - Click to go with right mouse button
 
 Observer Pattern Achievements:
-- Shout 5 times
+- Shoot 5 fireballs
+	- Criterion was to "shout 5 times", but we wanted to set it to shout and successfully shoot a fireball
 - Collect all potions
 
 The references for the audio files used are present in the write-up provided on submission, and are also listed below:
