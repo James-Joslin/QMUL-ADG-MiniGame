@@ -13,7 +13,6 @@ Observer Pattern Achievements:
 - Collect all potions
 
 The references for the audio files used are present in the write-up provided on submission, and are also listed below:
-
-Item Collect 2.wav by cameronmusic [WWW Document], n.d. . Freesound. URL https://freesound.org/people/cameronmusic/sounds/138410/ (accessed 5.18.23).
-Magic Spell by qubodup [WWW Document], n.d. . Freesound. URL https://freesound.org/people/qubodup/sounds/442774/ (accessed 5.18.23).
-Swinging axe.mp3 by ZHRØ [WWW Document], n.d. . Freesound. URL https://freesound.org/people/ZHR%C3%98/sounds/514162/ (accessed 5.18.23).
+- Item Collect 2.wav by cameronmusic [WWW Document], n.d. . Freesound. URL https://freesound.org/people/cameronmusic/sounds/138410/ (accessed 5.18.23).
+- Magic Spell by qubodup [WWW Document], n.d. . Freesound. URL https://freesound.org/people/qubodup/sounds/442774/ (accessed 5.18.23).
+- Swinging axe.mp3 by ZHRØ [WWW Document], n.d. . Freesound. URL https://freesound.org/people/ZHR%C3%98/sounds/514162/ (accessed 5.18.23).
